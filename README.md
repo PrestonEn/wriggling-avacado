@@ -7,3 +7,5 @@ COSC 3P97 Final Project
 
 ![alt tag](http://i.imgur.com/56VYe1Y.gif)
 ![alt tag](http://i.imgur.com/FOAyeN8.gif)
+
+I think someone broke our avacado...

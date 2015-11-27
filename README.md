@@ -14,5 +14,7 @@ I think someone broke our avocado...
 ## PRAISE BE TO THE ALMIGHTY IPAD WINNER, Princess Stacey:
 
 ![alt tag](http://images5.fanpop.com/image/photos/25600000/Princess-Ariel-disney-princess-25634685-886-887.png)
+other pic of stacey apparently
+![alt tag](http://www.identifont.com/samples/monotype/ArialNarrow.gif)
 
 Remember, earlier you said you were thankful to be in our group.

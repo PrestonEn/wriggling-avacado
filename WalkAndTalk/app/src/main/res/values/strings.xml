@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WalkAndTalk</string>
+
+    <string name="go">Go</string>
+    <string name="quickplay">Quick Play</string>
+
+</resources>

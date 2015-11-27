@@ -11,8 +11,8 @@ COSC 3P97 Final Project
 I think someone broke our avocado...
 
 # I have now included a new image to appease the great Stacey Van Herk - our lord and saviour.
-## PRAISE BE TO THE ALMIGHTY IPAD WINNER
+## PRAISE BE TO THE ALMIGHTY IPAD WINNER, Princess Stacey:
 
-![alt tag](https://i.ytimg.com/vi/jkvkUv592s8/maxresdefault.jpg)
+![alt tag](http://images5.fanpop.com/image/photos/25600000/Princess-Ariel-disney-princess-25634685-886-887.png)
 
 Remember, earlier you said you were thankful to be in our group.

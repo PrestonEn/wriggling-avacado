@@ -11,7 +11,7 @@ COSC 3P97 Final Project
 I think someone broke our avacado...
 
 # I have now included a new image to appease the great Stacey Van Herk - our lord and saviour.
-## PRAISE BE TO THE ALMIGTY IPAD WINNER
+## PRAISE BE TO THE ALMIGHTY IPAD WINNER
 
 ![alt tag](https://i.ytimg.com/vi/jkvkUv592s8/maxresdefault.jpg)
 

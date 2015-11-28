@@ -13,7 +13,7 @@ I think someone broke our avocado...
 # I have now included a new image to appease the great Stacey Van Herk - our lord and saviour.
 ## PRAISE BE TO THE ALMIGHTY IPAD WINNER, Princess Stacey:
 
-![alt tag](http://imgur.com/JkgJMzk)
+![alt tag](http://imgur.com/JkgJMzk.png)
 other pic of stacey apparently
 ![alt tag](http://www.identifont.com/samples/monotype/ArialNarrow.gif)
 

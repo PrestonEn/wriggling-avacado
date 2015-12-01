@@ -14,8 +14,9 @@ I think someone broke our avocado...
 ## PRAISE BE TO THE ALMIGHTY IPAD WINNER, Princess Stacey:
 
 ![alt tag](http://i.imgur.com/1UmRPSb.png)
-other pic of stacey apparently
-![alt tag](http://www.identifont.com/samples/monotype/ArialNarrow.gif)
-DIS ME:
+
+#DIS ME:
 ![alt tag](http://images2.fanpop.com/images/photos/6100000/Grumpy-snow-white-and-the-seven-dwarfs-6199663-198-350.jpg)
+
+
 Remember, earlier you said you were thankful to be in our group.

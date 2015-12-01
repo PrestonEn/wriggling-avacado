@@ -19,7 +19,7 @@ I think someone broke our avocado...
 ![alt tag](http://images2.fanpop.com/images/photos/6100000/Grumpy-snow-white-and-the-seven-dwarfs-6199663-198-350.jpg)
 
 #And Preston:
-![alt tag](http://a.dilcdn.com/bl/wp-content/uploads/sites/13/2011/09/dale-chipmunk-disney-450x400-dcp-cpeu022034.jpg)
+![alt tag](http://www.lovethispic.com/uploaded_images/38403-Moving-Skeleton.gif?2)
 
 
 Remember, earlier you said you were thankful to be in our group.

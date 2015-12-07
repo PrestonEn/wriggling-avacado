@@ -2,8 +2,10 @@ package tsp.team.walkandtalk;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.View;
+import android.os.Handler;
+import android.widget.TextView;
 
 /**  SplashScreenActivity.java
  * This class corresponds with the splashscreen activity.  This is the activity that
@@ -17,15 +19,39 @@ public class SplashScreenActivity extends Activity {
 
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
-     * parent's method and then sets what layout to use.
+     * parent's method and then sets what layout to use.  It then loads
+     * a custom font, and after a delay takes the user to the next
+     * activity (MainMenuActivity).
      *
      * @param savedInstanceState Bundle with saved information if page being recreated
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Typeface font;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splashscreen);
+
+        try {
+            //font = Typeface.createFromAsset(getAssets(), "DK Cool Crayon.ttf");
+            font = Typeface.createFromAsset(getAssets(), "EraserRegular.ttf");
+        } catch (java.lang.RuntimeException e) {
+            font = null;
+        }
+
+        if (font != null) {
+            TextView title = (TextView) findViewById(R.id.txtAppName);
+
+            title.setTypeface(font);
+        }
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                startActivity(new Intent(SplashScreenActivity.this,
+                        MainMenuActivity.class));
+                finish();
+            }
+        }, 5000);
 
     } // onCreate
 
@@ -43,18 +69,5 @@ public class SplashScreenActivity extends Activity {
         finish();
 
     } //onPause
-
-    /** startApp
-     * When the user presses the displayed button, this method will run
-     * and they will be taken to the next activity (MainMenuActivity).
-     *
-     * @param v View containing information about the nature of the event
-     */
-    public void startApp(View v) {
-
-        Intent intent = new Intent(SplashScreenActivity.this, MainMenuActivity.class);
-        startActivity(intent);
-
-    } // startApp
 
 } // SplashScreen

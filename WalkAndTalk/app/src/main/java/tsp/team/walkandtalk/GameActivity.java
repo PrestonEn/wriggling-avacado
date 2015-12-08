@@ -22,6 +22,8 @@ public class GameActivity extends Activity {
 
     }
 
+    //Testing commit stuff
+
     @Override
     protected void onPause() {
         super.onPause();

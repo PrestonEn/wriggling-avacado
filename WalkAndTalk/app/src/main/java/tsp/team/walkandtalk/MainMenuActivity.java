@@ -2,8 +2,10 @@ package tsp.team.walkandtalk;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
@@ -62,6 +64,15 @@ public class MainMenuActivity extends Activity {
 
         imgEarl = (ImageView)findViewById(R.id.imgArm);
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstRun = !preferences.getBoolean("runBefore",false);
+        if (firstRun) {
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putBoolean("runBefore", true);
+            editor.putBoolean(getString(R.string.saved_sound_preference), true);
+            editor.commit();
+        }
+
     } // onCreate
 
     /** onResume
@@ -75,7 +86,7 @@ public class MainMenuActivity extends Activity {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.4f);
 
-        animate.setStartOffset(2000);
+        animate.setStartOffset(1500);
         animate.setDuration(2000);
         animate.setRepeatCount(Animation.INFINITE);
 
@@ -100,16 +111,29 @@ public class MainMenuActivity extends Activity {
     } // onPause
 
 
-    /** startApp
+    /** startGame
      * When the user presses the displayed button, this method will run
-     * and they will be taken to the next activity (Main).
+     * and they will be taken to the game activity.
      *
      * @param v View containing information about the nature of the event
      */
-    public void startApp(View v) {
+    public void startGame(View v) {
 
         Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);
         startActivity(intent);
 
-    } // startApp
+    } // startGame
+
+    /** goToSettings
+     * When the user presses the displayed button, this method will run
+     * and they will be taken to the settings activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void goToSettings(View v) {
+
+        Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
+        startActivity(intent);
+
+    } // goToSettings
 }

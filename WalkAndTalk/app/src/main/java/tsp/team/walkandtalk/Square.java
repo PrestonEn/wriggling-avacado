@@ -17,24 +17,6 @@ import android.opengl.GLES20;
  */
 public class Square {
 
-    private final String vertexShaderCode =
-            // This matrix member variable provides a hook to manipulate
-            // the coordinates of the objects that use this vertex shader
-            "uniform mat4 uMVPMatrix;" +
-                    "attribute vec4 vPosition;" +
-                    "void main() {" +
-                    // The matrix must be included as a modifier of gl_Position.
-                    // Note that the uMVPMatrix factor *must be first* in order
-                    // for the matrix multiplication product to be correct.
-                    "  gl_Position = uMVPMatrix * vPosition;" +
-                    "}";
-
-    private final String fragmentShaderCode =
-            "precision mediump float;" +
-                    "uniform vec4 vColor;" +
-                    "void main() {" +
-                    "  gl_FragColor = vColor;" +
-                    "}";
 
     private final FloatBuffer vertexBuffer;
     private final ShortBuffer drawListBuffer;
@@ -82,10 +64,10 @@ public class Square {
         // prepare shaders and OpenGL program
         int vertexShader = GLES20Renderer.loadShader(
                 GLES20.GL_VERTEX_SHADER,
-                vertexShaderCode);
+                Sprite.vertexShaderCode);
         int fragmentShader = GLES20Renderer.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
-                fragmentShaderCode);
+                Sprite.fragmentShaderCode);
 
         mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
         GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program

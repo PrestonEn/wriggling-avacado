@@ -15,10 +15,6 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-
-        //this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
         mGLView = new GLES20SurfaceView(this);

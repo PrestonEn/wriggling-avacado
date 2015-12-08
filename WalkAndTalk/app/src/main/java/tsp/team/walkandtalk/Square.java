@@ -15,7 +15,7 @@ import android.opengl.GLES20;
 /**
  * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.
  */
-public class Square {
+public class Square extends Sprite{
 
 
     private final FloatBuffer vertexBuffer;
@@ -37,12 +37,18 @@ public class Square {
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-    float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+    static float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
 
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Square() {
+    public Square(float sc[],float c[],Context ctx,int textureID) {
+        //INITIALIZERS:
+        this.rotate = false;
+        this.squareCoords = sc;
+        this.color = c;
+        this.loadTexture(ctx,textureID);
+
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
                 // (# of coordinate values * 4 bytes per float)
@@ -120,4 +126,20 @@ public class Square {
         GLES20.glDisableVertexAttribArray(mPositionHandle);
     }
 
+    /**
+     * Boolean if you need to deal with rotating or not.
+     * @return Boolean need to rotate.
+     */
+    @Override
+    public boolean needRotate() {
+        return this.rotate;
+    }
+
+    /**
+     * Extremely important method. Meant to update particle position and angle for global animation.
+     */
+    @Override
+    public void updateShape() {
+
+    }
 }

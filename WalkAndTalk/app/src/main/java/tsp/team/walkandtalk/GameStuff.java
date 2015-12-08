@@ -1,6 +1,9 @@
 package tsp.team.walkandtalk;
 
+import android.content.Context;
 import android.widget.Toast;
+
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -12,4 +15,19 @@ import java.util.List;
 public class GameStuff {
     private List<Sprite> enemies;
     private Sprite earl;
+    private Context contextHolder;
+
+    public Context getContextHolder() {
+        return contextHolder;
+    }
+
+    public GameStuff(Context c){
+        this.contextHolder = c;
+        enemies = new LinkedList<Sprite>();
+        earl = null;
+    }
+
+    public List<Sprite> getEnemies() {
+        return enemies;
+    }
 }

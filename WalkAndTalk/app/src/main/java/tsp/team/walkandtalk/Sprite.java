@@ -18,7 +18,7 @@ import javax.microedition.khronos.opengles.GL10;
  * Created by preston
  *
  */
-public class Sprite {
+public abstract class Sprite {
 
     protected static final String vertexShaderCode =
             // This matrix member variable provides a hook to manipulate
@@ -46,6 +46,9 @@ public class Sprite {
     // do we draw the sprite?
     protected boolean live = true;
 
+    //do we need to do some sort of rotation?
+    protected boolean rotate;
+
     // frames in the sprites cycle
     private int aniFrames;
 
@@ -70,50 +73,12 @@ public class Sprite {
     // Texture Pointer
     private int[] texPointer;
 
-    public Sprite() {
-
-        animTexture = new float[][] {
-                {
-                        0.0f, 1.0f,     // bottom left     (V2)
-                        0.0f, 0.0f,     // top left  (V1)
-                        1.0f, 1.0f,     // bottom right    (V4)
-                        1.0f, 0.0f      // top right (V3)
-                },
-        };
-
-        aniFrames = 1;
-        initBuffers();
-
-    }
-
-    public void initBuffers() {
-        textureBuffers = new FloatBuffer[aniFrames];
-
-        // float = 4 bytes
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(vertices.length * 4);
-        byteBuffer.order(ByteOrder.nativeOrder());
-
-        // allocates the memory from the byte buffer
-        vertexBuffer = byteBuffer.asFloatBuffer();
-
-        // fill the vertexBuffer with the vertices
-        vertexBuffer.put(vertices);
-
-        // set the cursor position to the beginning of the buffer
-        vertexBuffer.position(0);
-
-        for (int i = 0; i<aniFrames; i++) {
-            byteBuffer = ByteBuffer.allocateDirect(animTexture[0].length * 4);
-            byteBuffer.order(ByteOrder.nativeOrder());
-            textureBuffers[i] = byteBuffer.asFloatBuffer();
-            textureBuffers[i].put(animTexture[i]);
-            textureBuffers[i].position(0);
-        }
-        currentFrame = 0;
-    }
-
-
-    public void loadTexture(Context context)
+    /**
+     * Loads the current texture for the sprite to draw eventually.
+     * @param context Standard android woogity boogity.
+     * @param resourceID Reference to the texture that we will be drawing.
+     */
+    public void loadTexture(Context context,int resourceID)
     {
         int[] textureHandle = new int[1];
 
@@ -125,7 +90,7 @@ public class Sprite {
             options.inScaled = false;   // No pre-scaling
 
             // Read in the resource
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.raw.test, options);
+            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceID, options);
 
             // Bind to the texture in OpenGL
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
@@ -149,43 +114,12 @@ public class Sprite {
         texPointer = textureHandle;
     }
 
-    /** The draw method for the square with the GL context */
-    public void draw(GL10 gl) {
+    //Abstract method to be overridden by anything that extends the sprite class.
+    abstract public void draw(float[] mvpMatrix);
 
-        if (!live) return;
+    //Require a get rotate method so that we can know how to draw particular enemies.
+    abstract public boolean needRotate();
 
-        //gl.glRotatef(angle, 0.0f, 0.0f, 1.0f);
-
-        gl.glPushMatrix();
-        gl.glTranslatef(px, py, 0.0f);
-        gl.glRotatef(90, 0.0f, 0.0f, 1.0f);
-
-        //Proceed through animation
-        currentFrame++;
-        if (currentFrame == currentFrame)
-            currentFrame = 0;
-
-        // bind the previously generated texture
-        gl.glBindTexture(GL10.GL_TEXTURE_2D, texPointer[0]);
-
-        // Point to our buffers
-        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        gl.glEnableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-
-        // Set the face rotation
-        gl.glFrontFace(GL10.GL_CW);
-
-        // Point to our vertex buffer
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
-        gl.glTexCoordPointer(2, GL10.GL_FLOAT, 0, textureBuffers[currentFrame]);
-
-        // Draw the vertices as triangle strip
-        gl.glDrawArrays(GL10.GL_TRIANGLE_STRIP, 0, vertices.length / 3);
-
-        //Disable the client state before leaving
-        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
-        gl.glDisableClientState(GL10.GL_TEXTURE_COORD_ARRAY);
-        gl.glPopMatrix();
-
-    }
+    //Require the making of a update method that will move the shape in space.
+    abstract public void updateShape();
 }

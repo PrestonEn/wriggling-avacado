@@ -27,27 +27,26 @@ public class Square extends Sprite{
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float squareCoords[] = {
-            1.75f,  0.3f, 0.0f,   // top left
-            1.75f, -0.9f, 0.0f,   // bottom left
-            1.0f, -0.9f, 0.0f,   // bottom right
-            1.0f,  0.3f, 0.0f }; // top right
+    static float squareCoords[];
 
     private final short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-    static float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+    static float color[];
 
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Square(float sc[],float c[],Context ctx,int textureID) {
+    public Square(float sc[],float c[],Context ctx,int textureID,float a, float aR) {
         //INITIALIZERS:
         this.rotate = false;
         this.squareCoords = sc;
         this.color = c;
         this.loadTexture(ctx,textureID);
+        this.angle = a;
+        this.angleRate = aR;
+        //DONE INITIALIZERS.
 
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(
@@ -140,6 +139,6 @@ public class Square extends Sprite{
      */
     @Override
     public void updateShape() {
-
+        this.angle += this.angleRate;
     }
 }

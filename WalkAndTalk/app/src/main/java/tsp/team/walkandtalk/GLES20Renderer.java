@@ -34,9 +34,15 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 
         //Eventually there needs to be some sort of scene drawing going on in here.
+        float squareCoords[] = {
+                1.75f,  0.3f, 0.0f,   // top left
+                1.75f, -0.9f, 0.0f,   // bottom left
+                1.0f, -0.9f, 0.0f,   // bottom right
+                1.0f,  0.3f, 0.0f }; // top right
 
+        float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
 
-        Square mSquare   = new Square();
+        Square mSquare = new Square(squareCoords,color,gamestuff.getContextHolder(),R.raw.test,0.0f,2.0f);
         gamestuff.getEnemies().add(mSquare);
     }
 
@@ -57,7 +63,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             }
             else{
                 float[] scratch = new float[16];
-                Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, 1.0f);
+                Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f);
                 Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
                 s.draw(scratch);
             }

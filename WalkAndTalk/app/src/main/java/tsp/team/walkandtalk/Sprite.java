@@ -55,6 +55,14 @@ public abstract class Sprite {
     // current frame in the cycle
     private int currentFrame;
 
+    //angle information
+    protected float angleRate;
+    protected float angle;
+
+    public float getAngle() { //Able to get angle.
+        return angle;
+    }
+
     //vertexes need to be held in a buffer
     private  FloatBuffer vertexBuffer;
     protected float vertices[] = {
@@ -122,4 +130,6 @@ public abstract class Sprite {
 
     //Require the making of a update method that will move the shape in space.
     abstract public void updateShape();
+
+
 }

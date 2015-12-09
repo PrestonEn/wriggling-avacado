@@ -51,7 +51,8 @@ public class TextureFactory {
         GLES20.glGenTextures(1, bindings, 0);
 
         // Temporary create a bitmap
-        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), resourceID);
+        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), R.raw.earl);
+        Log.e("bmp test: ", bmp.getPixel(0,0)+"");
 
         // Bind texture to texturename
         //GLES20.glActiveTexture(GLES20.GL_TEXTURE0);

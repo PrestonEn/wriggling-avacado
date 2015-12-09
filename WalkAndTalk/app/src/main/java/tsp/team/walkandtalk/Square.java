@@ -88,6 +88,15 @@ public class Square extends Sprite{
         GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
         GLES20.glAttachShader(mProgram, fragmentShader); // add the fragment shader to program
         GLES20.glLinkProgram(mProgram);                  // create OpenGL program executables
+
+        int[] linkStatus = new int[1];
+        GLES20.glGetProgramiv(mProgram, GLES20.GL_LINK_STATUS, linkStatus, 0);
+        if (linkStatus[0] != GLES20.GL_TRUE) {
+            Log.e("linker error: ", "Could not link program: ");
+            Log.e("linker error: ", GLES20.glGetProgramInfoLog(mProgram));
+            GLES20.glDeleteProgram(mProgram);
+
+        }
     }
 
     /**
@@ -114,7 +123,7 @@ public class Square extends Sprite{
 
         // Get handle to texture coordinates location
         int mTexCoordLoc = GLES20.glGetAttribLocation(mProgram, "a_texCoord");
-
+        Log.e("The tex coord loc:", mTexCoordLoc+"");
         // Enable generic vertex attribute array
         GLES20.glEnableVertexAttribArray(mTexCoordLoc);
 
@@ -138,7 +147,7 @@ public class Square extends Sprite{
 
         //get handle to fragment shader texture coordinate member
         mTexCoordHandle = GLES20.glGetUniformLocation(mProgram, "s_texture");
-
+        //GLES20.glUniform1i(mTexCoordHandle, 0);
         // Set the sampler texture unit to the binding, where we have saved the texture.
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         Log.e("Lo, again the binding", "" + tInfo.getBinding());

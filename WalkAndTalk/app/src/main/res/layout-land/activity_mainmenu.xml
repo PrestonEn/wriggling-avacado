@@ -123,7 +123,7 @@
             <Button
                 android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:text="@string/scores"
+                android:text="@string/highscores"
                 android:id="@+id/btnScores"
                 android:layout_gravity="center"
                 android:layout_weight="1"
@@ -131,7 +131,8 @@
                 android:padding="@dimen/padding"
                 android:background="@color/transparent"
                 android:textColor="@color/white"
-                android:shadowColor="@color/transparent" />
+                android:shadowColor="@color/transparent"
+                android:onClick="goToHighScores" />
 
             <Space
                 android:layout_width="fill_parent"

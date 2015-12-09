@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -20,30 +21,43 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public abstract class Sprite {
 
-    protected static final String vertexShaderCode =
-            // This matrix member variable provides a hook to manipulate
-            // the coordinates of the objects that use this vertex shader
-            "uniform mat4 uMVPMatrix;" +
-                    "attribute vec4 vPosition;" +
+    public static final String vs_SolidColor =
+            "uniform    mat4        uMVPMatrix;" +
+                    "attribute  vec4        vPosition;" +
                     "void main() {" +
-                    // The matrix must be included as a modifier of gl_Position.
-                    // Note that the uMVPMatrix factor *must be first* in order
-                    // for the matrix multiplication product to be correct.
                     "  gl_Position = uMVPMatrix * vPosition;" +
                     "}";
 
-    protected static String fragmentShaderCode =
+    public static final String fs_SolidColor =
             "precision mediump float;" +
-                    "uniform vec4 vColor;" +
                     "void main() {" +
-                    "  gl_FragColor = vColor;" +
+                    "  gl_FragColor = vec4(0.0,1.0,0,1);" +
                     "}";
 
-    // END TEXTURE SHADERS
+    // TEXTURE SHADERS
+    public static final String vs_Image =
+            "uniform mat4 uMVPMatrix;" +
+                    "attribute vec4 vPosition;" +
+                    "attribute vec2 a_texCoord;" +
+                    "varying vec2 v_texCoord;" +
+                    "void main() {" +
+                    "  gl_Position = uMVPMatrix * vPosition;" +
+                    "  v_texCoord = a_texCoord;" +
+                    "}";
+
+    public static final String fs_Image =
+            "precision mediump float;" +
+                    "varying vec2 v_texCoord;" +
+                    "uniform sampler2D s_texture;" +
+                    "void main() {" +
+                    "  gl_FragColor = texture2D( s_texture, v_texCoord );" +
+                    "}";
 
 
     //Needed value of the width of the screen for live checking.
     protected float ScreenWidth;
+
+    protected float color[];
 
     // X and Y positions
     protected float px, py;
@@ -86,68 +100,16 @@ public abstract class Sprite {
     protected FloatBuffer textureBuffer;  // buffer for holding texture coords
     protected FloatBuffer[] textureBuffers;
 
-
-
-
     // Texture Pointer
     private int[] texPointer;
 
-    /**
-     * Loads the current texture for the sprite to draw eventually.
-     * @param mContext Standard android woogity boogity.
-     * @param resourceID Reference to the texture that we will be drawing.
-     */
-    public void loadTexture(Context mContext,int resourceID)
-    {
-        // Create our UV coordinates. (Texture coords)
-        animUVs = new float[]{
-                0.0f, 0.0f,
-                0.0f, 0.25f,
-                0.25f, 0.25f,
-                0.25f, 0.0f
-
-        };
-
-        // The texture buffer
-        ByteBuffer bb = ByteBuffer.allocateDirect(animUVs.length  * 4);
-        bb.order(ByteOrder.nativeOrder());
-        textureBuffer = bb.asFloatBuffer();
-        textureBuffer.put(animUVs);
-        textureBuffer.position(0);
-
-        // Generate Textures, if more needed, alter these numbers.
-        int[] texturenames = new int[1];
-        GLES20.glGenTextures(1, texturenames, 0);
-
-        // Temporary create a bitmap
-        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), resourceID);
-
-        // Bind texture to texturename
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texturenames[0]);
-
-        // Set filtering
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-
-        // Set wrapping mode
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-
-        // Load the bitmap into the bound texture.
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0);
-
-        // We are done using the bitmap so we should recycle it.
-        bmp.recycle();
-    }
-
-    //Abstract method to be overridden by anything that extends the sprite class.
+    // Abstract method to be overridden by anything that extends the sprite class.
     abstract public void draw(float[] mvpMatrix);
 
-    //Require a get rotate method so that we can know how to draw particular enemies.
+    // Require a get rotate method so that we can know how to draw particular enemies.
     abstract public boolean needRotate();
 
-    //Require the making of a update method that will move the shape in space.
+    // Require the making of a update method that will move the shape in space.
     abstract public void updateShape();
 
     public int getCurrentFrame() {

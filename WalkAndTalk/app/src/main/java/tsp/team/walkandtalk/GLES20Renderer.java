@@ -33,33 +33,12 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
-        //Eventually there needs to be some sort of scene drawing going on in here.
-        float squareCoords[] = {
-                0.375f,  0.6f, 0.0f,   // top left
-                0.375f, -0.6f, 0.0f,   // bottom left
-                -0.375f, -0.6f, 0.0f,   // bottom right
-                -0.375f,  0.6f, 0.0f }; // top right
-
-        float aColor[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
-        float bColor[] = { 0.8f, 0.709803922f, 0.898039216f, 1.0f };
-
-        float ratio = (float)gamestuff.getScreenWidth()/(float)gamestuff.getScreenHeight();
-        //Log.e("MY SQUARE ONE: ",ratio+"");
-
-        Square aSquare = new Square(squareCoords,aColor,0.5f,0.4f,0.01f,0.01f,gamestuff.getContextHolder(),
-                R.raw.test,true,0.0f,0.5f,ratio);
-
-        Square bSquare = new Square(squareCoords,bColor,-0.3f,0.4f,-0.01f,-0.01f,gamestuff.getContextHolder(),
-                R.raw.earl,true,0.0f,0.5f,ratio);
-
-        gamestuff.getEnemies().add(aSquare);
-        gamestuff.getEnemies().add(bSquare);
+        gamestuff.makeTestDummies();
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
-
+        //Log.e("drawing", "stuff");
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 

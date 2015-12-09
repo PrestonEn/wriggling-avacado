@@ -11,73 +11,55 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import android.opengl.GLES20;
+import android.util.Log;
 
 /**
  * A two-dimensional square for use as a drawn object in OpenGL ES 2.0.
  */
 public class Square extends Sprite{
-    // TEXTURE SHADERS
-    public static final String vs_Image =
-            "uniform mat4 uMVPMatrix;" +
-                    "attribute vec4 vPosition;" +
-                    "attribute vec2 a_texCoord;" +
-                    "varying vec2 v_texCoord;" +
-                    "void main() {" +
-                    "  gl_Position = uMVPMatrix * vPosition;" +
-                    "  v_texCoord = a_texCoord;" +
-                    "}";
-
-    public static final String fs_Image =
-            "precision mediump float;" +
-                    "varying vec2 v_texCoord;" +
-                    "uniform sampler2D s_texture;" +
-                    "void main() {" +
-                    "  gl_FragColor = texture2D( s_texture, v_texCoord );" +
-                    "}";
 
     private final FloatBuffer vertexBuffer;
     private final ShortBuffer drawListBuffer;
     private final int mProgram;
     private int mPositionHandle;
-    private int mColorHandle;
     private int mMVPMatrixHandle;
-    private  int mTexCoordHandle;
-
+    private int mTexCoordHandle;
+    private TextureInfo tInfo;
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
+
     static float squareCoords[];
 
     private final short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
-    static float color[];
+    // static float color[];
 
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Square(float sc[],float c[],float posX,float posY,float velX,float velY,Context ctx,
-                  int textureID,boolean rot,float a, float aR,float sw) {
+    public Square(float sc[], float[] c, float posX,float posY,float velX,float velY,Context ctx,
+                  int textureID, boolean rot, float a, float aR, float sw, TextureInfo tInfo) {
         //INITIALIZERS:
         this.live = true;
         this.ScreenWidth = sw;
         this.rotate = rot;
         this.squareCoords = sc;
-        this.color = c;
-        this.loadTexture(ctx,textureID);
+        this.tInfo = tInfo;
         this.angle = a;
         this.angleRate = aR;
         this.px = posX;
         this.py = posY;
         this.vx = velX;
         this.vy = velY;
+        this.color = c;
+
         //DONE INITIALIZERS.
 
         // initialize vertex byte buffer for shape coordinates
-        ByteBuffer bb = ByteBuffer.allocateDirect(
-                // (# of coordinate values * 4 bytes per float)
-                squareCoords.length * 4);
+        ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);
         bb.order(ByteOrder.nativeOrder());
         vertexBuffer = bb.asFloatBuffer();
         vertexBuffer.put(squareCoords);
@@ -92,15 +74,15 @@ public class Square extends Sprite{
         drawListBuffer.put(drawOrder);
         drawListBuffer.position(0);
 
-        loadTexture(ctx, textureID);
 
         // prepare shaders and OpenGL program
         int vertexShader = GLES20Renderer.loadShader(
                 GLES20.GL_VERTEX_SHADER,
-                vs_Image);
+                Sprite.vs_SolidColor);
+
         int fragmentShader = GLES20Renderer.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
-                fs_Image);
+                Sprite.fs_SolidColor);
 
         mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
         GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
@@ -115,6 +97,7 @@ public class Square extends Sprite{
      * this shape.
      */
     public void draw(float[] mvpMatrix) {
+        //Log.e("Drawing", "plz draw");
         // Add program to OpenGL environment
         GLES20.glUseProgram(mProgram);
 
@@ -131,21 +114,20 @@ public class Square extends Sprite{
                 vertexStride, vertexBuffer);
 
         // Get handle to texture coordinates location
-        int mTexCoordLoc = GLES20.glGetAttribLocation(mProgram, "a_texCoord");
+        //int mTexCoordLoc = GLES20.glGetAttribLocation(mProgram, "a_texCoord");
 
         // Enable generic vertex attribute array
-        GLES20.glEnableVertexAttribArray(mTexCoordLoc);
+        //GLES20.glEnableVertexAttribArray(mTexCoordLoc);
 
         // Prepare the texturecoordinates
-        GLES20.glVertexAttribPointer(mTexCoordLoc, 2, GLES20.GL_FLOAT, false, 0, textureBuffer);
+        //GLES20.glVertexAttribPointer(mTexCoordLoc, 2, GLES20.GL_FLOAT,
+        //false, 0, tInfo.getTextureBuffLoc());
 
         // get handle to fragment shader's vColor member
-        // mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+        int mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
-        // GLES20.glUniform4fv(mColorHandle, 1, color, 0);
-
-
+         GLES20.glUniform4fv(mColorHandle, 1, new float[]{1.0f,0.0f,0.0f, 1.0f}, 0);
 
 
         // get handle to shape's transformation matrix
@@ -157,10 +139,10 @@ public class Square extends Sprite{
         //GLES20Renderer.checkGlError("glUniformMatrix4fv");
 
         //get handle to fragment shader texture coordinate member
-        mTexCoordHandle = GLES20.glGetUniformLocation(mProgram, "s_texture");
+        //mTexCoordHandle = GLES20.glGetUniformLocation(mProgram, "s_texture");
 
-        // Set the sampler texture unit to 0, where we have saved the texture.
-        GLES20.glUniform1i(mTexCoordHandle, 0);
+        // Set the sampler texture unit to the binding, where we have saved the texture.
+        //GLES20.glUniform1i(mTexCoordHandle, tInfo.getBinding());
 
         // Draw the square
         GLES20.glDrawElements(

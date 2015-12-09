@@ -4,6 +4,9 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
+import android.view.MotionEvent;
+
+import java.util.Iterator;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -15,29 +18,47 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
 
     private static final String TAG = "MyGLRenderer";
-    private Triangle mTriangle;
-    private Square   mSquare;
-    private GameStuff gameState;
+    private GameStuff gamestuff;
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
     private final float[] mRotationMatrix = new float[16];
+    private final float[] mTranslationMatrix = new float[16];
 
-    private float mAngle;
+    //Default constructor meant to pass the gamestuff object from the surface view to here.
+    public GLES20Renderer(GameStuff gs){
+        this.gamestuff = gs;
+    }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 
-        // gameState = new GameStuff();
-        // game.initTextures(gl);
-        mTriangle = new Triangle();
-        mSquare   = new Square();
+        //Eventually there needs to be some sort of scene drawing going on in here.
+        float squareCoords[] = {
+                0.375f,  0.6f, 0.0f,   // top left
+                0.375f, -0.6f, 0.0f,   // bottom left
+                -0.375f, -0.6f, 0.0f,   // bottom right
+                -0.375f,  0.6f, 0.0f }; // top right
+
+        float aColor[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+        float bColor[] = { 0.8f, 0.709803922f, 0.898039216f, 1.0f };
+
+        float ratio = (float)gamestuff.getScreenWidth()/(float)gamestuff.getScreenHeight();
+        //Log.e("MY SQUARE ONE: ",ratio+"");
+
+        Square aSquare = new Square(squareCoords,aColor,0.5f,0.4f,0.01f,0.01f,gamestuff.getContextHolder(),
+                R.raw.test,true,0.0f,0.5f,ratio);
+
+        Square bSquare = new Square(squareCoords,bColor,-0.3f,0.4f,-0.01f,-0.01f,gamestuff.getContextHolder(),
+                R.raw.test,true,0.0f,0.5f,ratio);
+
+        gamestuff.getEnemies().add(aSquare);
+        gamestuff.getEnemies().add(bSquare);
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
-        float[] scratch = new float[16];
 
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -45,27 +66,33 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         // Set the camera position (View matrix)
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, -3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
-        // Calculate the projection and view transformation
+        //Draw each sprite relative proper matrix
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        // Draw square
-        mSquare.draw(mMVPMatrix);
-        // Create a rotation for the triangle
+        //Java threadsafe crystal-healing.
+        for (Iterator<Sprite> iterator = gamestuff.getEnemies().iterator(); iterator.hasNext();) {
+            Sprite s = iterator.next();
+            if (!s.needRotate()) {
+                s.draw(mMVPMatrix);
+            }
+            else {
+                float[] aScratch = new float[16];
+                float[] bScratch = new float[16];
 
-        // Use the following code to generate constant rotation.
-        // Leave this code out when using TouchEvents.
-        // long time = SystemClock.uptimeMillis() % 4000L;
-        // float angle = 0.090f * ((int) time);
+                Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f);
+                Matrix.setIdentityM(mTranslationMatrix, 0);
+                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0);
+                Matrix.multiplyMM(aScratch, 0, mTranslationMatrix, 0, mRotationMatrix, 0);
+                Matrix.multiplyMM(bScratch, 0, mMVPMatrix, 0, aScratch, 0);
+                s.draw(bScratch);
+            }
+            s.updateShape(); //Make sure that the position and other things are updated.
+            if(!s.live)iterator.remove();
+        }
 
-        Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, 1.0f);
+        Log.e("size: ",gamestuff.getEnemies().size()+"");
 
-        // Combine the rotation matrix with the projection and camera view
-        // Note that the mMVPMatrix factor *must be first* in order
-        // for the matrix multiplication product to be correct.
-        Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
-
-        // Draw triangle
-        mTriangle.draw(scratch);
+        //gamestuff.removeDeadEnemies(); //Prune the enemies list.
     }
 
     @Override
@@ -75,6 +102,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         GLES20.glViewport(0, 0, width, height);
 
         float ratio = (float) width / height;
+        //Log.e("SURFACE CHANGED ONE: ",ratio+"");
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
@@ -124,22 +152,4 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             throw new RuntimeException(glOperation + ": glError " + error);
         }
     }
-
-    /**
-     * Returns the rotation angle of the triangle shape (mTriangle).
-     *
-     * @return - A float representing the rotation angle.
-     */
-    public float getAngle() {
-        return mAngle;
-    }
-
-    /**
-     * Sets the rotation angle of the triangle shape (mTriangle).
-     */
-    public void setAngle(float angle) {
-        mAngle = angle;
-    }
-
-
 }

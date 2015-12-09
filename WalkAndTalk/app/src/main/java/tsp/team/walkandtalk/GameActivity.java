@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 
 /**
  *
@@ -19,7 +21,6 @@ public class GameActivity extends Activity {
         // as the ContentView for this Activity
         mGLView = new GLES20SurfaceView(this);
         setContentView(mGLView);
-
     }
 
     @Override

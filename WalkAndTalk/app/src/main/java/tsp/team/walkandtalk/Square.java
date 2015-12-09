@@ -78,11 +78,11 @@ public class Square extends Sprite{
         // prepare shaders and OpenGL program
         int vertexShader = GLES20Renderer.loadShader(
                 GLES20.GL_VERTEX_SHADER,
-                Sprite.vs_SolidColor);
+                Sprite.vs_Image);
 
         int fragmentShader = GLES20Renderer.loadShader(
                 GLES20.GL_FRAGMENT_SHADER,
-                Sprite.fs_SolidColor);
+                Sprite.fs_Image);
 
         mProgram = GLES20.glCreateProgram();             // create empty OpenGL Program
         GLES20.glAttachShader(mProgram, vertexShader);   // add the vertex shader to program
@@ -97,7 +97,6 @@ public class Square extends Sprite{
      * this shape.
      */
     public void draw(float[] mvpMatrix) {
-        //Log.e("Drawing", "plz draw");
         // Add program to OpenGL environment
         GLES20.glUseProgram(mProgram);
 
@@ -114,21 +113,20 @@ public class Square extends Sprite{
                 vertexStride, vertexBuffer);
 
         // Get handle to texture coordinates location
-        //int mTexCoordLoc = GLES20.glGetAttribLocation(mProgram, "a_texCoord");
+        int mTexCoordLoc = GLES20.glGetAttribLocation(mProgram, "a_texCoord");
 
         // Enable generic vertex attribute array
-        //GLES20.glEnableVertexAttribArray(mTexCoordLoc);
+        GLES20.glEnableVertexAttribArray(mTexCoordLoc);
 
         // Prepare the texturecoordinates
-        //GLES20.glVertexAttribPointer(mTexCoordLoc, 2, GLES20.GL_FLOAT,
-        //false, 0, tInfo.getTextureBuffLoc());
+        GLES20.glVertexAttribPointer(mTexCoordLoc, 2, GLES20.GL_FLOAT,
+            false, 0, tInfo.getTextureBuffLoc());
 
         // get handle to fragment shader's vColor member
-        int mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
+        //int mColorHandle = GLES20.glGetUniformLocation(mProgram, "vColor");
 
         // Set color for drawing the triangle
-         GLES20.glUniform4fv(mColorHandle, 1, new float[]{1.0f,0.0f,0.0f, 1.0f}, 0);
-
+         //GLES20.glUniform4fv(mColorHandle, 1, new float[]{1.0f,0.0f,0.0f, 1.0f}, 0);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
@@ -139,10 +137,10 @@ public class Square extends Sprite{
         //GLES20Renderer.checkGlError("glUniformMatrix4fv");
 
         //get handle to fragment shader texture coordinate member
-        //mTexCoordHandle = GLES20.glGetUniformLocation(mProgram, "s_texture");
+        mTexCoordHandle = GLES20.glGetUniformLocation(mProgram, "s_texture");
 
         // Set the sampler texture unit to the binding, where we have saved the texture.
-        //GLES20.glUniform1i(mTexCoordHandle, tInfo.getBinding());
+        GLES20.glUniform1i(mTexCoordHandle, tInfo.getBinding());
 
         // Draw the square
         GLES20.glDrawElements(

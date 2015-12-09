@@ -2,6 +2,7 @@ package tsp.team.walkandtalk;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.WindowManager;
 
 import java.util.LinkedList;

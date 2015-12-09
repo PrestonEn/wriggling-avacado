@@ -30,7 +30,7 @@ public class TextureFactory {
 
     public TextureFactory(Context c){
         earlFrame1 = makeTexture(c, R.raw.earl, earlBind);
-        testTexture = makeTexture(c, R.raw.test, earlBind);
+        testTexture = makeTexture(c, R.raw.test, testBind);
     }
 
     private TextureInfo makeTexture(Context mContext, int resourceID, int bind){
@@ -52,7 +52,7 @@ public class TextureFactory {
         textureBuffer.position(0);
 
         // Generate Textures, if more needed, alter these numbers.
-        GLES20.glGenTextures(1, bindings, 0);
+        GLES20.glGenTextures(bind, bindings, 0);
 
         // Temporary create a bitmap
         Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), resourceID);

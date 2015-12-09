@@ -38,9 +38,9 @@ public class Square extends Sprite{
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Square(float sc[],float c[],Context ctx,int textureID,float a, float aR) {
+    public Square(float sc[],float c[],Context ctx,int textureID,boolean rot,float a, float aR) {
         //INITIALIZERS:
-        this.rotate = false;
+        this.rotate = rot;
         this.squareCoords = sc;
         this.color = c;
         this.loadTexture(ctx,textureID);

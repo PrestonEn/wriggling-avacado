@@ -23,8 +23,6 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mViewMatrix = new float[16];
     private final float[] mRotationMatrix = new float[16];
 
-    private float mAngle;
-
     //Default constructor meant to pass the gamestuff object from the surface view to here.
     public GLES20Renderer(GameStuff gs){
         this.gamestuff = gs;
@@ -42,7 +40,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
         float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
 
-        Square mSquare = new Square(squareCoords,color,gamestuff.getContextHolder(),R.raw.test,0.0f,2.0f);
+        Square mSquare = new Square(squareCoords,color,gamestuff.getContextHolder(),R.raw.test,true,0.0f,0.1f);
         gamestuff.getEnemies().add(mSquare);
     }
 
@@ -62,6 +60,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
                 s.draw(mMVPMatrix);
             }
             else{
+                Log.e("rot stuff: ", s.getAngle()+"");
                 float[] scratch = new float[16];
                 Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f);
                 Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
@@ -128,22 +127,4 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             throw new RuntimeException(glOperation + ": glError " + error);
         }
     }
-
-    /**
-     * Returns the rotation angle of the triangle shape (mTriangle).
-     *
-     * @return - A float representing the rotation angle.
-     */
-    public float getAngle() {
-        return mAngle;
-    }
-
-    /**
-     * Sets the rotation angle of the triangle shape (mTriangle).
-     */
-    public void setAngle(float angle) {
-        mAngle = angle;
-    }
-
-
 }

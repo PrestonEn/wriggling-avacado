@@ -32,7 +32,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
         setRenderer(mRenderer);
 
         // Render the view only when there is a change in the drawing data
-        setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
 
 
@@ -78,10 +78,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
                     dy = dy * -1 ;
                 }
 
-                mRenderer.setAngle(
-                        mRenderer.getAngle() +
-                                ((dx + dy) * TOUCH_SCALE_FACTOR));  // = 180.0f / 320
-                requestRender();
+
         }
 
         mPreviousX = x;

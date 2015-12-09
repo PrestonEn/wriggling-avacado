@@ -6,6 +6,8 @@ import android.opengl.Matrix;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import java.util.Iterator;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -39,14 +41,25 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
                 -0.375f, -0.6f, 0.0f,   // bottom right
                 -0.375f,  0.6f, 0.0f }; // top right
 
-        float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+        float aColor[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+        float bColor[] = { 0.8f, 0.709803922f, 0.898039216f, 1.0f };
 
-        Square mSquare = new Square(squareCoords,color,gamestuff.getContextHolder(),R.raw.test,true,0.0f,0.1f);
-        gamestuff.getEnemies().add(mSquare);
+        float ratio = (float)gamestuff.getScreenWidth()/(float)gamestuff.getScreenHeight();
+        //Log.e("MY SQUARE ONE: ",ratio+"");
+
+        Square aSquare = new Square(squareCoords,aColor,0.5f,0.4f,0.01f,0.01f,gamestuff.getContextHolder(),
+                R.raw.test,true,0.0f,0.5f,ratio);
+
+        Square bSquare = new Square(squareCoords,bColor,-0.3f,0.4f,-0.01f,-0.01f,gamestuff.getContextHolder(),
+                R.raw.test,true,0.0f,0.5f,ratio);
+
+        gamestuff.getEnemies().add(aSquare);
+        gamestuff.getEnemies().add(bSquare);
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
+
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
@@ -56,24 +69,30 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         //Draw each sprite relative proper matrix
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        for(Sprite s : gamestuff.getEnemies()){
-            if(!s.needRotate()){
+        //Java threadsafe crystal-healing.
+        for (Iterator<Sprite> iterator = gamestuff.getEnemies().iterator(); iterator.hasNext();) {
+            Sprite s = iterator.next();
+            if (!s.needRotate()) {
                 s.draw(mMVPMatrix);
             }
-            else{
+            else {
                 float[] aScratch = new float[16];
                 float[] bScratch = new float[16];
 
                 Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f);
-                Matrix.setIdentityM(mTranslationMatrix,0);
-                Matrix.translateM(mTranslationMatrix,0,0.5f,0.3f,0);
-                Matrix.multiplyMM(aScratch,0,mTranslationMatrix,0,mRotationMatrix,0);
+                Matrix.setIdentityM(mTranslationMatrix, 0);
+                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0);
+                Matrix.multiplyMM(aScratch, 0, mTranslationMatrix, 0, mRotationMatrix, 0);
                 Matrix.multiplyMM(bScratch, 0, mMVPMatrix, 0, aScratch, 0);
                 s.draw(bScratch);
             }
-
-            s.updateShape(); //Make sure that the positon and other things are updated.
+            s.updateShape(); //Make sure that the position and other things are updated.
+            if(!s.live)iterator.remove();
         }
+
+        Log.e("size: ",gamestuff.getEnemies().size()+"");
+
+        //gamestuff.removeDeadEnemies(); //Prune the enemies list.
     }
 
     @Override
@@ -83,6 +102,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         GLES20.glViewport(0, 0, width, height);
 
         float ratio = (float) width / height;
+        //Log.e("SURFACE CHANGED ONE: ",ratio+"");
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method

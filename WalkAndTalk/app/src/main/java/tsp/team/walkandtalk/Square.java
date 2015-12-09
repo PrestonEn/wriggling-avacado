@@ -38,14 +38,21 @@ public class Square extends Sprite{
     /**
      * Sets up the drawing object data for use in an OpenGL ES context.
      */
-    public Square(float sc[],float c[],Context ctx,int textureID,boolean rot,float a, float aR) {
+    public Square(float sc[],float c[],float posX,float posY,float velX,float velY,Context ctx,
+                  int textureID,boolean rot,float a, float aR,float sw) {
         //INITIALIZERS:
+        this.live = true;
+        this.ScreenWidth = sw;
         this.rotate = rot;
         this.squareCoords = sc;
         this.color = c;
         this.loadTexture(ctx,textureID);
         this.angle = a;
         this.angleRate = aR;
+        this.px = posX;
+        this.py = posY;
+        this.vx = velX;
+        this.vy = velY;
         //DONE INITIALIZERS.
 
         // initialize vertex byte buffer for shape coordinates
@@ -139,6 +146,11 @@ public class Square extends Sprite{
      */
     @Override
     public void updateShape() {
+        this.px += this.vx;
+        this.py += this.vy;
         this.angle += this.angleRate;
+
+        if(Math.abs(this.py) > 2.5)this.live = false;
+        if(Math.abs(this.px) > this.ScreenWidth*2)this.live = false;
     }
 }

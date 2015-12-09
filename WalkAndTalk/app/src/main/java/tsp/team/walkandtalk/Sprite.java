@@ -39,9 +39,14 @@ public abstract class Sprite {
                     "  gl_FragColor = vColor;" +
                     "}";
 
+    //Needed value of the width of the screen for live checking.
+    protected float ScreenWidth;
 
     // X and Y positions
     protected float px, py;
+
+    //Velocity for X and Y
+    protected float vx, vy;
 
     // do we draw the sprite?
     protected boolean live = true;
@@ -130,6 +135,5 @@ public abstract class Sprite {
 
     //Require the making of a update method that will move the shape in space.
     abstract public void updateShape();
-
 
 }

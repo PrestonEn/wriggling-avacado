@@ -23,18 +23,19 @@ import tsp.team.walkandtalk.R;
  */
 public class MainMenuActivity extends Activity {
 
-    ImageView imgEarlArm;
+    ImageView imgEarlArm; // For animation of Earl
 
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
      * parent's method and then sets what layout to use.  It also overrides
-     * the default font with a special chalkboard font.
+     * the default font with a special chalkboard font, and sets up user
+     * preferences if it is the first time the application is being run.
      *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Typeface font;
+        Typeface font; // Chalkboard font
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainmenu);
@@ -46,7 +47,7 @@ public class MainMenuActivity extends Activity {
             font = null;
         }
 
-        if (font != null) {
+        if (font != null) { // Set all text fields to use the chalkboard font
             TextView title = (TextView) findViewById(R.id.txtTitle);
             Button quickPlay = (Button) findViewById(R.id.btnQuickPlay);
             Button play = (Button) findViewById(R.id.btnPlay);
@@ -62,11 +63,12 @@ public class MainMenuActivity extends Activity {
             settings.setTypeface(font);
         }
 
-        imgEarlArm = (ImageView)findViewById(R.id.imgArm);
+        imgEarlArm = (ImageView)findViewById(R.id.imgArm); // For animation purposes
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean firstRun = !preferences.getBoolean("runBefore",false);
-        if (firstRun) {
+
+        if (firstRun) { // Set default user preferences on first run
             SharedPreferences.Editor editor = preferences.edit();
             editor.putBoolean("runBefore", true);
             editor.putBoolean(getString(R.string.saved_sound_preference), true);
@@ -92,7 +94,6 @@ public class MainMenuActivity extends Activity {
 
         AnimationSet animationSet = new AnimationSet(true);
         animationSet.addAnimation(animate);
-
         animationSet.setRepeatMode(Animation.REVERSE);
 
         imgEarlArm.startAnimation(animationSet);
@@ -100,19 +101,19 @@ public class MainMenuActivity extends Activity {
     } // onResume
 
     /** onPause
-     *
+     * Stop the animation upon leaving the activity.
      */
     @Override
     protected void onPause() {
-        super.onPause();
 
+        super.onPause();
         imgEarlArm.clearAnimation();
 
     } // onPause
 
 
     /** startGame
-     * When the user presses the displayed button, this method will run
+     * When the user presses the "Quick Play" button, this method will run
      * and they will be taken to the game activity.
      *
      * @param v View containing information about the nature of the event
@@ -125,7 +126,7 @@ public class MainMenuActivity extends Activity {
     } // startGame
 
     /** goToSettings
-     * When the user presses the displayed button, this method will run
+     * When the user presses the "Settings" button, this method will run
      * and they will be taken to the settings activity.
      *
      * @param v View containing information about the nature of the event
@@ -136,4 +137,5 @@ public class MainMenuActivity extends Activity {
         startActivity(intent);
 
     } // goToSettings
-}
+
+} // MainMenuActivity

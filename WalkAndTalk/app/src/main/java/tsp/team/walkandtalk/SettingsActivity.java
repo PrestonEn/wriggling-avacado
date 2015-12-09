@@ -17,28 +17,31 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-/**
- * Created by Stacey on 08/12/2015.
+/** This class corresponds with the settings activity. It displays
+ * different settings options for the user (including sound), and
+ * they can change their preferences to affect their game play.
  */
 public class SettingsActivity extends Activity {
 
-    ImageView imgEarlArm;
+    ImageView imgEarlArm;  // For animation of Earl
 
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
      * parent's method and then sets what layout to use.  It also overrides
-     * the default font with a special chalkboard font.
+     * the default font with a special chalkboard font, and sets the switch
+     * widgets accordingly based on the loaded user preferences.  The onChange
+     * listeners are set up to save any user preference setting changes.
      *
      * @param savedInstanceState
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Typeface font;
+        Typeface font;  // Chalkboard font
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        final Context c = this;
 
+        final Context c = this;
         final Switch sound = (Switch) findViewById(R.id.swSound);
 
         try {
@@ -48,7 +51,7 @@ public class SettingsActivity extends Activity {
             font = null;
         }
 
-        if (font != null) {
+        if (font != null) { // Set all text fields to use the chalkboard font
             TextView title = (TextView) findViewById(R.id.txtTitle);
             Button back = (Button) findViewById(R.id.btnBack);
 
@@ -57,16 +60,18 @@ public class SettingsActivity extends Activity {
             back.setTypeface(font);
         }
 
+        // Load user preferences
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean soundOn = preferences.getBoolean(getString(R.string.saved_sound_preference), false);
 
+        // Set switch objects to reflect current user preferences
         if(soundOn){
             sound.setChecked(true);
         } else{
             sound.setChecked(false);
         }
 
-        // Attach a listener to check for changes in state
+        // Attach a listener to the sound switch to check for changes in state
         sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -74,18 +79,17 @@ public class SettingsActivity extends Activity {
 
                 SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
                 SharedPreferences.Editor editor = preferences.edit();
-                if (isChecked) {
+                if (isChecked) { // Update user preference
                     editor.putBoolean(getString(R.string.saved_sound_preference), true);
                     editor.commit();
                 } else {
                     editor.putBoolean(getString(R.string.saved_sound_preference), false);
                     editor.commit();
                 }
-
             }
         });
 
-        imgEarlArm = (ImageView)findViewById(R.id.imgArm);
+        imgEarlArm = (ImageView)findViewById(R.id.imgArm);  // For animation purposes
 
     } // onCreate
 
@@ -114,18 +118,18 @@ public class SettingsActivity extends Activity {
     } // onResume
 
     /** onPause
-     *
+     * Stop the animation upon leaving the activity.
      */
     @Override
     protected void onPause() {
-        super.onPause();
 
+        super.onPause();
         imgEarlArm.clearAnimation();
 
     } // onPause
 
     /** fromSettingsToMain
-     * When the user presses the displayed button, this method will run
+     * When the user presses the "Back To Main Menu" button, this method will run
      * and they will be taken back to the main menu activity.
      *
      * @param v View containing information about the nature of the event
@@ -137,4 +141,4 @@ public class SettingsActivity extends Activity {
 
     } // fromSettingsToMain
 
-}
+} // SettingsActivity

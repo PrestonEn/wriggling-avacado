@@ -138,7 +138,6 @@ public class MainMenuActivity extends Activity {
         startActivity(intent);
 
     } // goToHighScores
-}
 
     /** goToSettings
      * When the user presses the "Settings" button, this method will run

@@ -8,6 +8,9 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -18,6 +21,8 @@ import android.widget.TextView;
  * Created by Stacey on 08/12/2015.
  */
 public class SettingsActivity extends Activity {
+
+    ImageView imgEarlArm;
 
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
@@ -80,7 +85,44 @@ public class SettingsActivity extends Activity {
             }
         });
 
+        imgEarlArm = (ImageView)findViewById(R.id.imgArm);
+
     } // onCreate
+
+    /** onResume
+     * Run the Earl gesturing animation.
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Animation animate = new RotateAnimation(0, -90,
+                Animation.RELATIVE_TO_SELF, 0.56f,
+                Animation.RELATIVE_TO_SELF, 0.46f);
+
+        animate.setStartOffset(1000);
+        animate.setDuration(2000);
+        animate.setRepeatCount(Animation.INFINITE);
+
+        AnimationSet animationSet = new AnimationSet(true);
+        animationSet.addAnimation(animate);
+
+        animationSet.setRepeatMode(Animation.REVERSE);
+
+        imgEarlArm.startAnimation(animationSet);
+
+    } // onResume
+
+    /** onPause
+     *
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        imgEarlArm.clearAnimation();
+
+    } // onPause
 
     /** fromSettingsToMain
      * When the user presses the displayed button, this method will run

@@ -42,7 +42,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:id="@+id/imgArm"
-                android:src="@drawable/earl_arm" />
+                android:src="@drawable/earl_intro_arm" />
         </RelativeLayout>
 
         <LinearLayout

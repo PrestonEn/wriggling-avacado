@@ -29,20 +29,20 @@
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="3" >
+            android:layout_weight="4" >
 
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageView"
+                android:id="@+id/imgEarl"
                 android:layout_gravity="center"
-                android:src="@drawable/earl_intro" />
+                android:src="@drawable/earl_settings" />
 
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/imageView2"
-                android:src="@drawable/earl_arm" />
+                android:id="@+id/imgArm"
+                android:src="@drawable/earl_settings_arm" />
         </RelativeLayout>
 
         <LinearLayout

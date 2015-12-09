@@ -23,7 +23,7 @@ import tsp.team.walkandtalk.R;
  */
 public class MainMenuActivity extends Activity {
 
-    ImageView imgEarl;
+    ImageView imgEarlArm;
 
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
@@ -62,7 +62,7 @@ public class MainMenuActivity extends Activity {
             settings.setTypeface(font);
         }
 
-        imgEarl = (ImageView)findViewById(R.id.imgArm);
+        imgEarlArm = (ImageView)findViewById(R.id.imgArm);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean firstRun = !preferences.getBoolean("runBefore",false);
@@ -86,7 +86,7 @@ public class MainMenuActivity extends Activity {
                 Animation.RELATIVE_TO_SELF, 0.5f,
                 Animation.RELATIVE_TO_SELF, 0.4f);
 
-        animate.setStartOffset(1500);
+        animate.setStartOffset(1000);
         animate.setDuration(2000);
         animate.setRepeatCount(Animation.INFINITE);
 
@@ -95,7 +95,7 @@ public class MainMenuActivity extends Activity {
 
         animationSet.setRepeatMode(Animation.REVERSE);
 
-        imgEarl.startAnimation(animationSet);
+        imgEarlArm.startAnimation(animationSet);
 
     } // onResume
 
@@ -106,7 +106,7 @@ public class MainMenuActivity extends Activity {
     protected void onPause() {
         super.onPause();
 
-        imgEarl.clearAnimation();
+        imgEarlArm.clearAnimation();
 
     } // onPause
 

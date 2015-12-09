@@ -29,12 +29,13 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mTranslationMatrix = new float[16];
 
     //Default constructor meant to pass the gamestuff object from the surface view to here.
-    public GLES20Renderer(GameStuff gs){
-        this.gamestuff = gs;
+    public GLES20Renderer(){
+        // Nothing hapens outside of gamestuff
     }
 
     @Override
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+    public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+        // THIS MUST BE DONE TO KEEP WITHIN THE OPENGL THREAD
         gamestuff = new GameStuff(mActivityContext);
         gamestuff.makeTestDummies();
     }
@@ -71,10 +72,6 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             s.updateShape(); //Make sure that the position and other things are updated.
             if(!s.live)iterator.remove();
         }
-
-        // Log.e("size: ",gamestuff.getEnemies().size()+"");
-
-        // gamestuff.removeDeadEnemies(); //Prune the enemies list.
     }
 
     @Override
@@ -82,9 +79,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         // Adjust the viewport based on geometry changes,
         // such as screen rotation
         GLES20.glViewport(0, 0, width, height);
-
         float ratio = (float) width / height;
-        //Log.e("SURFACE CHANGED ONE: ",ratio+"");
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method

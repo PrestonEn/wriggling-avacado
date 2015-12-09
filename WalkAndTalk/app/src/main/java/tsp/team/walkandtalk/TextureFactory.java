@@ -29,7 +29,6 @@ public class TextureFactory {
     }
 
     private TextureInfo makeTexture(Context mContext, int resourceID){
-        // Log.e("LOADINGATEXTUREBOUNDTO", ""+bind);
         FloatBuffer textureBuffer;
         // Create our UV coordinates. (Texture coords)
         float animUVs[] = new float[]{
@@ -49,22 +48,14 @@ public class TextureFactory {
         // Generate Textures, if more needed, alter these numbers.
         int bindings[] = new int[1];
         // Generate Textures, if more needed, alter these numbers.
-        //int[] texturenames = new int[1];
         GLES20.glGenTextures(1, bindings, 0);
 
         // Retrieve our image from resources.
 
         Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), resourceID);
-//        GLES20.glGenTextures(1, bindings, 0);
-//
-//        // Temporary create a bitmap
-//        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), R.raw.test);
-        //Log.e("bmp test: ", bmp.getPixel(0,0)+"");
 
         // Bind texture to texturename
-        //GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, bindings[0]);
-        //Log.e("Lo, tis binding 0:" , ""+bindings[0]);
 
         // Set filtering
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);

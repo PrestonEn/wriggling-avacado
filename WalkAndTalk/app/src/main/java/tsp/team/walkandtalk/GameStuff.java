@@ -17,7 +17,7 @@ import java.util.List;
 public class GameStuff {
 
     private List<Sprite> enemies;
-    private Sprite earl;
+    private Sprite character;
     private Context contextHolder;
     private int ScreenWidth;
     private int ScreenHeight;
@@ -44,7 +44,7 @@ public class GameStuff {
         this.ScreenHeight = dm.heightPixels;
         this.ScreenWidth = dm.widthPixels;
         enemies = new LinkedList<Sprite>();
-        earl = null;
+        character = null;
     }
 
     public void makeTestDummies(){
@@ -59,11 +59,11 @@ public class GameStuff {
 
         float ratio = (float)this.getScreenWidth()/(float)this.getScreenHeight();
 
-        Square aSquare = new Square(squareCoords,color,0.5f,0.4f,0.01f,0.01f,this.getContextHolder(),
-                R.raw.test,true,0.0f,0.5f,ratio, textureFactory.getEarlTexture());
+        Square aSquare = new Square(squareCoords, 0.5f, 0.4f, 0.01f, 0.01f, this.getContextHolder(),
+                true, 0.0f, 0.5f, ratio, textureFactory.getEarlTexture());
 
-        Square bSquare = new Square(squareCoords,color,-0.3f,0.4f,-0.01f,-0.01f,this.getContextHolder(),
-                R.raw.earl,true,0.0f,0.5f,ratio, textureFactory.getTestTexture());
+        Square bSquare = new Square(squareCoords, -0.3f, 0.4f, -0.01f, -0.01f, this.getContextHolder(),
+                true, 0.0f, 0.5f, ratio, textureFactory.getTestTexture());
 
         this.getEnemies().add(aSquare);
         this.getEnemies().add(bSquare);

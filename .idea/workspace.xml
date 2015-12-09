@@ -4,10 +4,10 @@
     <list default="true" id="c718e360-cd1a-41c3-b74d-3230f13a8390" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/GLES20Renderer.java" afterPath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/GLES20Renderer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/GLES20SurfaceView.java" afterPath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/GLES20SurfaceView.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/GameStuff.java" afterPath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/GameStuff.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/Sprite.java" afterPath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/Sprite.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/Square.java" afterPath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/Square.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/TextureFactory.java" afterPath="$PROJECT_DIR$/WalkAndTalk/app/src/main/java/tsp/team/walkandtalk/TextureFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WalkAndTalk/.idea/gradle.xml" afterPath="$PROJECT_DIR$/WalkAndTalk/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="wriggling-avocado.iws" />
     <ignored path=".idea/workspace.xml" />

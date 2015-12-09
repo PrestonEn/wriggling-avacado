@@ -1,5 +1,7 @@
 package tsp.team.walkandtalk;
 
+import android.app.Activity;
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -16,7 +18,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class GLES20Renderer implements GLSurfaceView.Renderer{
 
-
+    Context mActivityContext;
     private static final String TAG = "MyGLRenderer";
     private GameStuff gamestuff;
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
@@ -33,6 +35,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        gamestuff = new GameStuff(mActivityContext);
         gamestuff.makeTestDummies();
     }
 

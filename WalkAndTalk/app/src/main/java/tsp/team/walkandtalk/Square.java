@@ -123,7 +123,8 @@ public class Square extends Sprite{
 
         // Get handle to texture coordinates location
         int mTexCoordLoc = GLES20.glGetAttribLocation(mProgram, "a_texCoord");
-        Log.e("The tex coord loc:", mTexCoordLoc+"");
+        //Log.e("The tex coord loc:", mTexCoordLoc+"");
+
         // Enable generic vertex attribute array
         GLES20.glEnableVertexAttribArray(mTexCoordLoc);
 
@@ -150,10 +151,10 @@ public class Square extends Sprite{
         //GLES20.glUniform1i(mTexCoordHandle, 0);
         // Set the sampler texture unit to the binding, where we have saved the texture.
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        Log.e("Lo, again the binding", "" + tInfo.getBinding());
+        //Log.e("Lo, again the binding", "" + tInfo.getBinding());
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, tInfo.getBinding());
         GLES20.glUniform1i(mTexCoordHandle, 0);
-        Log.e("Lo, again the texCor", "" + mTexCoordLoc);
+        //Log.e("Lo, again the texCor", "" + mTexCoordLoc);
         // Draw the square
         GLES20.glDrawElements(
                 GLES20.GL_TRIANGLES, drawOrder.length,

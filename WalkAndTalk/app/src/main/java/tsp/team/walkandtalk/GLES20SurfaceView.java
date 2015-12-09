@@ -24,11 +24,9 @@ public class GLES20SurfaceView extends GLSurfaceView{
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 
-        //Build the GameStuff object.
-        gamestuff = new GameStuff(context);
-
         // Set the Renderer for drawing on the GLSurfaceView
         mRenderer = new GLES20Renderer(gamestuff);
+        mRenderer.mActivityContext = context;
         setRenderer(mRenderer);
 
         // Render the view only when there is a change in the drawing data

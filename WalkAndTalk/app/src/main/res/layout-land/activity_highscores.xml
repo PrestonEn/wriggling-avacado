@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:text="@string/scores"
+        android:text="@string/highscores"
         android:id="@+id/txtTitle"
         android:layout_weight="5"
         android:textSize="@dimen/title_size"

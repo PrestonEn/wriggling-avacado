@@ -1,16 +1,23 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /** This class corresponds with the high scores activity. It displays
  * the high scores of the user in descending order using a listview,
@@ -18,14 +25,17 @@ import android.widget.TextView;
  */
 public class HighScoresActivity extends Activity {
 
-    ImageView imgEarlLeftArm;  // For animation of Earl's left arm
-    ImageView imgEarlRightArm;  // For animation of Earl's right arm
+    ImageView imgEarlLeftArm;    // For animation of Earl's left arm
+    ImageView imgEarlRightArm;   // For animation of Earl's right arm
+    ListView hs_listView;        // List of high scores
+    ArrayList<HighScore> scores; // ArrayList of high scores returned by database
 
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
      * parent's method and then sets what layout to use.  It also overrides
      * the default font with a special chalkboard font, and populates the
-     * listview with the high score data from the database.
+     * listview with the high score data from the database using the custom
+     * list adapter.
      *
      * @param savedInstanceState
      */
@@ -53,6 +63,18 @@ public class HighScoresActivity extends Activity {
 
         imgEarlLeftArm = (ImageView)findViewById(R.id.imgLeftArm);  // For animation purposes
         imgEarlRightArm = (ImageView)findViewById(R.id.imgRightArm);
+
+        ScoresDBManager scoresDB; // To get all high scores
+        scoresDB = new ScoresDBManager(this);
+        HighScoresAdapter hs_adapter;
+
+        hs_listView = (ListView) findViewById(R.id.listView);
+
+        scores = scoresDB.retrieveHighScoreRows(); // Get all high scores in scores table
+        scoresDB.close();  // Close database manager
+
+        hs_adapter = new HighScoresAdapter(this, scores); // Set list adapter
+        hs_listView.setAdapter(hs_adapter);
 
     } // onCreate
 
@@ -92,6 +114,17 @@ public class HighScoresActivity extends Activity {
 
     } // onResume
 
+    /** onRestart
+     * This method overrides Activity's OnRestart method. It calls the
+     * onCreate method to refresh the list every time we return to this
+     * activity.
+     */
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        onCreate(null);
+    } // onRestart
+
     /** onPause
      * Stop the animation upon leaving the activity.
      */
@@ -116,5 +149,54 @@ public class HighScoresActivity extends Activity {
         startActivity(intent);
 
     } // fromHighScoresToMain
+
+    /** HighScoresAdapter
+     * This class is a custom adapter that handles the formatting and
+     * populating of the listview.
+     */
+    private class HighScoresAdapter extends ArrayAdapter<HighScore> {
+
+        /** HighScoresAdapter
+         * This is the constructor, which simply passes in the parameters to the
+         * constructor of ArrayAdapter.
+         *
+         * @param context    Context for the listview
+         * @param locations   Array to populate the list with
+         */
+        public HighScoresAdapter(Context context, ArrayList<HighScore> locations) {
+            super(context, 0, locations);
+        } // constructor
+
+        /** getView
+         * This function returns the view to be used for a specific list item.  For high scores,
+         * there is only one type of view.
+         *
+         * @param position      Position of item in list
+         * @param convertView   Previous view of this position in the list
+         * @param parent        For layoutInflater
+         * @return              The view for that list item
+         */
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Get the data item for this position
+            HighScore hs = getItem(position);
+
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_high_score, parent, false);
+
+            // Get display fields
+            TextView txtScore = (TextView) convertView.findViewById(R.id.txtScore);
+            TextView txtDate = (TextView) convertView.findViewById(R.id.txtDate);
+            TextView txtCharScene = (TextView) convertView.findViewById(R.id.txtCharScene);
+
+            // Set display fields
+            txtScore.setText(getString(R.string.score) + " " + Long.toString(hs.score) + " m");
+            txtDate.setText("On " + hs.getDate() + " " + hs.getTime());
+            txtCharScene.setText("With " + hs.character + " in the " + hs.scene + ".");
+
+            // Return the completed view to render on screen
+            return convertView;
+        } // getView
+
+    } // HighScoresAdapter
 
 } // HighScoresActivity

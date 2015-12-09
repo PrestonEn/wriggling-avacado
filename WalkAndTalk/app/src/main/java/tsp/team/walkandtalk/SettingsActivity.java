@@ -18,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /** This class corresponds with the settings activity. It displays
  * different settings options for the user (including sound), and
@@ -139,7 +140,7 @@ public class SettingsActivity extends Activity {
      *
      * @param v View containing information about the nature of the event
      */
-    public void resetHighScores(View v) {
+    public void resetHighScores(final View v) {
 
         final ScoresDBManager scoresDB = new ScoresDBManager(this); // For deleting
         AlertDialog.Builder builder = new AlertDialog.Builder(this);  // For warning
@@ -154,8 +155,13 @@ public class SettingsActivity extends Activity {
                      * @param which  Holds int representing which selection was made
                      */
                     public void onClick(DialogInterface dialog, int which) {
-                        scoresDB.deleteAllHighScoreRows(); // Delete all high scores
+                        Boolean success = scoresDB.deleteAllHighScoreRows(); // Delete all high scores
                         scoresDB.close(); // Close database manager
+                        if (success) {
+                            Toast.makeText(v.getContext(), "High Scores Reset", Toast.LENGTH_LONG).show();
+                        } else{
+                            Toast.makeText(v.getContext(), "No High Scores To Reset", Toast.LENGTH_LONG).show();
+                        }
                     } // onClick
                 })
                 .setNegativeButton("Cancel", null) // Do nothing

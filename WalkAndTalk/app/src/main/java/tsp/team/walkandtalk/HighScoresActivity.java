@@ -68,14 +68,6 @@ public class HighScoresActivity extends Activity {
         scoresDB = new ScoresDBManager(this);
         HighScoresAdapter hs_adapter;
 
-        // todo *********** FOR TESTING ONLY - REMOVE LATER **********************
-        scoresDB.addHighScoreRow("1", 555, new Date().getTime(), "Earl", "Library");
-        scoresDB.addHighScoreRow("2", 666, new Date().getTime() - 20000, "Tyler", "Hallway");
-        scoresDB.addHighScoreRow("3", 333, new Date().getTime() - 200000, "Preston", "Library");
-        scoresDB.addHighScoreRow("4", 888, new Date().getTime() - 7000000, "Stacey", "Classroom");
-        scoresDB.addHighScoreRow("5", 111, new Date().getTime(), "Earl", "Hallway");
-        //*******************************************************************
-
         hs_listView = (ListView) findViewById(R.id.listView);
 
         scores = scoresDB.retrieveHighScoreRows(); // Get all high scores in scores table

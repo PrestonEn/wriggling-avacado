@@ -1,7 +1,9 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -53,10 +55,12 @@ public class SettingsActivity extends Activity {
 
         if (font != null) { // Set all text fields to use the chalkboard font
             TextView title = (TextView) findViewById(R.id.txtTitle);
+            Button resetScores = (Button) findViewById(R.id.btnResetScores);
             Button back = (Button) findViewById(R.id.btnBack);
 
             title.setTypeface(font);
             sound.setTypeface(font);
+            resetScores.setTypeface(font);
             back.setTypeface(font);
         }
 
@@ -127,6 +131,37 @@ public class SettingsActivity extends Activity {
         imgEarlArm.clearAnimation();
 
     } // onPause
+
+    /** resetHighScores
+     * When the user presses the "Reset High Scores" button, this method will run
+     * and they will be asked to verify their decision.  If they say yes, the
+     * scores table is cleared.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void resetHighScores(View v) {
+
+        final ScoresDBManager scoresDB = new ScoresDBManager(this); // For deleting
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);  // For warning
+        builder.setTitle("Delete All High Scores")
+                .setMessage("Are you sure you want to reset all high scores?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    /** onClick
+                     * This method runs when the user clicks yes to deleting all high scores.
+                     *
+                     * @param dialog Dialog verifying deletion
+                     * @param which  Holds int representing which selection was made
+                     */
+                    public void onClick(DialogInterface dialog, int which) {
+                        scoresDB.deleteAllHighScoreRows(); // Delete all high scores
+                        scoresDB.close(); // Close database manager
+                    } // onClick
+                })
+                .setNegativeButton("Cancel", null) // Do nothing
+                .show();
+
+    } // resetHighScores
 
     /** fromSettingsToMain
      * When the user presses the "Back To Main Menu" button, this method will run

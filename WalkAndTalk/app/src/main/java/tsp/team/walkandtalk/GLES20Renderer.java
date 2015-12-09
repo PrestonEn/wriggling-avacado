@@ -22,6 +22,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
     private final float[] mRotationMatrix = new float[16];
+    private final float[] mTranslationMatrix = new float[16];
 
     //Default constructor meant to pass the gamestuff object from the surface view to here.
     public GLES20Renderer(GameStuff gs){
@@ -33,10 +34,10 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
         //Eventually there needs to be some sort of scene drawing going on in here.
         float squareCoords[] = {
-                1.75f,  0.3f, 0.0f,   // top left
-                1.75f, -0.9f, 0.0f,   // bottom left
-                1.0f, -0.9f, 0.0f,   // bottom right
-                1.0f,  0.3f, 0.0f }; // top right
+                0.375f,  0.6f, 0.0f,   // top left
+                0.375f, -0.6f, 0.0f,   // bottom left
+                -0.375f, -0.6f, 0.0f,   // bottom right
+                -0.375f,  0.6f, 0.0f }; // top right
 
         float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
 
@@ -60,11 +61,15 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
                 s.draw(mMVPMatrix);
             }
             else{
-                Log.e("rot stuff: ", s.getAngle()+"");
-                float[] scratch = new float[16];
+                float[] aScratch = new float[16];
+                float[] bScratch = new float[16];
+
                 Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f);
-                Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mRotationMatrix, 0);
-                s.draw(scratch);
+                Matrix.setIdentityM(mTranslationMatrix,0);
+                Matrix.translateM(mTranslationMatrix,0,0.5f,0.3f,0);
+                Matrix.multiplyMM(aScratch,0,mTranslationMatrix,0,mRotationMatrix,0);
+                Matrix.multiplyMM(bScratch, 0, mMVPMatrix, 0, aScratch, 0);
+                s.draw(bScratch);
             }
 
             s.updateShape(); //Make sure that the positon and other things are updated.

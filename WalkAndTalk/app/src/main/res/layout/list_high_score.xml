@@ -1,33 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#000000">
-    <TextView
-        android:id="@+id/txtScore"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Score"
-        android:textStyle="bold"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/white"
-        android:typeface="serif" />
+    android:background="@color/transparent"
+    android:paddingLeft="@dimen/padding"
+    android:paddingTop="@dimen/padding"
+    android:paddingRight="@dimen/padding">
 
-    <TextView
-        android:id="@+id/txtDate"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="Date"
-        android:textColor="@color/white"
-        android:typeface="serif" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/txtCharScene"
+        <TextView
+            android:id="@+id/txtScore"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="Score"
+            android:textStyle="bold"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white"
+            android:typeface="serif"
+            android:layout_weight="1"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="2"
+            android:paddingBottom="@dimen/padding">
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:text="Date"
+                android:textColor="@color/white"
+                android:typeface="serif"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/txtCharScene"
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:text="CharScene"
+                android:textColor="@color/white"
+                android:typeface="serif"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="CharScene"
-        android:textColor="@color/white"
-        android:typeface="serif" />
+        android:layout_height="@dimen/padding"
+        android:id="@+id/imageView"
+        android:background="@color/white" />
 
 </LinearLayout>

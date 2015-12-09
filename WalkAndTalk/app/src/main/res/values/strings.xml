@@ -11,8 +11,6 @@
     <string name="sound">Sound</string>
     <string name="saved_sound_preference">tsp.team.walkandtalk.sound.preference</string>
 
-    <string name="score">Score:</string>
-
     <string name="back">Back To Main Menu</string>
 
 </resources>

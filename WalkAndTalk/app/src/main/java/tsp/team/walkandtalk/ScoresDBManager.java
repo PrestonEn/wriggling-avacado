@@ -82,7 +82,7 @@ public class ScoresDBManager {
         ArrayList<HighScore> scoresRows = new ArrayList<>(); // To hold all scores for return
 
         // Get all scores rows, sorted by score value
-        Cursor scoreCursor = db.query(SQLHelper.DB_TABLE_SCORES, SCORES_COLUMNS, null, null, null, null, SQLHelper.KEY_SCORE, null);
+        Cursor scoreCursor = db.query(SQLHelper.DB_TABLE_SCORES, SCORES_COLUMNS, null, null, null, null, SQLHelper.KEY_SCORE + " DESC", null);
         scoreCursor.moveToFirst();
 
         while ( ! scoreCursor.isAfterLast() ) { // There are more scores

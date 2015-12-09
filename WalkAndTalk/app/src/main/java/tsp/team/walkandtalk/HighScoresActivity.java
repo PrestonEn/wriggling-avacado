@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /** This class corresponds with the high scores activity. It displays
  * the high scores of the user in descending order using a listview,
@@ -29,6 +30,7 @@ public class HighScoresActivity extends Activity {
     ImageView imgEarlRightArm;   // For animation of Earl's right arm
     ListView hs_listView;        // List of high scores
     ArrayList<HighScore> scores; // ArrayList of high scores returned by database
+    Typeface font;  // Chalkboard font
 
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
@@ -41,8 +43,6 @@ public class HighScoresActivity extends Activity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Typeface font;  // Chalkboard font
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_highscores);
 
@@ -67,6 +67,14 @@ public class HighScoresActivity extends Activity {
         ScoresDBManager scoresDB; // To get all high scores
         scoresDB = new ScoresDBManager(this);
         HighScoresAdapter hs_adapter;
+
+        // todo *********** FOR TESTING ONLY - REMOVE LATER **********************
+        scoresDB.addHighScoreRow("1", 555, new Date().getTime(), "Earl", "Library");
+        scoresDB.addHighScoreRow("2", 666, new Date().getTime() - 20000, "Tyler", "Hallway");
+        scoresDB.addHighScoreRow("3", 333, new Date().getTime() - 200000, "Preston", "Library");
+        scoresDB.addHighScoreRow("4", 888, new Date().getTime() - 7000000, "Stacey", "Classroom");
+        scoresDB.addHighScoreRow("5", 111, new Date().getTime(), "Earl", "Hallway");
+        //*******************************************************************
 
         hs_listView = (ListView) findViewById(R.id.listView);
 
@@ -181,7 +189,9 @@ public class HighScoresActivity extends Activity {
             // Get the data item for this position
             HighScore hs = getItem(position);
 
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_high_score, parent, false);
+            if(convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_high_score, parent, false);
+            }
 
             // Get display fields
             TextView txtScore = (TextView) convertView.findViewById(R.id.txtScore);
@@ -189,9 +199,10 @@ public class HighScoresActivity extends Activity {
             TextView txtCharScene = (TextView) convertView.findViewById(R.id.txtCharScene);
 
             // Set display fields
-            txtScore.setText(getString(R.string.score) + " " + Long.toString(hs.score) + " m");
-            txtDate.setText("On " + hs.getDate() + " " + hs.getTime());
-            txtCharScene.setText("With " + hs.character + " in the " + hs.scene + ".");
+            txtScore.setText(Long.toString(hs.score) + " m");
+            if (font != null) txtScore.setTypeface(font);
+            txtDate.setText("On " + hs.getDate() + " at " + hs.getTime());
+            txtCharScene.setText("With " + hs.character + " in the " + hs.scene);
 
             // Return the completed view to render on screen
             return convertView;

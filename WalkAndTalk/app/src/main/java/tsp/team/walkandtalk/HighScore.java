@@ -69,7 +69,7 @@ public class HighScore {
     public String getTime(){
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(this.datetime);
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+        SimpleDateFormat sdf = new SimpleDateFormat("h:mm a");
         return sdf.format(c.getTime());
     } // getTime
 

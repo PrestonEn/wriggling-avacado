@@ -130,7 +130,8 @@
                 android:padding="@dimen/padding"
                 android:background="@color/transparent"
                 android:textColor="@color/white"
-                android:shadowColor="@color/transparent" />
+                android:shadowColor="@color/transparent"
+                android:onClick="goToHighScores" />
 
             <Space
                 android:layout_width="fill_parent"

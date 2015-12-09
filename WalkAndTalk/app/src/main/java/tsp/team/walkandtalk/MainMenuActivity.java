@@ -112,4 +112,18 @@ public class MainMenuActivity extends Activity {
         startActivity(intent);
 
     } // startApp
+
+
+    /** goToHighScores
+     * When the user presses the "High Scores" button, this method will run
+     * and they will be taken to the high scores activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void goToHighScores(View v) {
+
+        Intent intent = new Intent(MainMenuActivity.this, HighScoresActivity.class);
+        startActivity(intent);
+
+    } // goToHighScores
 }

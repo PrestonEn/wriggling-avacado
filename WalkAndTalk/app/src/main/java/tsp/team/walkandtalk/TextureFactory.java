@@ -18,22 +18,17 @@ import tsp.team.walkandtalk.R;
  */
 public class TextureFactory {
 
-    int bindings[] = new int[1]; //Proportionate to number of textures
-
-    int earlBind = 0;
     TextureInfo earlFrame1;
-
-    int testBind = 1;
     TextureInfo testTexture;
 
     //private Sprite theSprite;
 
     public TextureFactory(Context c){
-        earlFrame1 = makeTexture(c, R.raw.earl, earlBind);
-        testTexture = makeTexture(c, R.raw.test, testBind);
+        earlFrame1 = makeTexture(c, R.raw.test);
+        testTexture = makeTexture(c, R.raw.test);
     }
 
-    private TextureInfo makeTexture(Context mContext, int resourceID, int bind){
+    private TextureInfo makeTexture(Context mContext, int resourceID){
         // Log.e("LOADINGATEXTUREBOUNDTO", ""+bind);
         FloatBuffer textureBuffer;
         // Create our UV coordinates. (Texture coords)
@@ -52,14 +47,16 @@ public class TextureFactory {
         textureBuffer.position(0);
 
         // Generate Textures, if more needed, alter these numbers.
-        GLES20.glGenTextures(bind, bindings, 0);
+        int bindings[] = new int[1];
+        GLES20.glGenTextures(1, bindings, 0);
 
         // Temporary create a bitmap
         Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), resourceID);
 
         // Bind texture to texturename
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        //GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, bindings[0]);
+        Log.e("Lo, tis binding 0:" , ""+bindings[0]);
 
         // Set filtering
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
@@ -75,7 +72,7 @@ public class TextureFactory {
         // We are done using the bitmap so we should recycle it.
         bmp.recycle();
 
-        return new TextureInfo(textureBuffer, bind);
+        return new TextureInfo(textureBuffer, bindings[0]);
     }
 
     public TextureInfo getTestTexture() {
@@ -85,4 +82,5 @@ public class TextureFactory {
     public TextureInfo getEarlTexture(){
         return earlFrame1;
     }
+
 }

@@ -140,8 +140,11 @@ public class Square extends Sprite{
         mTexCoordHandle = GLES20.glGetUniformLocation(mProgram, "s_texture");
 
         // Set the sampler texture unit to the binding, where we have saved the texture.
-        GLES20.glUniform1i(mTexCoordHandle, tInfo.getBinding());
-
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        Log.e("Lo, again the binding", "" + tInfo.getBinding());
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, tInfo.getBinding());
+        GLES20.glUniform1i(mTexCoordHandle, 0);
+        Log.e("Lo, again the texCor", "" + mTexCoordLoc);
         // Draw the square
         GLES20.glDrawElements(
                 GLES20.GL_TRIANGLES, drawOrder.length,

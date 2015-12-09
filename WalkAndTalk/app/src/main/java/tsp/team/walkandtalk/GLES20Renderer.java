@@ -51,7 +51,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
                 R.raw.test,true,0.0f,0.5f,ratio);
 
         Square bSquare = new Square(squareCoords,bColor,-0.3f,0.4f,-0.01f,-0.01f,gamestuff.getContextHolder(),
-                R.raw.test,true,0.0f,0.5f,ratio);
+                R.raw.earl,true,0.0f,0.5f,ratio);
 
         gamestuff.getEnemies().add(aSquare);
         gamestuff.getEnemies().add(bSquare);
@@ -90,9 +90,9 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             if(!s.live)iterator.remove();
         }
 
-        Log.e("size: ",gamestuff.getEnemies().size()+"");
+        // Log.e("size: ",gamestuff.getEnemies().size()+"");
 
-        //gamestuff.removeDeadEnemies(); //Prune the enemies list.
+        // gamestuff.removeDeadEnemies(); //Prune the enemies list.
     }
 
     @Override

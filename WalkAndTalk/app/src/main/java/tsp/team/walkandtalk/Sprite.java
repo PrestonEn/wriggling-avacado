@@ -39,6 +39,9 @@ public abstract class Sprite {
                     "  gl_FragColor = vColor;" +
                     "}";
 
+    // END TEXTURE SHADERS
+
+
     //Needed value of the width of the screen for live checking.
     protected float ScreenWidth;
 
@@ -55,7 +58,8 @@ public abstract class Sprite {
     protected boolean rotate;
 
     // frames in the sprites cycle
-    private int aniFrames;
+    // default 1 for no animation
+    private int aniFrames = 1;
 
     // current frame in the cycle
     private int currentFrame;
@@ -70,6 +74,7 @@ public abstract class Sprite {
 
     //vertexes need to be held in a buffer
     private  FloatBuffer vertexBuffer;
+
     protected float vertices[] = {
             0.0f, 0.0f,  0.0f,        // V1 - bottom left
             0.0f,  1024.0f,  0.0f,        // V2 - top left
@@ -77,10 +82,11 @@ public abstract class Sprite {
             1024.0f,  1024.0f,  0.0f         // V4 - top right
     };
 
-    private FloatBuffer textureBuffer;  // buffer for holding texture coords
-    private FloatBuffer[] textureBuffers;
+    protected float animUVs[];
+    protected FloatBuffer textureBuffer;  // buffer for holding texture coords
+    protected FloatBuffer[] textureBuffers;
 
-    protected float animTexture[][];
+
 
 
     // Texture Pointer
@@ -88,43 +94,51 @@ public abstract class Sprite {
 
     /**
      * Loads the current texture for the sprite to draw eventually.
-     * @param context Standard android woogity boogity.
+     * @param mContext Standard android woogity boogity.
      * @param resourceID Reference to the texture that we will be drawing.
      */
-    public void loadTexture(Context context,int resourceID)
+    public void loadTexture(Context mContext,int resourceID)
     {
-        int[] textureHandle = new int[1];
+        // Create our UV coordinates. (Texture coords)
+        animUVs = new float[]{
+                0.0f, 0.0f,
+                0.0f, 0.25f,
+                0.25f, 0.25f,
+                0.25f, 0.0f
 
-        GLES20.glGenTextures(1, textureHandle, 0);
+        };
 
-        if (textureHandle[0] != 0)
-        {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inScaled = false;   // No pre-scaling
+        // The texture buffer
+        ByteBuffer bb = ByteBuffer.allocateDirect(animUVs.length  * 4);
+        bb.order(ByteOrder.nativeOrder());
+        textureBuffer = bb.asFloatBuffer();
+        textureBuffer.put(animUVs);
+        textureBuffer.position(0);
 
-            // Read in the resource
-            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceID, options);
+        // Generate Textures, if more needed, alter these numbers.
+        int[] texturenames = new int[1];
+        GLES20.glGenTextures(1, texturenames, 0);
 
-            // Bind to the texture in OpenGL
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textureHandle[0]);
+        // Temporary create a bitmap
+        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), resourceID);
 
-            // Set filtering
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_NEAREST);
-            GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_NEAREST);
+        // Bind texture to texturename
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texturenames[0]);
 
-            // Load the bitmap into the bound texture.
-            GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        // Set filtering
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
 
-            // Recycle the bitmap, since its data has been loaded into OpenGL.
-            bitmap.recycle();
-        }
+        // Set wrapping mode
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
 
-        if (textureHandle[0] == 0)
-        {
-            throw new RuntimeException("Error loading texture.");
-        }
+        // Load the bitmap into the bound texture.
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0);
 
-        texPointer = textureHandle;
+        // We are done using the bitmap so we should recycle it.
+        bmp.recycle();
     }
 
     //Abstract method to be overridden by anything that extends the sprite class.
@@ -136,4 +150,19 @@ public abstract class Sprite {
     //Require the making of a update method that will move the shape in space.
     abstract public void updateShape();
 
+    public int getCurrentFrame() {
+        return currentFrame;
+    }
+
+    public void setCurrentFrame(int currentFrame) {
+        this.currentFrame = currentFrame;
+    }
+
+    public int getAniFrames() {
+        return aniFrames;
+    }
+
+    public void setAniFrames(int aniFrames) {
+        this.aniFrames = aniFrames;
+    }
 }

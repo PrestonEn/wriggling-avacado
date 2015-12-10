@@ -120,11 +120,25 @@ public class MainMenuActivity extends Activity {
      */
     public void startGame(View v) {
 
+        // todo - send game activity random background and character
+
         Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);
         startActivity(intent);
 
     } // startGame
 
+    /** goToCharacter
+     * When the user presses the "Play" button, this method will run
+     * and they will be taken to the character select activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void goToCharacter(View v) {
+
+        Intent intent = new Intent(MainMenuActivity.this, CharacterActivity.class);
+        startActivity(intent);
+
+    } // goToCharacter
 
     /** goToHighScores
      * When the user presses the "High Scores" button, this method will run

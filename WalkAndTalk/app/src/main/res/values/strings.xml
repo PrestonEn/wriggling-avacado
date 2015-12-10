@@ -12,6 +12,8 @@
     <string name="reset_scores">Reset High Scores</string>
     <string name="saved_sound_preference">tsp.team.walkandtalk.sound.preference</string>
 
+    <string name="select_character">Choose Your Character</string>
+
     <string name="back">Back To Main Menu</string>
 
 </resources>

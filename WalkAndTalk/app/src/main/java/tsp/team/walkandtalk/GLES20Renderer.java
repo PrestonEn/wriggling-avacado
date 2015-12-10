@@ -1,5 +1,7 @@
 package tsp.team.walkandtalk;
 
+import android.app.Activity;
+import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
@@ -16,7 +18,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class GLES20Renderer implements GLSurfaceView.Renderer{
 
-
+    Context mActivityContext;
     private static final String TAG = "MyGLRenderer";
     private GameStuff gamestuff;
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
@@ -27,39 +29,20 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mTranslationMatrix = new float[16];
 
     //Default constructor meant to pass the gamestuff object from the surface view to here.
-    public GLES20Renderer(GameStuff gs){
-        this.gamestuff = gs;
+    public GLES20Renderer(){
+        // Nothing hapens outside of gamestuff
     }
 
     @Override
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
-        //Eventually there needs to be some sort of scene drawing going on in here.
-        float squareCoords[] = {
-                0.375f,  0.6f, 0.0f,   // top left
-                0.375f, -0.6f, 0.0f,   // bottom left
-                -0.375f, -0.6f, 0.0f,   // bottom right
-                -0.375f,  0.6f, 0.0f }; // top right
-
-        float aColor[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
-        float bColor[] = { 0.8f, 0.709803922f, 0.898039216f, 1.0f };
-
-        float ratio = (float)gamestuff.getScreenWidth()/(float)gamestuff.getScreenHeight();
-        //Log.e("MY SQUARE ONE: ",ratio+"");
-
-        Square aSquare = new Square(squareCoords,aColor,0.5f,0.4f,0.01f,0.01f,gamestuff.getContextHolder(),
-                R.raw.test,true,0.0f,0.5f,ratio);
-
-        Square bSquare = new Square(squareCoords,bColor,-0.3f,0.4f,-0.01f,-0.01f,gamestuff.getContextHolder(),
-                R.raw.test,true,0.0f,0.5f,ratio);
-
-        gamestuff.getEnemies().add(aSquare);
-        gamestuff.getEnemies().add(bSquare);
+    public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+        // THIS MUST BE DONE TO KEEP WITHIN THE OPENGL THREAD
+        gamestuff = new GameStuff(mActivityContext);
+        gamestuff.makeTestDummies();
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
-
+        //Log.e("drawing", "stuff");
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
@@ -89,10 +72,6 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             s.updateShape(); //Make sure that the position and other things are updated.
             if(!s.live)iterator.remove();
         }
-
-        Log.e("size: ",gamestuff.getEnemies().size()+"");
-
-        //gamestuff.removeDeadEnemies(); //Prune the enemies list.
     }
 
     @Override
@@ -100,9 +79,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         // Adjust the viewport based on geometry changes,
         // such as screen rotation
         GLES20.glViewport(0, 0, width, height);
-
         float ratio = (float) width / height;
-        //Log.e("SURFACE CHANGED ONE: ",ratio+"");
 
         // this projection matrix is applied to object coordinates
         // in the onDrawFrame() method
@@ -129,6 +106,15 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         // add the source code to the shader and compile it
         GLES20.glShaderSource(shader, shaderCode);
         GLES20.glCompileShader(shader);
+
+        int[] compiled = new int[1];
+        GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
+        if (compiled[0] == 0) {
+            Log.e(TAG, "Could not compile shader " + type + ":");
+            Log.e(TAG, GLES20.glGetShaderInfoLog(shader));
+            GLES20.glDeleteShader(shader);
+            shader = 0;
+        }
 
         return shader;
     }

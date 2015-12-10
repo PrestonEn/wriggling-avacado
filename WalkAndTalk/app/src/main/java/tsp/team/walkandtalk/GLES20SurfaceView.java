@@ -15,7 +15,6 @@ import java.nio.ByteOrder;
  */
 public class GLES20SurfaceView extends GLSurfaceView{
 
-    private GameStuff gamestuff;
     private final GLES20Renderer mRenderer;
 
     public GLES20SurfaceView(Context context) {
@@ -24,11 +23,9 @@ public class GLES20SurfaceView extends GLSurfaceView{
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 
-        //Build the GameStuff object.
-        gamestuff = new GameStuff(context);
-
         // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new GLES20Renderer(gamestuff);
+        mRenderer = new GLES20Renderer();
+        mRenderer.mActivityContext = context;
         setRenderer(mRenderer);
 
         // Render the view only when there is a change in the drawing data

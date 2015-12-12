@@ -81,8 +81,10 @@ public class TextureFactory {
         return testTexture;
     }
 
-    public TextureInfo getEarlTexture(){
-        return earlFrame1;
+    public TextureInfo[] getEarlTexture(){
+        TextureInfo test[] = new TextureInfo[1];
+        test[0] = earlFrame1;
+        return test;
     }
 
 }

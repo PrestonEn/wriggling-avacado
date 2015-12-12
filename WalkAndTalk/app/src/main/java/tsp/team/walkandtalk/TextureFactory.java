@@ -18,13 +18,15 @@ import tsp.team.walkandtalk.R;
  */
 public class TextureFactory {
 
+    SceneWrapper sceneWrapper;
     TextureInfo earlFrame1;
     TextureInfo testTexture;
 
     //private Sprite theSprite;
 
-    public TextureFactory(Context c){
-        earlFrame1 = makeTexture(c, R.raw.earl);
+    public TextureFactory(Context c, SceneWrapper scene){
+        sceneWrapper = scene;
+        earlFrame1 = makeTexture(c, sceneWrapper.getCharacterRun());
         testTexture = makeTexture(c, R.raw.test);
     }
 

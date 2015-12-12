@@ -16,24 +16,24 @@
     </string-array>
 
     <string-array name="character_run">
-        <item>@drawable/run_earl</item>
-        <item>@drawable/run_tyler</item>
-        <item>@drawable/run_preston</item>
-        <item>@drawable/run_stacey</item>
+        <item>@raw/run_earl</item>
+        <item>@raw/run_tyler</item>
+        <item>@raw/run_preston</item>
+        <item>@raw/run_stacey</item>
     </string-array>
 
     <string-array name="character_jump">
-        <item>@drawable/jump_earl</item>
-        <item>@drawable/jump_tyler</item>
-        <item>@drawable/jump_preston</item>
-        <item>@drawable/jump_stacey</item>
+        <item>@raw/jump_earl</item>
+        <item>@raw/jump_tyler</item>
+        <item>@raw/jump_preston</item>
+        <item>@raw/jump_stacey</item>
     </string-array>
 
     <string-array name="character_fall">
-        <item>@drawable/fall_earl</item>
-        <item>@drawable/fall_tyler</item>
-        <item>@drawable/fall_preston</item>
-        <item>@drawable/fall_stacey</item>
+        <item>@raw/fall_earl</item>
+        <item>@raw/fall_tyler</item>
+        <item>@raw/fall_preston</item>
+        <item>@raw/fall_stacey</item>
     </string-array>
 
 </resources>

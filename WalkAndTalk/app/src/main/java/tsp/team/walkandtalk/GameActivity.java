@@ -1,6 +1,7 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -17,9 +18,11 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent i = getIntent();
+        SceneWrapper scene = (SceneWrapper)i.getSerializableExtra("scene");
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
-        mGLView = new GLES20SurfaceView(this);
+        mGLView = new GLES20SurfaceView(this, scene);
         setContentView(mGLView);
     }
 

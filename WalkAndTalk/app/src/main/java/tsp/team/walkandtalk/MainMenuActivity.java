@@ -3,6 +3,7 @@ package tsp.team.walkandtalk;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -120,9 +121,20 @@ public class MainMenuActivity extends Activity {
      */
     public void startGame(View v) {
 
-        // todo - send game activity random background and character
+        Resources r = getResources();
+
+        int position = (int)(Math.random()*r.obtainTypedArray(R.array.character_imgs).length());
+        SceneWrapper scene = new SceneWrapper(r.obtainTypedArray(R.array.character_names).getString(position),
+                r.obtainTypedArray(R.array.character_run).getResourceId(position, -1),
+                r.obtainTypedArray(R.array.character_jump).getResourceId(position, -1),
+                r.obtainTypedArray(R.array.character_fall).getResourceId(position, -1)
+        );
+
+        // int back = (int)(Math.random()*r.obtainTypedArray(R.array.background_imgs).length() + 1);
+        // todo get all background/scene images/enemies, add it to scene object
 
         Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);
+        intent.putExtra("scene", scene);
         startActivity(intent);
 
     } // startGame

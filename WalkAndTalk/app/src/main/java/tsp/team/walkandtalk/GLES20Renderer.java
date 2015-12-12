@@ -5,22 +5,19 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
-
 import java.util.Iterator;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- * Created by preston on 15-11-28.
+ *
  */
 public class GLES20Renderer implements GLSurfaceView.Renderer{
 
-    Context mActivityContext;
+    private Context mActivityContext;
     private static final String TAG = "MyGLRenderer";
     private GameStuff gamestuff;
     private SceneWrapper sceneWrapper;
-    // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
@@ -152,6 +149,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             throw new RuntimeException(glOperation + ": glError " + error);
         }
     }
+
 
     public GameStuff getGamestuff(){
         return this.gamestuff;

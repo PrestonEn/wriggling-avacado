@@ -1,12 +1,10 @@
 package tsp.team.walkandtalk;
 
-import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
-import android.view.MotionEvent;
 
 import java.util.Iterator;
 
@@ -38,6 +36,8 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // THIS MUST BE DONE TO KEEP WITHIN THE OPENGL THREAD
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_ONE,GLES20.GL_ONE_MINUS_SRC_ALPHA);
         gamestuff = new GameStuff(mActivityContext, sceneWrapper);
         gamestuff.makeTestDummies();
     }

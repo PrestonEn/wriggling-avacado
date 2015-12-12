@@ -46,7 +46,7 @@ public class GameStuff {
         this.ScreenWidth = dm.widthPixels;
         this.screenRatio = (float)this.getScreenWidth()/(float)this.getScreenHeight();
         enemies = new LinkedList<Sprite>();
-        character = new Character(contextHolder,textureFactory.getEarlTexture(),screenRatio);
+        character = new Character(contextHolder,textureFactory.getCharacter_run(),screenRatio);
     }
 
     public Character getCharacter() {
@@ -62,7 +62,7 @@ public class GameStuff {
                 -0.375f,  0.6f, 0.0f }; // top right
 
         Square aSquare = new Square(squareCoords, 0.5f, 0.4f, 0.01f, 0.01f, this.getContextHolder(),
-                true, 0.0f, 0.5f, screenRatio, textureFactory.getEarlTexture()[0]);
+                true, 0.0f, 0.5f, screenRatio, textureFactory.getTestTexture());
 
         Square bSquare = new Square(squareCoords, -0.3f, 0.4f, -0.01f, -0.01f, this.getContextHolder(),
                 true, 0.0f, 0.5f, screenRatio, textureFactory.getTestTexture());

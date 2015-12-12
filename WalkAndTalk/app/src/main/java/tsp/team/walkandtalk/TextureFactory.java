@@ -23,43 +23,25 @@ public class TextureFactory {
     TextureInfo[] scene_enemies_fly;
 
     public TextureFactory(Context c, SceneWrapper scene){
-        int i;
-
         sceneWrapper = scene;
 
         character_run = makeTexture(c, sceneWrapper.getCharacterRun());
         character_fall = makeTexture(c, sceneWrapper.getCharacterFall());
         character_jump = makeTexture(c, sceneWrapper.getCharacterJump());
         scene_back = makeTexture(c, sceneWrapper.getSceneBackground());
+
         scene_enemies_still = new TextureInfo[sceneWrapper.getEnemiesStillLength()];
-        for (i = 0; i < sceneWrapper.getEnemiesStillLength(); i++){
+        for (int i = 0; i < sceneWrapper.getEnemiesStillLength(); i++){
             scene_enemies_still[i] = makeTexture(c, sceneWrapper.getEnemiesStill(i));
         }
         scene_enemies_run = new TextureInfo[sceneWrapper.getEnemiesRunLength()];
-        for (i = 0; i < sceneWrapper.getEnemiesRunLength(); i++){
+        for (int i = 0; i < sceneWrapper.getEnemiesRunLength(); i++){
             scene_enemies_run[i] = makeTexture(c, sceneWrapper.getEnemiesRun(i));
         }
         scene_enemies_fly = new TextureInfo[sceneWrapper.getEnemiesFlyLength()];
-        for (i = 0; i < sceneWrapper.getEnemiesFlyLength(); i++){
+        for (int i = 0; i < sceneWrapper.getEnemiesFlyLength(); i++){
             scene_enemies_fly[i] = makeTexture(c, sceneWrapper.getEnemiesFly(i));
         }
-
-/*      private static int frame_count = 16;
-        private static int frame_division = (int)Math.sqrt(frame_count);
-
-        character_run = new TextureInfo[frame_count];
-        character_fall = new TextureInfo[frame_count];
-
-       for (i = 0; i < frame_division; i++) {
-            for (j = 0; j < frame_division; j++) {
-                animUVs = new float[]{
-                    (float)j/frame_division, (float)i/frame_division,
-                    (float)j/frame_division, (float)(i + 1)/frame_division,
-                    (float)(j + 1)/frame_division, (float)(i + 1)/frame_division,
-                    (float)(j + 1)/frame_division, (float)i/frame_division
-                };
-            }
-        } */
     }
 
     public TextureInfo getCharacter_run() {
@@ -124,11 +106,4 @@ public class TextureFactory {
     public TextureInfo getTestTexture() {
         return character_run;
     }
-
-    public TextureInfo[] getEarlTexture(){
-        TextureInfo test[] = new TextureInfo[1];
-        test[0] = character_jump;
-        return test;
-    }
-
 }

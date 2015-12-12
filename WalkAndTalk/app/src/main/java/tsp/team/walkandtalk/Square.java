@@ -18,6 +18,7 @@ import android.util.Log;
  */
 public class Square extends Sprite{
 
+    private float height,width;
     private final FloatBuffer vertexBuffer;
     private final ShortBuffer drawListBuffer;
     private final int mProgram;
@@ -28,7 +29,7 @@ public class Square extends Sprite{
 
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
-    static float squareCoords[];
+    private float squareCoords[];
     private final short drawOrder[] = { 0, 1, 2, 0, 2, 3 }; // order to draw vertices
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
@@ -48,6 +49,15 @@ public class Square extends Sprite{
         this.py = posY;
         this.vx = velX;
         this.vy = velY;
+
+        float squareCoords[] = {
+                0.375f,  0.6f, 0.0f,   // top left
+                0.375f, -0.6f, 0.0f,   // bottom left
+                -0.375f, -0.6f, 0.0f,   // bottom right
+                -0.375f,  0.6f, 0.0f }; // top right
+
+        this.width = squareCoords[0] - squareCoords[6];
+        this.height = squareCoords[1] - squareCoords[4];
 
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);
@@ -90,6 +100,14 @@ public class Square extends Sprite{
         }
     }
 
+    public float getWidth() {
+        return this.width;
+    }
+
+    public float getHeight() {
+        return this.height;
+    }
+
     /**
      * Encapsulates the OpenGL ES instructions for drawing this shape.
      *
@@ -119,10 +137,10 @@ public class Square extends Sprite{
         GLES20.glEnableVertexAttribArray(mTexCoordLoc);
 
         animUVs = new float[]{
-                0.0f, 0.0f,
-                0.0f, 1f,
+                1f, 0.0f,
                 1f, 1f,
-                1f, 0.0f
+                0.0f, 1f,
+                0.0f, 0.0f,
         };
 
         FloatBuffer textureBuffer;

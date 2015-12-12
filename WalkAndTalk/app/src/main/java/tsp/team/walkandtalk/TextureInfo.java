@@ -8,19 +8,13 @@ import java.nio.FloatBuffer;
  *  draw methods
  */
 public class TextureInfo {
-    FloatBuffer textureBuffLoc;
     int binding;
 
-    public TextureInfo(FloatBuffer buf, int binding){
-        this.textureBuffLoc = buf;
+    public TextureInfo(int binding){
         this.binding = binding;
     }
 
     public int getBinding() {
         return binding;
-    }
-
-    public FloatBuffer getTextureBuffLoc() {
-        return textureBuffLoc;
     }
 }

@@ -118,9 +118,23 @@ public class Square extends Sprite{
         // Enable generic vertex attribute array
         GLES20.glEnableVertexAttribArray(mTexCoordLoc);
 
+        animUVs = new float[]{
+                0.0f, 0.0f,
+                0.0f, 1f,
+                1f, 1f,
+                1f, 0.0f
+        };
+
+        FloatBuffer textureBuffer;
+        ByteBuffer bb = ByteBuffer.allocateDirect(animUVs.length  * 4);
+        bb.order(ByteOrder.nativeOrder());
+        textureBuffer = bb.asFloatBuffer();
+        textureBuffer.put(animUVs);
+        textureBuffer.position(0);
+
         // Prepare the texturecoordinates
         GLES20.glVertexAttribPointer(mTexCoordLoc, 2, GLES20.GL_FLOAT,
-            false, 0, tInfo.getTextureBuffLoc());
+            false, 0, textureBuffer);
 
         // get handle to shape's transformation matrix
         mMVPMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");

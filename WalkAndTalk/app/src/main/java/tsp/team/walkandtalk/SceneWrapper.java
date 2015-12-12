@@ -71,24 +71,36 @@ public class SceneWrapper implements Serializable {
         this.scene_back = scene_back;
     }
 
-    public int[] getEnemiesStill() {
-        return enemies_still;
+    public int getEnemiesStill(int i) {
+        return enemies_still[i];
+    }
+
+    public int getEnemiesStillLength() {
+        return enemies_still.length;
     }
 
     public void setEnemiesStill(int[] enemies_still) {
         this.enemies_still = enemies_still;
     }
 
-    public int[] getEnemiesRun() {
-        return enemies_run;
+    public int getEnemiesRun(int i) {
+        return enemies_run[i];
+    }
+
+    public int getEnemiesRunLength() {
+        return enemies_run.length;
     }
 
     public void setEnemiesRun(int[] enemies_run) {
         this.enemies_run = enemies_run;
     }
 
-    public int[] getEnemiesFly() {
-        return enemies_fly;
+    public int getEnemiesFly(int i) {
+        return enemies_fly[i];
+    }
+
+    public int getEnemiesFlyLength() {
+        return enemies_fly.length;
     }
 
     public void setEnemiesFly(int[] enemies_fly) {

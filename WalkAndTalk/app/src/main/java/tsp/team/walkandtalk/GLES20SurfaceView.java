@@ -35,10 +35,10 @@ public class GLES20SurfaceView extends GLSurfaceView{
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         //Log.e("ratio",ratio+"");//2560
-        float touchX = (e.getX()/((float)this.getWidth()*0.5f))-1;
+        float touchX = ((e.getX()/((float)this.getWidth()*0.5f))-1)*((float)this.getWidth()/this.getHeight());
         float touchY = (e.getY()/((float)this.getHeight()*0.5f))-1; //invert this
         touchY = -touchY;
-        touchX = -touchX;
+        //touchX = -touchX;
 
         if(detectTouch(touchX,touchY,mRenderer.getGamestuff().getCharacter())){
             Log.e("TOUCH WORKED","YAAAAAAAAAAY");
@@ -47,8 +47,8 @@ public class GLES20SurfaceView extends GLSurfaceView{
         return true;
     }
 
-    private boolean detectTouch(float touchX, float touchY,Character c){
-        float interval = 0.0f; //Open interval around the touch to examine.
+    private boolean detectTouch(float touchX, float touchY, Character c){
+        float interval = 0.0f; // Open interval around the touch to examine.
 
         Log.e("touches",touchX+","+touchY);
 

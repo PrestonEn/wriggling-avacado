@@ -56,8 +56,8 @@ public class Square extends Sprite{
                 -0.375f, -0.6f, 0.0f,   // bottom right
                 -0.375f,  0.6f, 0.0f }; // top right
 
-        this.height = squareCoords[0] - squareCoords[6];
-        this.width = squareCoords[1] - squareCoords[4];
+        this.width = squareCoords[0] - squareCoords[6];
+        this.height = squareCoords[1] - squareCoords[4];
 
         // initialize vertex byte buffer for shape coordinates
         ByteBuffer bb = ByteBuffer.allocateDirect(squareCoords.length * 4);

@@ -137,10 +137,10 @@ public class Square extends Sprite{
         GLES20.glEnableVertexAttribArray(mTexCoordLoc);
 
         animUVs = new float[]{
-                0.0f, 0.0f,
-                0.0f, 1f,
+                1f, 0.0f,
                 1f, 1f,
-                1f, 0.0f
+                0.0f, 1f,
+                0.0f, 0.0f,
         };
 
         FloatBuffer textureBuffer;

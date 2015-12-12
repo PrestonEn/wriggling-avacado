@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chalkboard_back">
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:text="@string/select_scene"
+        android:id="@+id/txtTitle"
+        android:layout_weight="5"
+        android:textSize="@dimen/select_size"
+        android:textColor="@color/white"
+        android:layout_gravity="center"
+        android:gravity="center_vertical|center_horizontal" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:scrollbars="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3">
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:text="@string/back"
+            android:id="@+id/btnBack"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textSize="@dimen/button_size"
+            android:padding="@dimen/padding"
+            android:background="@color/transparent"
+            android:textColor="@color/white"
+            android:shadowColor="@color/transparent"
+            android:nestedScrollingEnabled="false"
+            android:onClick="fromSceneToMain" />
+
+    </LinearLayout>
+
+    <Space
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

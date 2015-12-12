@@ -12,6 +12,17 @@
     <string name="reset_scores">Reset High Scores</string>
     <string name="saved_sound_preference">tsp.team.walkandtalk.sound.preference</string>
 
+    <string name="select_character">Choose Your Character</string>
+    <string name="earl">Earl</string>
+    <string name="tyler">Tyler</string>
+    <string name="preston">Preston</string>
+    <string name="stacey">Stacey</string>
+
+    <string name="select_scene">Choose Your Location</string>
+    <string name="classroom">Classroom</string>
+    <string name="library">Library</string>
+    <string name="hallway">Hallway</string>
+
     <string name="back">Back To Main Menu</string>
 
 </resources>

@@ -3,6 +3,8 @@ package tsp.team.walkandtalk;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -120,11 +122,51 @@ public class MainMenuActivity extends Activity {
      */
     public void startGame(View v) {
 
+        Resources r = getResources();
+
+        int position = (int)(Math.random()*r.obtainTypedArray(R.array.character_imgs).length());
+        SceneWrapper scene = new SceneWrapper(r.obtainTypedArray(R.array.character_names).getString(position),
+                r.obtainTypedArray(R.array.character_run).getResourceId(position, -1),
+                r.obtainTypedArray(R.array.character_jump).getResourceId(position, -1),
+                r.obtainTypedArray(R.array.character_fall).getResourceId(position, -1)
+        );
+
+        int back = (int)(Math.random()*r.obtainTypedArray(R.array.background_imgs).length());
+        scene.setSceneName(r.obtainTypedArray(R.array.scene_names).getString(back));
+        scene.setSceneBackground(r.obtainTypedArray(R.array.scene_imgs).getResourceId(back, -1));
+        scene.setEnemiesStill(getEnemyIds(r, R.array.enemies_still, back));
+        scene.setEnemiesRun(getEnemyIds(r, R.array.enemies_run, back));
+        scene.setEnemiesFly(getEnemyIds(r, R.array.enemies_fly, back));
+
         Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);
+        intent.putExtra("scene", scene);
         startActivity(intent);
 
     } // startGame
 
+    public int[] getEnemyIds(Resources r, int array, int position){
+        int id = r.obtainTypedArray(array).getResourceId(position, -1);
+        TypedArray enemies = r.obtainTypedArray(id);
+        int[] enemy_ids = new int[enemies.length()];
+        for (int i = 0; i < enemies.length(); i++) {
+            enemy_ids[i] = enemies.getResourceId(i, -1);
+        }
+        enemies.recycle();
+        return enemy_ids;
+    }
+
+    /** goToCharacter
+     * When the user presses the "Play" button, this method will run
+     * and they will be taken to the character select activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void goToCharacter(View v) {
+
+        Intent intent = new Intent(MainMenuActivity.this, CharacterActivity.class);
+        startActivity(intent);
+
+    } // goToCharacter
 
     /** goToHighScores
      * When the user presses the "High Scores" button, this method will run

@@ -17,14 +17,14 @@ public class GLES20SurfaceView extends GLSurfaceView{
 
     private final GLES20Renderer mRenderer;
 
-    public GLES20SurfaceView(Context context) {
+    public GLES20SurfaceView(Context context, SceneWrapper scene) {
         super(context);
 
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new GLES20Renderer();
+        mRenderer = new GLES20Renderer(scene);
         mRenderer.mActivityContext = context;
         setRenderer(mRenderer);
 

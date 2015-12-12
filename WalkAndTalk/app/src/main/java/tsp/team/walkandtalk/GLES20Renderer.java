@@ -21,6 +21,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     Context mActivityContext;
     private static final String TAG = "MyGLRenderer";
     private GameStuff gamestuff;
+    private SceneWrapper sceneWrapper;
     // mMVPMatrix is an abbreviation for "Model View Projection Matrix"
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
@@ -29,14 +30,15 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mTranslationMatrix = new float[16];
 
     //Default constructor meant to pass the gamestuff object from the surface view to here.
-    public GLES20Renderer(){
-        // Nothing hapens outside of gamestuff
+    public GLES20Renderer(SceneWrapper scene){
+        // Nothing happens outside of gamestuff
+        sceneWrapper = scene;
     }
 
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // THIS MUST BE DONE TO KEEP WITHIN THE OPENGL THREAD
-        gamestuff = new GameStuff(mActivityContext);
+        gamestuff = new GameStuff(mActivityContext, sceneWrapper);
         gamestuff.makeTestDummies();
     }
 

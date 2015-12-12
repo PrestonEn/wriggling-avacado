@@ -35,8 +35,8 @@ public class GameStuff {
         return contextHolder;
     }
 
-    public GameStuff(Context c){
-        this.textureFactory = new TextureFactory(c);
+    public GameStuff(Context c, SceneWrapper scene){
+        this.textureFactory = new TextureFactory(c, scene);
         this.contextHolder = c;
         WindowManager wm = (WindowManager)c.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();

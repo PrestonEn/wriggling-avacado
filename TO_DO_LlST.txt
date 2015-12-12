@@ -1,33 +1,23 @@
 TO-DO LIST FOR WALKANDTALK
 -------------------------------------------------------------------------------
 
-IMPORTANT STUFF:
+END OF SUNDAY NIGHT:
+- Earl jumping over a stationary enemy (including death, high score and end game)
+- Text display of timer (note possibility of delta time)
+- Tyler writes down the story of our journey (abandon all hope all ye who enter OpenGL ES 2.0)
+- All of the asset images complete
 
-1. Build animation engine stuff for Earl.
-	 - Make sure his legs rotate and his arms swing too.
+END OF MONDAY NIGHT:
+- Background scrolling
+- Sound
+- Running enemy (kill)
+- Everything will be alright if we just keep dancing like we're 22!
 
-2. Build background textures.
-	- Need to make sure that they can tile.
+END OF TUESDAY NIGHT:
+- Flying enemy (kill)
+- Tutorial
+- About setting go to webpage
 
-3. Get the background textures scrolling. 
-	- This will give the illusion of Earl walking.
-
--------------------------------------------------------------------------------
-
-OTHER TASKS:
-
-1. Get the menu textures built and set up.
-	- This means building the splash screens.
-	- Prolly Stacey's job.
-
-2. Get the gesture listener added the the game view.
-	- I can help with this.
-
-3. Start making placeholder enemies
-	- This includes:
-		1. Designing them and assigning them a gesture to kill them.
-		2. Get them moving.
-		3. Send them at Earl and make collision stuff possible.
-		4. That's enough for now.
-
--------------------------------------------------------------------------------
+END OF WEDNESDAY NIGHT:
+- Documenting and last minute testing
+- Hand it in!!!!!!!!!!!

@@ -44,7 +44,6 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
     @Override
     public void onDrawFrame(GL10 unused) {
-        //Log.e("drawing", "stuff");
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
@@ -54,11 +53,24 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         //Draw each sprite relative proper matrix
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
+        //Draw the character and go from there.
+        float[] scratch = new float[16];
+        Matrix.setIdentityM(mTranslationMatrix, 0);
+        Matrix.translateM(mTranslationMatrix, 0, gamestuff.getCharacter().getSquare().px,
+                gamestuff.getCharacter().getSquare().py, 0);
+        Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+        gamestuff.getCharacter().getSquare().draw(scratch);
+        gamestuff.getCharacter().update(); //Implement this later to get it actually animating.
+
         //Java threadsafe crystal-healing.
         for (Iterator<Sprite> iterator = gamestuff.getEnemies().iterator(); iterator.hasNext();) {
             Sprite s = iterator.next();
             if (!s.needRotate()) {
-                s.draw(mMVPMatrix);
+                float[] aScratch = new float[16];
+                Matrix.setIdentityM(mTranslationMatrix, 0);
+                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0);
+                Matrix.multiplyMM(aScratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+                s.draw(aScratch);
             }
             else {
                 float[] aScratch = new float[16];

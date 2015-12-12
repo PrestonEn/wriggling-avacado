@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="character_imgs">
+        <item>@drawable/character_earl</item>
+        <item>@drawable/character_tyler</item>
+        <item>@drawable/character_preston</item>
+        <item>@drawable/character_stacey</item>
+    </string-array>
+
+    <string-array name="character_names">
+        <item>@string/earl</item>
+        <item>@string/tyler</item>
+        <item>@string/preston</item>
+        <item>@string/stacey</item>
+    </string-array>
+
+    <string-array name="character_run">
+        <item>@drawable/run_earl</item>
+        <item>@drawable/run_tyler</item>
+        <item>@drawable/run_preston</item>
+        <item>@drawable/run_stacey</item>
+    </string-array>
+
+    <string-array name="character_jump">
+        <item>@drawable/jump_earl</item>
+        <item>@drawable/jump_tyler</item>
+        <item>@drawable/jump_preston</item>
+        <item>@drawable/jump_stacey</item>
+    </string-array>
+
+    <string-array name="character_fall">
+        <item>@drawable/fall_earl</item>
+        <item>@drawable/fall_tyler</item>
+        <item>@drawable/fall_preston</item>
+        <item>@drawable/fall_stacey</item>
+    </string-array>
+
+</resources>

@@ -33,10 +33,15 @@
         android:layout_height="0dp"
         android:layout_weight="3">
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1" />
+
         <Button
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:text="@string/highscores"
+            android:text="@string/back"
             android:id="@+id/btnBack"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -45,20 +50,9 @@
             android:background="@color/transparent"
             android:textColor="@color/white"
             android:shadowColor="@color/transparent"
-            android:nestedScrollingEnabled="false" />
+            android:nestedScrollingEnabled="false"
+            android:onClick="fromCharacterToMain" />
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:text="@string/tutorial"
-            android:id="@+id/btnNext"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:textSize="@dimen/button_size"
-            android:padding="@dimen/padding"
-            android:background="@color/transparent"
-            android:textColor="@color/white"
-            android:shadowColor="@color/transparent" />
     </LinearLayout>
 
     <Space

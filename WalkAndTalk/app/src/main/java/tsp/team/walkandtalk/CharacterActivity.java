@@ -1,28 +1,60 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-/**
- * Created by Stacey on 09/12/2015.
+/** This class corresponds with the character selection activity.
+ * It displays all characters available to the user, and when they
+ * select one they are taken to the scene selection activity.
+ * Alternatively, the user can return to the main menu.
  */
 public class CharacterActivity extends Activity {
-    private RecyclerView mRecyclerView;
+
+    private RecyclerView mRecyclerView;     // For horizontal listview
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    /** onCreate
+     * This method overrides Activity's OnCreate method.  It calls the
+     * parent's method and then sets what layout to use.  It also overrides
+     * the default font with a special chalkboard font, and populates the
+     * recyclerview with the character images using the custom
+     * list adapter.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        Typeface font;
+
+        try {
+            //font = Typeface.createFromAsset(getAssets(), "DK Cool Crayon.ttf");
+            font = Typeface.createFromAsset(getAssets(), "EraserRegular.ttf");
+        } catch (java.lang.RuntimeException e) {
+            font = null;
+        }
+
+        if (font != null) { // Set all text fields to use the chalkboard font
+            TextView title = (TextView) findViewById(R.id.txtTitle);
+            Button back = (Button) findViewById(R.id.btnBack);
+
+            title.setTypeface(font);
+            back.setTypeface(font);
+        }
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -33,56 +65,20 @@ public class CharacterActivity extends Activity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new RecyclerViewAdapter(new int[]{R.drawable.earl_intro, R.drawable.earl_scores, R.drawable.earl_scores, R.drawable.earl_scores});
+        mAdapter = new RecyclerViewAdapter(getResources().obtainTypedArray(R.array.character_imgs), CharacterActivity.this);
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    private class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-        private int[] mDataset;
+    /** fromCharacterToMain
+     * When the user presses the "Back To Main Menu" button, this method will run
+     * and they will be taken back to the main menu activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void fromCharacterToMain(View v) {
 
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            // each data item is just a string in this case
-            public ImageView mImageView;
-            public ViewHolder(ImageView v) {
-                super(v);
-                mImageView = v;
-            }
-        }
+        Intent intent = new Intent(CharacterActivity.this, MainMenuActivity.class);
+        startActivity(intent);
 
-        // Provide a suitable constructor (depends on the kind of dataset)
-        public RecyclerViewAdapter(int[] myDataset) {
-            mDataset = myDataset;
-        }
-
-        // Create new views (invoked by the layout manager)
-        @Override
-        public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
-            // create a new view
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_character, parent, false);
-            // set the view's size, margins, paddings and layout parameters
-            //...
-            ViewHolder vh = new ViewHolder((ImageView)v);
-            return vh;
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-            holder.mImageView.setImageResource(mDataset[position]);
-
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        @Override
-        public int getItemCount() {
-            return mDataset.length;
-        }
-    }
+    } // fromCharacterToMain
 }

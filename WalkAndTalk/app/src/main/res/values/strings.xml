@@ -13,6 +13,10 @@
     <string name="saved_sound_preference">tsp.team.walkandtalk.sound.preference</string>
 
     <string name="select_character">Choose Your Character</string>
+    <string name="earl">Earl</string>
+    <string name="tyler">Tyler</string>
+    <string name="preston">Preston</string>
+    <string name="stacey">Stacey</string>
 
     <string name="back">Back To Main Menu</string>
 

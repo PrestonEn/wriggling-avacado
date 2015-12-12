@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,7 +55,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                                                              int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_character, parent, false);
+                .inflate(R.layout.list_recycler_view, parent, false);
         // set the view's size, margins, paddings and layout parameters
         //...
 
@@ -73,14 +72,18 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             r.obtainTypedArray(R.array.character_jump).getResourceId(position, -1),
                             r.obtainTypedArray(R.array.character_fall).getResourceId(position, -1)
                     );
-                    Intent intent = new Intent(activity, MainMenuActivity.class);
+                    Intent intent = new Intent(activity, SceneActivity.class);
                     intent.putExtra("scene", scene);
                     activity.startActivity(intent);
 
                 } else if (activity.getClass().getSimpleName().equals("SceneActivity")) {
                     SceneWrapper scene = (SceneWrapper)activity.getIntent().getSerializableExtra("scene");
-
-                    // todo Put all arrays into scenewrapper
+                    int position = (int)callerImage.getTag();
+                    scene.setSceneName(r.obtainTypedArray(R.array.scene_names).getString(position));
+                    scene.setSceneBackground(r.obtainTypedArray(R.array.scene_imgs).getResourceId(position, -1));
+                    scene.setEnemiesStill(getEnemyIds(r, R.array.enemies_still, position));
+                    scene.setEnemiesRun(getEnemyIds(r, R.array.enemies_run, position));
+                    scene.setEnemiesFly(getEnemyIds(r, R.array.enemies_fly, position));
 
                     Intent intent = new Intent(activity, GameActivity.class);
                     intent.putExtra("scene", scene);
@@ -90,6 +93,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         });
 
         return vh;
+    }
+
+    private int[] getEnemyIds(Resources r, int array, int position){
+        int id = r.obtainTypedArray(array).getResourceId(position, -1);
+        TypedArray enemies = r.obtainTypedArray(id);
+        int[] enemy_ids = new int[enemies.length()];
+        for (int i = 0; i < enemies.length(); i++) {
+            enemy_ids[i] = enemies.getResourceId(i, -1);
+        }
+        enemies.recycle();
+        return enemy_ids;
     }
 
     // Replace the contents of a view (invoked by the layout manager)

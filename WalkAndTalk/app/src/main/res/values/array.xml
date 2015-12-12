@@ -36,4 +36,77 @@
         <item>@raw/fall_stacey</item>
     </string-array>
 
+
+    <string-array name="background_imgs">
+        <item>@drawable/scene_classroom</item>
+        <item>@drawable/scene_library</item>
+        <item>@drawable/scene_hallway</item>
+    </string-array>
+
+    <string-array name="scene_names">
+        <item>@string/classroom</item>
+        <item>@string/library</item>
+        <item>@string/hallway</item>
+    </string-array>
+
+    <string-array name="scene_imgs">
+        <item>@raw/scene_classroom</item>
+        <item>@raw/scene_library</item>
+        <item>@raw/scene_hallway</item>
+    </string-array>
+
+    <string-array name="enemies_still_classroom">
+        <item>@raw/scene_classroom_desk</item>
+    </string-array>
+
+    <string-array name="enemies_still_library">
+        <item>@raw/scene_library_books</item>
+    </string-array>
+
+    <string-array name="enemies_still_hallway">
+        <item>@raw/scene_hallway_backpack</item>
+    </string-array>
+
+    <array name="enemies_still">
+        <item>@array/enemies_still_classroom</item>
+        <item>@array/enemies_still_library</item>
+        <item>@array/enemies_still_hallway</item>
+    </array>
+
+    <string-array name="enemies_run_classroom">
+        <item>@raw/scene_classroom_desk</item>
+    </string-array>
+
+    <string-array name="enemies_run_library">
+        <item>@raw/scene_library_books</item>
+    </string-array>
+
+    <string-array name="enemies_run_hallway">
+        <item>@raw/scene_hallway_backpack</item>
+    </string-array>
+
+    <array name="enemies_run">
+        <item>@array/enemies_run_classroom</item>
+        <item>@array/enemies_run_library</item>
+        <item>@array/enemies_run_hallway</item>
+    </array>
+
+    <string-array name="enemies_fly_classroom">
+        <item>@raw/scene_classroom_desk</item>
+    </string-array>
+
+    <string-array name="enemies_fly_library">
+        <item>@raw/scene_library_books</item>
+    </string-array>
+
+    <string-array name="enemies_fly_hallway">
+        <item>@raw/scene_hallway_backpack</item>
+    </string-array>
+
+    <array name="enemies_fly">
+        <item>@array/enemies_fly_classroom</item>
+        <item>@array/enemies_fly_library</item>
+        <item>@array/enemies_fly_hallway</item>
+    </array>
+
 </resources>

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -130,14 +131,29 @@ public class MainMenuActivity extends Activity {
                 r.obtainTypedArray(R.array.character_fall).getResourceId(position, -1)
         );
 
-        // int back = (int)(Math.random()*r.obtainTypedArray(R.array.background_imgs).length() + 1);
-        // todo get all background/scene images/enemies, add it to scene object
+        int back = (int)(Math.random()*r.obtainTypedArray(R.array.background_imgs).length());
+        scene.setSceneName(r.obtainTypedArray(R.array.scene_names).getString(back));
+        scene.setSceneBackground(r.obtainTypedArray(R.array.scene_imgs).getResourceId(back, -1));
+        scene.setEnemiesStill(getEnemyIds(r, R.array.enemies_still, back));
+        scene.setEnemiesRun(getEnemyIds(r, R.array.enemies_run, back));
+        scene.setEnemiesFly(getEnemyIds(r, R.array.enemies_fly, back));
 
         Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);
         intent.putExtra("scene", scene);
         startActivity(intent);
 
     } // startGame
+
+    public int[] getEnemyIds(Resources r, int array, int position){
+        int id = r.obtainTypedArray(array).getResourceId(position, -1);
+        TypedArray enemies = r.obtainTypedArray(id);
+        int[] enemy_ids = new int[enemies.length()];
+        for (int i = 0; i < enemies.length(); i++) {
+            enemy_ids[i] = enemies.getResourceId(i, -1);
+        }
+        enemies.recycle();
+        return enemy_ids;
+    }
 
     /** goToCharacter
      * When the user presses the "Play" button, this method will run

@@ -17,7 +17,7 @@ public class Character {
 
 
     public Character(Context c,TextureInfo t[],float screenRatio){
-        this.textures = t;
+        this.textures = t;//1.35,-0.28
         squareImage = new Square(squareCoords,1.35f,-0.28f,0.0f,0.0f,c,false,0.0f,0.0f,screenRatio,textures[0]);
     }
 

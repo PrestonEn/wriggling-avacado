@@ -50,6 +50,13 @@ public class Square extends Sprite{
         this.vx = velX;
         this.vy = velY;
 
+        animUVs = new float[]{
+                1.0f, 0.0f,
+                1.0f, 1.0f,
+                0.0f, 1.0f,
+                0.0f, 0.0f,
+        };
+
         float squareCoords[] = {
                 0.375f,  0.6f, 0.0f,   // top left
                 0.375f, -0.6f, 0.0f,   // bottom left
@@ -135,13 +142,6 @@ public class Square extends Sprite{
 
         // Enable generic vertex attribute array
         GLES20.glEnableVertexAttribArray(mTexCoordLoc);
-
-        animUVs = new float[]{
-                1f, 0.0f,
-                1f, 1f,
-                0.0f, 1f,
-                0.0f, 0.0f,
-        };
 
         FloatBuffer textureBuffer;
         ByteBuffer bb = ByteBuffer.allocateDirect(animUVs.length  * 4);

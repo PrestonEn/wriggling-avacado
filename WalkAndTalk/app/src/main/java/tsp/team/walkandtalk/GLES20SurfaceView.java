@@ -32,54 +32,26 @@ public class GLES20SurfaceView extends GLSurfaceView{
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
 
-
-    private final float TOUCH_SCALE_FACTOR = 180.0f / 320;
-    private float mPreviousX;
-    private float mPreviousY;
-
-    /**
-     * This needs to be modified such that you can tell which object is being clicked on at what time.
-     * Pretty sure this is going to be a bit messy so it can possibly be cleaned up later.
-     * @param e
-     * @return
-     */
     @Override
     public boolean onTouchEvent(MotionEvent e) {
+        float touchX = e.getX();
+        float touchY = e.getY();
 
-        // MotionEvent reports input details from the touch screen
-        // and other input controls. In this case, you are only
-        // interested in events where the touch position changed.
-        Log.v("EVENT", new Float(e.getRawX()).toString());
+        if(detectTouch(touchX,touchY,mRenderer.getGamestuff().getCharacter())){
+            CharSequence text = "Basic touch integration is working! wewt!";
+            int duration = Toast.LENGTH_LONG;
 
-        Log.v("width", new Integer(getWidth()).toString());
-        int height = getHeight();
-
-        float x = e.getX();
-        float y = e.getY();
-
-
-
-        switch (e.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-
-                float dx = x - mPreviousX;
-                float dy = y - mPreviousY;
-
-                // reverse direction of rotation above the mid-line
-                if (y > getHeight() / 2) {
-                    dx = dx * -1 ;
-                }
-
-                // reverse direction of rotation to left of the mid-line
-                if (x < getWidth() / 2) {
-                    dy = dy * -1 ;
-                }
-
-
+            Toast toast = Toast.makeText(this.getContext(), text, duration);
+            toast.show();
         }
 
-        mPreviousX = x;
-        mPreviousY = y;
         return true;
+    }
+
+    private boolean detectTouch(float touchX, float touchY,Character c){
+        float interval = 0.5f; //Open interval around the touch to examine.
+
+        return (Math.abs(touchX - c.getSquare().px) * 2 < (interval + c.getSquare().getWidth())) &&
+                (Math.abs(touchY - c.getSquare().py) * 2 < (interval + c.getSquare().getHeight()));
     }
 }

@@ -152,4 +152,8 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             throw new RuntimeException(glOperation + ": glError " + error);
         }
     }
+
+    public GameStuff getGamestuff(){
+        return this.gamestuff;
+    }
 }

@@ -14,7 +14,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class GLES20Renderer implements GLSurfaceView.Renderer{
 
-    private Context mActivityContext;
+    Context mActivityContext;
     private static final String TAG = "MyGLRenderer";
     private GameStuff gamestuff;
     private SceneWrapper sceneWrapper;
@@ -149,7 +149,6 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             throw new RuntimeException(glOperation + ": glError " + error);
         }
     }
-
 
     public GameStuff getGamestuff(){
         return this.gamestuff;

@@ -107,6 +107,10 @@ public class Square extends Sprite{
         }
     }
 
+    public void settInfo(TextureInfo tInfo) {
+        this.tInfo = tInfo;
+    }
+
     public float getWidth() {
         return this.width;
     }

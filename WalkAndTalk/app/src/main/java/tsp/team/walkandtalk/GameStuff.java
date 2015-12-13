@@ -38,7 +38,8 @@ public class GameStuff {
         this.ScreenWidth = dm.widthPixels;
         this.screenRatio = (float)this.getScreenWidth()/(float)this.getScreenHeight(); // Build ratio.
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
-        character = new Character(contextHolder,textureFactory.getCharacter_run(),screenRatio);
+        character = new Character(contextHolder,textureFactory.getCharacter_run(),
+                textureFactory.getCharacter_jump(),screenRatio);
     }   // See character object for line above.
 
     /**

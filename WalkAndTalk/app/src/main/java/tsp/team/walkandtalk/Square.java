@@ -57,11 +57,7 @@ public class Square extends Sprite{
                 0.0f, 0.0f,
         };
 
-        float squareCoords[] = {
-                0.375f,  0.6f, 0.0f,   // top left
-                0.375f, -0.6f, 0.0f,   // bottom left
-                -0.375f, -0.6f, 0.0f,   // bottom right
-                -0.375f,  0.6f, 0.0f }; // top right
+        squareCoords = sc;
 
         this.width = squareCoords[0] - squareCoords[6];
         this.height = squareCoords[1] - squareCoords[4];

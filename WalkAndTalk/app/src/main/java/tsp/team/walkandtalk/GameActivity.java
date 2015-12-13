@@ -7,6 +7,10 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.SurfaceView;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  *
@@ -20,10 +24,12 @@ public class GameActivity extends Activity {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
         SceneWrapper scene = (SceneWrapper)i.getSerializableExtra("scene");
+        setContentView(R.layout.activity_game);
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
-        mGLView = new GLES20SurfaceView(this, scene);
-        setContentView(mGLView);
+        mGLView = new GLES20SurfaceView(this, scene, (TextView)findViewById(R.id.txtScore));
+        LinearLayout surface = (LinearLayout)findViewById(R.id.test);
+        surface.addView(mGLView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     @Override

@@ -83,6 +83,21 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             s.updateShape(); //Make sure that the position and other things are updated.
             if(!s.live)iterator.remove();
         }
+
+        examineCollisions();
+    }
+
+    /**
+     * Purpose of this method is to view the positions of all of the shapes and view if they have
+     * collided with the character at all. If they have, raise some flag.
+     */
+    private void examineCollisions(){
+//        private boolean detectCharTouch(float touchX, float touchY, Character c){
+//            float interval = 0.0f; // Open interval around the touch to examine.
+//
+//            return (Math.abs(touchX - c.getSquare().px) * 2 < (interval + c.getSquare().getWidth())) &&
+//                    (Math.abs(touchY - c.getSquare().py) * 2 < (interval + c.getSquare().getHeight()));
+//        }
     }
 
     @Override
@@ -150,7 +165,10 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         }
     }
 
-
+    /**
+     * Get the GameStuff object associated with this Renderer.
+     * @return GameStuff belonging to this object.
+     */
     public GameStuff getGamestuff(){
         return this.gamestuff;
     }

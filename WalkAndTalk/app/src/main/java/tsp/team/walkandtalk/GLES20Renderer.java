@@ -14,7 +14,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public class GLES20Renderer implements GLSurfaceView.Renderer{
 
-    private Context mActivityContext;
+    public Context mActivityContext;
     private static final String TAG = "MyGLRenderer";
     private GameStuff gamestuff;
     private SceneWrapper sceneWrapper;

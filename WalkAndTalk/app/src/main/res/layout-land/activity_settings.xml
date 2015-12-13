@@ -51,35 +51,51 @@
             android:layout_height="fill_parent"
             android:layout_weight="5" >
 
-            <Switch
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
                 android:layout_height="0dp"
-                android:text="@string/sound"
-                android:id="@+id/swSound"
-                android:layout_weight="3"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_size"
-                android:layout_gravity="center_vertical|left"
-                android:showText="true"
-                android:switchPadding="@dimen/switch_size"
-                android:thumb="@drawable/switch_thumb"
-                android:track="@drawable/switch_track"
-                android:padding="@dimen/padding" />
+                android:layout_weight="3">
 
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:text="Another Setting"
-                android:id="@+id/switch1"
-                android:layout_weight="3"
-                android:textColor="@color/white"
-                android:textSize="@dimen/button_size"
-                android:layout_gravity="center_vertical|left"
-                android:gravity="center_vertical|left"
-                android:padding="@dimen/padding" />
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:text="@string/sound"
+                    android:id="@+id/txtSound"
+                    android:layout_weight="3"
+                    android:textSize="@dimen/button_size"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical|center_horizontal" />
+
+                <Switch
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/swSound"
+                    android:layout_weight="3"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center_vertical|left"
+                    android:showText="true"
+                    android:switchPadding="@dimen/switch_size"
+                    android:thumb="@drawable/switch_thumb"
+                    android:track="@drawable/switch_track"
+                    android:padding="@dimen/padding"
+                    android:thumbTextPadding="@dimen/switch_size"
+                    android:textSize="@dimen/button_size" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="0dp"
                 android:text="@string/reset_scores"
                 android:id="@+id/btnResetScores"
@@ -90,6 +106,23 @@
                 android:padding="@dimen/padding"
                 android:textColor="@color/white"
                 android:textSize="@dimen/button_size" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:text="@string/about_game"
+                android:id="@+id/btnAbout"
+                android:layout_weight="3"
+                android:layout_gravity="center_vertical|left"
+                android:background="@color/transparent"
+                android:padding="@dimen/padding"
+                android:textColor="@color/white"
+                android:textSize="@dimen/button_size" />
+
+            <Space
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <Button
                 android:layout_width="fill_parent"
@@ -109,5 +142,6 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
         </LinearLayout>
+
     </LinearLayout>
 </LinearLayout>

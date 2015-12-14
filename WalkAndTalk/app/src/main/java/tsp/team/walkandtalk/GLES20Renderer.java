@@ -24,6 +24,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mRotationMatrix = new float[16];
     private final float[] mTranslationMatrix = new float[16];
     private TextView score;
+
     //Default constructor meant to pass the gamestuff object from the surface view to here.
     public GLES20Renderer(SceneWrapper scene, TextView score){
         // Nothing happens outside of gamestuff
@@ -41,8 +42,14 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
     }
 
+    /**
+     * This method is to be called whenever the screen is filed as dirty. Since we always want to
+     * continuously be redrawing as defined in the SurfaceView, this is constantly called.
+     * @param unused Unused opengl parameter.
+     */
     @Override
     public void onDrawFrame(GL10 unused) {
+        // Comments here please.
         mActivityContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -50,63 +57,81 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             }
         });
         gamestuff.updateScore();
+
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         // Set the camera position (View matrix)
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
 
-        //Draw each sprite relative proper matrix
+        // Draw each sprite relative proper matrix
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
 
-        //Draw the character and go from there.
+        // Draw the character and go from there.
+        // See comments below inside for loop for explanation of below code.
         float[] scratch = new float[16];
         Matrix.setIdentityM(mTranslationMatrix, 0);
         Matrix.translateM(mTranslationMatrix, 0, gamestuff.getCharacter().getSquare().px,
                 gamestuff.getCharacter().getSquare().py, 0);
         Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
         gamestuff.getCharacter().getSquare().draw(scratch);
-        gamestuff.getCharacter().update(); //Implement this later to get it actually animating.
+        gamestuff.getCharacter().update(); // Implement this later to get it actually animating.
 
-        //Java threadsafe crystal-healing.
+        // Java threadsafe crystal-healing.
         for (Iterator<Sprite> iterator = gamestuff.getEnemies().iterator(); iterator.hasNext();) {
             Sprite s = iterator.next();
-            if (!s.needRotate()) {
-                float[] aScratch = new float[16];
-                Matrix.setIdentityM(mTranslationMatrix, 0);
-                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0);
-                Matrix.multiplyMM(aScratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
-                s.draw(aScratch);
+            if (!s.needRotate()) { // If the sprite does not have an animated rotation...
+                float[] aScratch = new float[16]; // Build a matrix to apply transformations to.
+                Matrix.setIdentityM(mTranslationMatrix, 0); // Load the identity in, aka reset it.
+                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0); // Apply the translation.
+                Matrix.multiplyMM(aScratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0); // Multiply by MVP.
+                s.draw(aScratch); // Draw.
             }
-            else {
-                float[] aScratch = new float[16];
+            else { // Slightly more complicated rotation of shapes.
+                float[] aScratch = new float[16]; // Scratches.
                 float[] bScratch = new float[16];
 
-                Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f);
-                Matrix.setIdentityM(mTranslationMatrix, 0);
-                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0);
-                Matrix.multiplyMM(aScratch, 0, mTranslationMatrix, 0, mRotationMatrix, 0);
-                Matrix.multiplyMM(bScratch, 0, mMVPMatrix, 0, aScratch, 0);
-                s.draw(bScratch);
+                Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f); // Load rotate based on angle.
+                Matrix.setIdentityM(mTranslationMatrix, 0); // Reset the translation.
+                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0); // Apply translation to recent reset.
+                Matrix.multiplyMM(aScratch, 0, mTranslationMatrix, 0, mRotationMatrix, 0); // Multiply the rotation and translation.
+                Matrix.multiplyMM(bScratch, 0, mMVPMatrix, 0, aScratch, 0); // Scale to MVP.
+                s.draw(bScratch); // Draw.
             }
-            s.updateShape(); //Make sure that the position and other things are updated.
-            if(!s.live)iterator.remove();
+            s.updateShape(); // Make sure that the position and other things are updated.
+            if(!s.live)iterator.remove(); // Shape is kill.
         }
-
-        examineCollisions();
+        // Test for any collisions in the system.
+        boolean charHit = examineCollisions();
+        if(charHit){
+            Log.e("COLLISION","OH GOD WE'VE BEEN HIT!");
+        }
     }
 
     /**
      * Purpose of this method is to view the positions of all of the shapes and view if they have
      * collided with the character at all. If they have, raise some flag.
+     * @return Boolean if the character has been hit.
      */
-    private void examineCollisions(){
-//        private boolean detectCharTouch(float touchX, float touchY, Character c){
-//            float interval = 0.0f; // Open interval around the touch to examine.
-//
-//            return (Math.abs(touchX - c.getSquare().px) * 2 < (interval + c.getSquare().getWidth())) &&
-//                    (Math.abs(touchY - c.getSquare().py) * 2 < (interval + c.getSquare().getHeight()));
-//        }
+    private boolean examineCollisions(){
+        Character character = gamestuff.getCharacter();
+
+        for(Sprite s : gamestuff.getEnemies()){
+            if(detectCharTouch(s, character))return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Detection of collision between a particular sprite and the character of this game run.
+     * @param s Sprite to check with.
+     * @param c Character to check against.
+     * @return Boolean if there is a collision.
+     */
+    private boolean detectCharTouch(Sprite s, Character c){
+        return (Math.abs(s.px - c.getSquare().px) * 2 < (s.getWidth() + c.getSquare().getWidth())) &&
+                (Math.abs(s.py - c.getSquare().py) * 2 < (s.getHeight() + c.getSquare().getHeight()));
     }
 
     @Override

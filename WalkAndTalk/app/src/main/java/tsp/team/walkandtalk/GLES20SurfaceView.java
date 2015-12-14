@@ -5,6 +5,7 @@ import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.ByteBuffer;
@@ -16,8 +17,9 @@ import java.nio.ByteOrder;
 public class GLES20SurfaceView extends GLSurfaceView{
 
     private final GLES20Renderer mRenderer;
+    public TextView txtScore;
 
-    public GLES20SurfaceView(Context context, SceneWrapper scene) {
+    public GLES20SurfaceView(Context context, SceneWrapper scene, TextView score) {
         super(context);
 
         // Create an OpenGL ES 2.0 context.
@@ -30,6 +32,8 @@ public class GLES20SurfaceView extends GLSurfaceView{
 
         // Render the view only when there is a change in the drawing data
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        txtScore = score;
     }
 
     @Override
@@ -38,6 +42,9 @@ public class GLES20SurfaceView extends GLSurfaceView{
         float touchX = ((e.getX()/((float)this.getWidth()*0.5f))-1)*((float)this.getWidth()/this.getHeight());
         float touchY = (e.getY()/((float)this.getHeight()*0.5f))-1; //invert this
         touchY = -touchY;
+
+        Log.e("test", touchX + "   " + touchY);
+        txtScore.setText("Touched: " + touchX + ", " + touchY);
 
         if(detectTouch(touchX,touchY,mRenderer.getGamestuff().getCharacter())){
             Log.e("TOUCH WORKED","YAAAAAAAAAAY");

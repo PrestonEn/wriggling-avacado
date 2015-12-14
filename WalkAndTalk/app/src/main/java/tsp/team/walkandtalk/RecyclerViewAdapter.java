@@ -4,18 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by Stacey on 11/12/2015.
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private TypedArray images;
+    private TypedArray names;
     private Activity activity;
+    private Typeface font;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -23,10 +27,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public IMyViewHolderClicks mListener;
         public ImageView mImageView;
-        public ViewHolder(ImageView v, IMyViewHolderClicks listener) {
+        public TextView mTextView;
+        public ViewHolder(View v, IMyViewHolderClicks listener) {
             super(v);
             mListener = listener;
-            mImageView = v;
+            mTextView = (TextView)v.findViewById(R.id.textView);
+            mImageView = (ImageView)v.findViewById(R.id.imageView);
             mImageView.setOnClickListener(this);
             v.setOnClickListener(this);
         }
@@ -44,9 +50,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public RecyclerViewAdapter(TypedArray imgs, Activity a) {
+    public RecyclerViewAdapter(TypedArray imgs, TypedArray n, Activity a, Typeface f) {
         images = imgs;
+        names = n;
         activity = a;
+        font = f;
     }
 
     // Create new views (invoked by the layout manager)
@@ -59,7 +67,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // set the view's size, margins, paddings and layout parameters
         //...
 
-        ViewHolder vh = new ViewHolder((ImageView) v, new ViewHolder.IMyViewHolderClicks() {
+        ViewHolder vh = new ViewHolder(v, new ViewHolder.IMyViewHolderClicks() {
             public void onClick(ImageView callerImage) {
 
                 Resources r = activity.getResources();
@@ -113,6 +121,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         // - replace the contents of the view with that element
         holder.mImageView.setImageResource(images.getResourceId(position, -1));
         holder.mImageView.setTag(position);
+        holder.mTextView.setTypeface(font);
+        holder.mTextView.setText(names.getString(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)

@@ -56,7 +56,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
                 score.setText("Score: "+gamestuff.getScore()+"");
             }
         });
-        gamestuff.updateScore();
+        if(gamestuff.getCharacter().getSquare().live)gamestuff.updateScore();
 
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
@@ -102,9 +102,20 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             if(!s.live)iterator.remove(); // Shape is kill.
         }
         // Test for any collisions in the system.
-        boolean charHit = examineCollisions();
-        if(charHit){
-            Log.e("COLLISION","OH GOD WE'VE BEEN HIT!");
+        if(examineCollisions()){
+            gamestuff.getCharacter().getSquare().live = false; // Character is kill.
+            stopAllMovingObjects();
+        }
+    }
+
+    /**
+     * This method is called when the character has been hit by an enemy and will turn the velocity
+     * of all objects to 0.
+     */
+    private void stopAllMovingObjects(){
+        for(Sprite s : gamestuff.getEnemies()){ // This stop all of the enemies.
+            s.vx = 0;
+            s.vy = 0;
         }
     }
 

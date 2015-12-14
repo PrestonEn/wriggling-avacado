@@ -12,10 +12,10 @@ public class EnemyFactory {
     private static float screenRatio; // Stored value of width over height of the phone.
     private TextureFactory textureFactory; // Texture factory which will get our opengl textures.
     private static float stillShape[] = { // Vertices for a still enemy.
-         0.5f,  0.2f, 0.0f,   // top left
-         0.5f, -0.2f, 0.0f,   // bottom left
-         -0.5f, -0.2f, 0.0f,   // bottom right
-         -0.5f,  0.2f, 0.0f }; // top right
+         0.2f,  0.2f, 0.0f,   // top left
+         0.2f, -0.2f, 0.0f,   // bottom left
+         -0.2f, -0.2f, 0.0f,   // bottom right
+         -0.2f,  0.2f, 0.0f }; // top right
 
     /**
      * Main constructor for the object which will just build the necessary instance variables.

@@ -65,7 +65,10 @@ public class CharacterActivity extends Activity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new RecyclerViewAdapter(getResources().obtainTypedArray(R.array.character_imgs), CharacterActivity.this);
+        mAdapter = new RecyclerViewAdapter(getResources().obtainTypedArray(R.array.character_imgs),
+                getResources().obtainTypedArray(R.array.character_names),
+                CharacterActivity.this,
+                font);
         mRecyclerView.setAdapter(mAdapter);
     }
 

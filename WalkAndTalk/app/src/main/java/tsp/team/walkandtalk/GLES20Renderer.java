@@ -1,17 +1,20 @@
 package tsp.team.walkandtalk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
+import android.widget.TextView;
+
 import java.util.Iterator;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class GLES20Renderer implements GLSurfaceView.Renderer{
 
-    public Context mActivityContext;
+    public Activity  mActivityContext;
     private static final String TAG = "MyGLRenderer";
     private GameStuff gamestuff;
     private SceneWrapper sceneWrapper;
@@ -20,11 +23,12 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mViewMatrix = new float[16];
     private final float[] mRotationMatrix = new float[16];
     private final float[] mTranslationMatrix = new float[16];
-
+    private TextView score;
     //Default constructor meant to pass the gamestuff object from the surface view to here.
-    public GLES20Renderer(SceneWrapper scene){
+    public GLES20Renderer(SceneWrapper scene, TextView score){
         // Nothing happens outside of gamestuff
         sceneWrapper = scene;
+        this.score = score;
     }
 
     @Override
@@ -34,10 +38,18 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         GLES20.glBlendFunc(GLES20.GL_ONE,GLES20.GL_ONE_MINUS_SRC_ALPHA);
         gamestuff = new GameStuff(mActivityContext, sceneWrapper);
         gamestuff.makeTestDummies();
+
     }
 
     @Override
     public void onDrawFrame(GL10 unused) {
+        mActivityContext.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                score.setText("Score: "+gamestuff.getScore()+"");
+            }
+        });
+        gamestuff.updateScore();
         // Draw background color
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 

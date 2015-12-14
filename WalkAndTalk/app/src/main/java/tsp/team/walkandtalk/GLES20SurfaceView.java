@@ -1,10 +1,12 @@
 package tsp.team.walkandtalk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.nio.ByteBuffer;
@@ -16,20 +18,23 @@ import java.nio.ByteOrder;
 public class GLES20SurfaceView extends GLSurfaceView{
 
     private final GLES20Renderer mRenderer;
+    public TextView txtScore;
 
-    public GLES20SurfaceView(Context context, SceneWrapper scene) {
+    public GLES20SurfaceView(Activity context, SceneWrapper scene, TextView score) {
         super(context);
-
+        txtScore = score;
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new GLES20Renderer(scene);
+        mRenderer = new GLES20Renderer(scene, txtScore);
         mRenderer.mActivityContext = context;
         setRenderer(mRenderer);
 
         // Render the view only when there is a change in the drawing data
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+
     }
 
     /**
@@ -47,6 +52,9 @@ public class GLES20SurfaceView extends GLSurfaceView{
             float touchY = (e.getY()/((float)this.getHeight()*0.5f))-1;
             touchY = -touchY; //Above is coordinate maps.
 
+//        Log.e("test", touchX + "   " + touchY);
+//        txtScore.setText("Touched: " + touchX + ", " + touchY);
+
             if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter())){ // Jump.
                 mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
                 return true; // Early exit.
@@ -59,6 +67,10 @@ public class GLES20SurfaceView extends GLSurfaceView{
     private boolean detectSpriteTouch(){
 
         return false;
+    }
+
+    public GameStuff passBack(){
+        return mRenderer.getGamestuff();
     }
 
     /**

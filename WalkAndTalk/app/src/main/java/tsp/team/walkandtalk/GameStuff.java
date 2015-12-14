@@ -13,7 +13,7 @@ import java.util.List;
  * loading textures,drawing, spawning and despawning enemies, and playing sound events.
  */
 public class GameStuff {
-
+    private int score;
     private List<Sprite> enemies; // List of enemies to render.
     private Character character; // Reference to the Character on the screen.
     private Context contextHolder; // Context for building other objects.
@@ -30,6 +30,7 @@ public class GameStuff {
      * @param scene SceneWrapper that will be used to specify backgrounds and enemy types.
      */
     public GameStuff(Context c, SceneWrapper scene){
+        score = 0;
         this.textureFactory = new TextureFactory(c, scene); // See TextureFactory class...
         this.contextHolder = c;
         WindowManager wm = (WindowManager)c.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
@@ -81,6 +82,14 @@ public class GameStuff {
      */
     public void makeTestDummies(){
         enemies.add(enemyFactory.makeStillEnemy(DifficultySetting.DIFFICULTY_EASY));
+    }
+
+    public void updateScore(){
+        score++;
+    }
+
+    public int getScore(){
+        return score;
     }
 
     /**

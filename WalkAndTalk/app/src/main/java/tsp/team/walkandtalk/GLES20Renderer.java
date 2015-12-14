@@ -9,9 +9,6 @@ import java.util.Iterator;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-/**
- *
- */
 public class GLES20Renderer implements GLSurfaceView.Renderer{
 
     public Context mActivityContext;

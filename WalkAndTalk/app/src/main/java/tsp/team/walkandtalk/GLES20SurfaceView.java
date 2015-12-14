@@ -42,13 +42,15 @@ public class GLES20SurfaceView extends GLSurfaceView{
      */
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        float touchX = ((e.getX()/((float)this.getWidth()*0.5f))-1)*((float)this.getWidth()/this.getHeight());
-        float touchY = (e.getY()/((float)this.getHeight()*0.5f))-1;
-        touchY = -touchY; //Above is coordinate maps.
+        if(mRenderer.getGamestuff() != null){ // Prevent early click errors.
+            float touchX = ((e.getX()/((float)this.getWidth()*0.5f))-1)*((float)this.getWidth()/this.getHeight());
+            float touchY = (e.getY()/((float)this.getHeight()*0.5f))-1;
+            touchY = -touchY; //Above is coordinate maps.
 
-        if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter())){ // Jump.
-            mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
-            return true; // Early exit.
+            if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter())){ // Jump.
+                mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
+                return true; // Early exit.
+            }
         }
 
         return true;

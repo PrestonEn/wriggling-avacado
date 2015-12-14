@@ -21,6 +21,7 @@ public class GameStuff {
     private int ScreenHeight;
     private float screenRatio; // ScreenWidth / ScreenHeight.
     private TextureFactory textureFactory; // Reference to a TextureFactory for building images.
+    private Background background;
     private EnemyFactory enemyFactory; // Reference to a EnemyFactory that will build generic enemies.
 
     /**
@@ -40,6 +41,7 @@ public class GameStuff {
         this.ScreenWidth = dm.widthPixels;
         this.screenRatio = (float)this.getScreenWidth()/(float)this.getScreenHeight(); // Build ratio.
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
+        background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
         character = new Character(contextHolder,textureFactory.getCharacter_run(),
                 textureFactory.getCharacter_jump(),screenRatio);
         enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
@@ -98,5 +100,13 @@ public class GameStuff {
      */
     public List<Sprite> getEnemies() {
         return enemies;
+    }
+
+    /**
+     * Returns the background object
+     * @return Background wrapper class
+     */
+    public Background getBackground(){
+        return background;
     }
 }

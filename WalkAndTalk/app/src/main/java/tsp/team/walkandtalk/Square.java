@@ -34,7 +34,18 @@ public class Square extends Sprite{
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     /**
-     * Sets up the drawing object data for use in an OpenGL ES context.
+     *
+     * @param sc    coordinates of verticies on window
+     * @param posX  center x position
+     * @param posY  center y position
+     * @param velX  velocity x component
+     * @param velY  velocity y component
+     * @param ctx   Context
+     * @param rot   does it rotate?
+     * @param a     angle of rotation
+     * @param aR    delta Angle
+     * @param sw    screen width
+     * @param tInfo Texture info
      */
     public Square(float sc[], float posX,float posY,float velX,float velY,Context ctx,
                   boolean rot, float a, float aR, float sw, TextureInfo tInfo) {
@@ -197,5 +208,11 @@ public class Square extends Sprite{
 
         if(Math.abs(this.py) > 2.5)this.live = false;
         if(Math.abs(this.px) > this.ScreenWidth*2)this.live = false;
+    }
+
+    public void setShapeVertexs(float[] newVerts){
+        this.vertexBuffer.clear();
+        this.vertexBuffer.put(newVerts);
+        this.vertexBuffer.position(0);
     }
 }

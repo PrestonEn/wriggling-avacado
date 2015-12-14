@@ -48,6 +48,9 @@ public class GameStuff {
         enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
 
         stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+
     }   // See character object for line above.
 
     /**
@@ -123,7 +126,7 @@ public class GameStuff {
      * Generate new enemies after a randomly generated interval, and recalculate the counter
      *
      */
-    public void testSpawn(){
+    public void spawnPoller(){
         if(stillCounter == 0){
             enemies.add(enemyFactory.makeStillEnemy(DifficultySetting.DIFFICULTY_EASY));
             stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
@@ -133,18 +136,18 @@ public class GameStuff {
 
         if(flyCounter == 0){
             //TODO: add logic and sound effect
-//            enemies.add(enemyFactory.makeFlyingEnemy(DifficultySetting.DIFFICULTY_EASY));
-//            stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
-//        }else{
-//            --stillCounter;
+            enemies.add(enemyFactory.makeFlyEnemy(DifficultySetting.DIFFICULTY_EASY));
+            flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        }else{
+            --flyCounter;
         }
 
         if(runCounter == 0){
             //TODO: add logic and sound effect
-//            enemies.add(enemyFactory.makeRunningEnemy(DifficultySetting.DIFFICULTY_EASY));
-//            stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
-//        }else{
-//            --stillCounter;
+            enemies.add(enemyFactory.makeRunEnemy(DifficultySetting.DIFFICULTY_EASY));
+            runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        }else{
+            --runCounter;
         }
     }
 }

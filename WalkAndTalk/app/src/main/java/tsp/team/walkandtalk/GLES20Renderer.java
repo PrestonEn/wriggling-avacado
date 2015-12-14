@@ -104,7 +104,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
         gamestuff.getCharacter().getSquare().draw(scratch);
         gamestuff.getCharacter().update(); // Implement this later to get it actually animating.
-        gamestuff.testSpawn();
+        gamestuff.spawnPoller();
         // Java threadsafe crystal-healing.
         for (Iterator<Sprite> iterator = gamestuff.getEnemies().iterator(); iterator.hasNext();) {
             Sprite s = iterator.next();

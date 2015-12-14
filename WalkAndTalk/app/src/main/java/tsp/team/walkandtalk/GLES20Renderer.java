@@ -54,7 +54,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
      */
     @Override
     public void onDrawFrame(GL10 unused) {
-        // Comments here please.
+        // Updates to the text on the screen.
         mActivityContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {

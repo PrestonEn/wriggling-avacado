@@ -14,9 +14,6 @@ import android.widget.Toast;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-/**
- * Created by preston on 15-11-28.
- */
 public class GLES20SurfaceView extends GLSurfaceView{
 
     private final GLES20Renderer mRenderer;
@@ -30,8 +27,6 @@ public class GLES20SurfaceView extends GLSurfaceView{
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 
-        mDetector = new GestureDetectorCompat(this.getContext(), new EnemyGestureListener());
-
         // Set the Renderer for drawing on the GLSurfaceView
         mRenderer = new GLES20Renderer(scene, txtScore);
         mRenderer.mActivityContext = context;
@@ -39,6 +34,8 @@ public class GLES20SurfaceView extends GLSurfaceView{
 
         // Render the view only when there is a change in the drawing data
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+
+        mDetector = new GestureDetectorCompat(this.getContext(), new EnemyGestureListener(mRenderer));
     }
 
     /**
@@ -52,23 +49,48 @@ public class GLES20SurfaceView extends GLSurfaceView{
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         if(mRenderer.getGamestuff() != null){ // Prevent early click errors.
-            float touchX = ((e.getX()/((float)this.getWidth()*0.5f))-1)*((float)this.getWidth()/this.getHeight());
-            float touchY = (e.getY()/((float)this.getHeight()*0.5f))-1;
-            touchY = -touchY; //Above is coordinate maps.
-
             this.mDetector.onTouchEvent(e); // Pass the touch event into the GestureDetector.
+        }
+        return true;
+    }
+}
 
-            if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter())){ // Jump if on Earl..
-                mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
-                return true; // Early exit.
-            }
+/**
+ * This is a private class meant to implement detection of different gestures for killing enemies.
+ */
+class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
+
+    private GLES20Renderer mRenderer;
+
+    public EnemyGestureListener(GLES20Renderer renderer){
+        this.mRenderer = renderer;
+    }
+
+    /**
+     * This is the gesture type that allows for Earl to jump.
+     * @param e MotionEvent to examine.
+     * @return Boolean handled or not.
+     */
+    @Override
+    public boolean onDown(MotionEvent e){
+        int height = this.mRenderer.getGamestuff().getScreenHeight();
+        int width = this.mRenderer.getGamestuff().getScreenWidth();
+
+        float touchX = ((e.getX()/((float)width*0.5f))-1)*((float)width/(float)height);
+        float touchY = (e.getY()/((float)height*0.5f))-1;
+        touchY = -touchY; //Above is coordinate maps.
+
+        if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter())){ // Jump if on Earl..
+            mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
         }
 
         return true;
     }
 
-    private boolean detectSpriteTouch(){
-        return false;
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
+        mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
+        return true;
     }
 
     /**
@@ -83,22 +105,4 @@ public class GLES20SurfaceView extends GLSurfaceView{
         return (Math.abs(touchX - c.getSquare().px) * 2 < (c.getSquare().getWidth())) &&
                 (Math.abs(touchY - c.getSquare().py) * 2 < (c.getSquare().getHeight()));
     }
-}
-
-/**
- * This is a private class meant to implement detection of different gestures for killing enemies.
- */
-class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
-
-    /**
-     * This is the gesture type that allows for Earl to jump.
-     * @param e MotionEvent to examine.
-     * @return Boolean handled or not.
-     */
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent e){
-
-        return true;
-    }
-
 }

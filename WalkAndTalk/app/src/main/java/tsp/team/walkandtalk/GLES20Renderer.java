@@ -32,6 +32,11 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         this.score = score;
     }
 
+    /**
+     * Essentially this method is called after the constructor has returned.
+     * @param unused opengl unused parameter.
+     * @param config opengl configuration.
+     */
     @Override
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
         // THIS MUST BE DONE TO KEEP WITHIN THE OPENGL THREAD
@@ -145,6 +150,12 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
                 (Math.abs(s.py - c.getSquare().py) * 2 < (s.getHeight() + c.getSquare().getHeight()));
     }
 
+    /**
+     * When the surface has changed at all, this method updates the screen.
+     * @param unused opengl unused param.
+     * @param width Width of the view.
+     * @param height Height of the view.
+     */
     @Override
     public void onSurfaceChanged(GL10 unused, int width, int height) {
         // Adjust the viewport based on geometry changes,

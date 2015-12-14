@@ -1,6 +1,7 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * This class is used for holding the information that a Character needs for drawing and computing
@@ -8,6 +9,8 @@ import android.content.Context;
  */
 public class Character {
 
+    private static float initPX = -1.35f;
+    private static float initPY = -0.28f;
     private static int frame_count = 16; // Fixed number of frames,
     private static int frame_division = (int)Math.sqrt(frame_count); // Allows us to evenly divide the frames.
     private float animUVs[]; // Storage for an individual frame.
@@ -56,7 +59,7 @@ public class Character {
             }
         }
         //Build the sprite image at designated points and give it proper initial values that allow it to not move.
-        squareImage = new Square(squareCoords,-1.35f,-0.28f,0.0f,0.0f,c,false,0.0f,0.0f,screenRatio,texturesRun);
+        squareImage = new Square(squareCoords,initPX,initPY,0.0f,0.0f,c,false,0.0f,0.0f,screenRatio,texturesRun);
     }
 
     /**
@@ -76,12 +79,11 @@ public class Character {
         if(jumping){
             if(jumpDrawCount == 0){ // Only overwrite the image UVs if we need to.
                 squareImage.animUVs = standardUVMap;
-
+                squareImage.vy = 0.01f;
                 squareImage.settInfo(this.textureJump); // Safe to update reference.
             }
 
             jumpDrawCount++; // Increment how many times we've drawn the frame.
-
             if(jumpDrawCount > jumpDrawMax){ // If we have drawn enough...
                 this.jumping = false;
                 jumpDrawCount = -1; // Flag so that we know when to update reference.
@@ -95,6 +97,17 @@ public class Character {
 
             squareImage.animUVs = computeUVs[currentFrame++%frame_count]; // Increment and draw frames.
         }
+
+        // Below control structure is outside of jumping loop because the anim can stop playing before we are done landing.
+        if(squareImage.py > -2*initPY){ // Detect peak of the jump.
+            squareImage.vy = -0.01f;
+        }
+        else if(squareImage.py < initPY){ // Land back on the ground safely.
+            squareImage.vy = 0;
+            squareImage.py = initPY;
+        }
+
+        squareImage.updateShape(); // Make sure the square also gets updated so it can move if needed.
     }
 
     /**

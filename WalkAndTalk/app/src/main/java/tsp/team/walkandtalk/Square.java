@@ -209,4 +209,10 @@ public class Square extends Sprite{
         if(Math.abs(this.py) > 2.5)this.live = false;
         if(Math.abs(this.px) > this.ScreenWidth*2)this.live = false;
     }
+
+    public void setShapeVertexs(float[] newVerts){
+        this.vertexBuffer.clear();
+        this.vertexBuffer.put(newVerts);
+        this.vertexBuffer.position(0);
+    }
 }

@@ -21,7 +21,7 @@ public class GameStuff {
     private int ScreenHeight;
     private float screenRatio; // ScreenWidth / ScreenHeight.
     private TextureFactory textureFactory; // Reference to a TextureFactory for building images.
-
+    private Background background;
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
      * game. This constructor builds all of the objects we need.
@@ -40,6 +40,7 @@ public class GameStuff {
         this.screenRatio = (float)this.getScreenWidth()/(float)this.getScreenHeight(); // Build ratio.
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
         character = new Character(contextHolder,textureFactory.getCharacter_run(),screenRatio);
+        background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
     }   // See character object for line above.
 
     /**
@@ -109,5 +110,13 @@ public class GameStuff {
      */
     public List<Sprite> getEnemies() {
         return enemies;
+    }
+
+    /**
+     * Returns the background object
+     * @return Background wrapper class
+     */
+    public Background getBackground(){
+        return background;
     }
 }

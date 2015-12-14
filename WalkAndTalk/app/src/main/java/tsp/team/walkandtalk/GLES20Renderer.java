@@ -49,7 +49,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         mActivityContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                score.setText("Score: "+gamestuff.getScore()+"");
+                score.setText("Score: " + gamestuff.getScore() + "");
             }
         });
         gamestuff.updateScore();
@@ -61,6 +61,29 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
         //Draw each sprite relative proper matrix
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+
+
+        float[] scratchb1 = new float[16];
+        Matrix.setIdentityM(mTranslationMatrix, 0);
+        Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage.px,
+                gamestuff.getBackground().visibleImage.py, 0);
+        Matrix.multiplyMM(scratchb1, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+
+
+        float[] scratchb2 = new float[16];
+        Matrix.setIdentityM(mTranslationMatrix, 0);
+        Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage2.px,
+                gamestuff.getBackground().visibleImage2.py, 0);
+        Matrix.multiplyMM(scratchb2, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+
+        float[] scratchb3 = new float[16];
+        Matrix.setIdentityM(mTranslationMatrix, 0);
+        Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage3.px,
+                gamestuff.getBackground().visibleImage3.py, 0);
+        Matrix.multiplyMM(scratchb3, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+
+        gamestuff.getBackground().testWrap(scratchb1, scratchb2, scratchb3);
+
 
         //Draw the character and go from there.
         float[] scratch = new float[16];

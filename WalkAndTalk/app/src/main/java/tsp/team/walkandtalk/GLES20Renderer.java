@@ -145,6 +145,9 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             s.vx = 0;
             s.vy = 0;
         }
+        gamestuff.getBackground().visibleImage.vx = 0; // Stop the background from scrolling on death.
+        gamestuff.getBackground().visibleImage2.vx = 0;
+        gamestuff.getBackground().visibleImage3.vx = 0;
     }
 
     /**

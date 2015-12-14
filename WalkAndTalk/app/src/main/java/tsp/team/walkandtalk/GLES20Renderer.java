@@ -24,12 +24,14 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mRotationMatrix = new float[16];
     private final float[] mTranslationMatrix = new float[16];
     private TextView score;
+    private long prevHighScore;
 
     //Default constructor meant to pass the gamestuff object from the surface view to here.
-    public GLES20Renderer(SceneWrapper scene, TextView score){
+    public GLES20Renderer(SceneWrapper scene, TextView score, long prevHighScore){
         // Nothing happens outside of gamestuff
         sceneWrapper = scene;
         this.score = score;
+        this.prevHighScore = prevHighScore;
     }
 
     /**
@@ -42,7 +44,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         // THIS MUST BE DONE TO KEEP WITHIN THE OPENGL THREAD
         GLES20.glEnable(GLES20.GL_BLEND);
         GLES20.glBlendFunc(GLES20.GL_ONE,GLES20.GL_ONE_MINUS_SRC_ALPHA);
-        gamestuff = new GameStuff(mActivityContext, sceneWrapper);
+        gamestuff = new GameStuff(mActivityContext, sceneWrapper, prevHighScore);
         gamestuff.makeTestDummies();
 
     }

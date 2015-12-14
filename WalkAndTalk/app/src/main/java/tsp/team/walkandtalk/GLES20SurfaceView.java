@@ -20,7 +20,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
     private final GLES20Renderer mRenderer;
     public TextView txtScore;
 
-    public GLES20SurfaceView(Activity context, SceneWrapper scene, TextView score) {
+    public GLES20SurfaceView(Activity context, SceneWrapper scene, TextView score, long prevHighScore) {
         super(context);
         txtScore = score;
 
@@ -28,7 +28,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new GLES20Renderer(scene, txtScore);
+        mRenderer = new GLES20Renderer(scene, txtScore, prevHighScore);
         mRenderer.mActivityContext = context;
         setRenderer(mRenderer);
 

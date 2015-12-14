@@ -4,10 +4,40 @@
     android:layout_height="match_parent"
     android:id="@+id/test">
 
-    <TextView
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/txtScore" />
+        android:background="@color/score_bar">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDetails"
+            android:layout_weight="5"
+            android:textSize="@dimen/bar_size"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtHighScore"
+            android:layout_weight="4"
+            android:textSize="@dimen/bar_size"
+            android:text="High Score:"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtScore"
+            android:layout_weight="4"
+            android:textSize="@dimen/bar_size"
+            android:text="Score: 0"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
 
 </LinearLayout>

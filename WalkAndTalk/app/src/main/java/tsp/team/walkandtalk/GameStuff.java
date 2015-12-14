@@ -23,6 +23,7 @@ public class GameStuff {
     private TextureFactory textureFactory; // Reference to a TextureFactory for building images.
     private Background background;
     private EnemyFactory enemyFactory; // Reference to a EnemyFactory that will build generic enemies.
+    private long prevHighScore;
 
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
@@ -30,10 +31,11 @@ public class GameStuff {
      * @param c Context of the application that this object belongs to.
      * @param scene SceneWrapper that will be used to specify backgrounds and enemy types.
      */
-    public GameStuff(Context c, SceneWrapper scene){
+    public GameStuff(Context c, SceneWrapper scene, long prevHighScore){
         score = 0;
         this.textureFactory = new TextureFactory(c, scene); // See TextureFactory class...
         this.contextHolder = c;
+        this.prevHighScore = prevHighScore;
         WindowManager wm = (WindowManager)c.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm); // Above lines including this one find the width and height.

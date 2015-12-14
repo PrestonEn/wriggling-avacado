@@ -98,6 +98,25 @@ public class ScoresDBManager {
         return scoresRows; // Return ArrayList of all scores
     } // retrieveHighScoreRows
 
+    /** getMaxScore
+     * This method returns the maximum high score row.
+     *
+     * @return Max high score row
+     */
+    public HighScore getMaxScore(){
+        db = helper.getReadableDatabase();
+        Cursor scoreCursor = db.query(SQLHelper.DB_TABLE_SCORES, SCORES_COLUMNS, null, null, null, null, SQLHelper.KEY_SCORE + " DESC", null);
+        scoreCursor.moveToFirst();
+        HighScore hs = new HighScore(scoreCursor.getString(0), scoreCursor.getLong(1),
+                scoreCursor.getLong(2), scoreCursor.getString(3), scoreCursor.getString(4));
+        scoreCursor.moveToNext();
+        if (scoreCursor != null && !scoreCursor.isClosed()) { // Close cursor
+            scoreCursor.close();
+        }
+        db.close();
+        return hs; // Return max high score
+    } // getHighScore
+
     /** deleteAllHighScoreRows
      * This method deletes all high scores in the Scores table.
      *

@@ -1,5 +1,6 @@
 package tsp.team.walkandtalk;
 
+import android.content.Context;
 import android.util.DisplayMetrics;
 
 /**
@@ -10,7 +11,7 @@ public class Background {
     private float[]  windowCoords;
     private Square visibleImage;
 
-    public Background(TextureInfo backTex){
+    public Background(TextureInfo backTex, Context c){
         DisplayMetrics dm = new DisplayMetrics();
         float ratio = (float)dm.widthPixels/(float)dm.heightPixels;
         windowCoords = new float[]{
@@ -20,7 +21,7 @@ public class Background {
                 -ratio,-1f, -3f
         };
 
-        visibleImage = new Square(windowCoords, 0f, 0f, 0f, 0f, backTex);
+        visibleImage = new Square(windowCoords, 0f, 0f, 0f, 0f, c, false, 0f, 0f, 0f, backTex);
     }
 
     public void updateUVs(){

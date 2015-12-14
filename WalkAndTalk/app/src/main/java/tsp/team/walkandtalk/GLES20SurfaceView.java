@@ -23,6 +23,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
     public GLES20SurfaceView(Activity context, SceneWrapper scene, TextView score) {
         super(context);
         txtScore = score;
+
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 
@@ -33,8 +34,6 @@ public class GLES20SurfaceView extends GLSurfaceView{
 
         // Render the view only when there is a change in the drawing data
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
-
-
     }
 
     /**

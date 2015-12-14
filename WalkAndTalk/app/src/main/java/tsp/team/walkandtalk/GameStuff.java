@@ -43,7 +43,7 @@ public class GameStuff {
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
         background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
         character = new Character(contextHolder,textureFactory.getCharacter_run(),
-                textureFactory.getCharacter_jump(),screenRatio);
+                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(),screenRatio);
         enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
     }   // See character object for line above.
 

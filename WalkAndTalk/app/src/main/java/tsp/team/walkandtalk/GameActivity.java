@@ -27,7 +27,7 @@ public class GameActivity extends Activity {
         setContentView(R.layout.activity_game);
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
-        mGLView = new GLES20SurfaceView(this, scene, (TextView)findViewById(R.id.txtScore));
+        mGLView = new GLES20SurfaceView(GameActivity.this , scene, (TextView)findViewById(R.id.txtScore));
         LinearLayout surface = (LinearLayout)findViewById(R.id.test);
         surface.addView(mGLView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }

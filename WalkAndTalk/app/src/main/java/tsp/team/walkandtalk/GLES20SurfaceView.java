@@ -80,7 +80,7 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
         float touchY = (e.getY()/((float)height*0.5f))-1;
         touchY = -touchY; //Above is coordinate maps.
 
-        if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter())){ // Jump if on Earl..
+        if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter().getSquare())){ // Jump if on Earl..
             mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
         }
 
@@ -89,7 +89,7 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
-        mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
+        // Enemy kill information.
         return true;
     }
 
@@ -98,11 +98,11 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
      * within the bounding box of the character in game.
      * @param touchX X coordinate in the opengl system.
      * @param touchY Y coordinate in the opengl system.
-     * @param c Character reference.
+     * @param c Character reference or sprite reference of the square..
      * @return Boolean if you are clicking on the character or not.
      */
-    private boolean detectCharTouch(float touchX, float touchY, Character c){
-        return (Math.abs(touchX - c.getSquare().px) * 2 < (c.getSquare().getWidth())) &&
-                (Math.abs(touchY - c.getSquare().py) * 2 < (c.getSquare().getHeight()));
+    private boolean detectCharTouch(float touchX, float touchY, Sprite c){
+        return (Math.abs(touchX - c.px) * 2 < (c.getWidth())) &&
+                (Math.abs(touchY - c.py) * 2 < (c.getHeight()));
     }
 }

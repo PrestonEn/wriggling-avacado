@@ -2,8 +2,8 @@ package tsp.team.walkandtalk;
 
 import java.io.Serializable;
 
-/**
- * Created by Stacey on 11/12/2015.
+/** Scene wrapper facilitates passing resource id's based on level and character
+ *  selection to the openGL activity
  */
 public class SceneWrapper implements Serializable {
     private String character;
@@ -16,6 +16,14 @@ public class SceneWrapper implements Serializable {
     private int[] enemies_run;
     private int[] enemies_fly;
 
+
+    /**
+     *
+     * @param c character name
+     * @param run integer to hold resourceID for running sprite sheet
+     * @param jump  integer to hold ResourceID for jump sprite sheet
+     * @param fall integer to hold ResourceID for fall sprite sheet
+     */
     public SceneWrapper(String c, int run, int jump, int fall){
         character = c;
         char_run = run;

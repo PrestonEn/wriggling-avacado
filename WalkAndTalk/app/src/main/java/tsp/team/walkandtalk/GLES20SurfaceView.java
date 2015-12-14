@@ -89,6 +89,15 @@ public class GLES20SurfaceView extends GLSurfaceView{
  */
 class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
 
+    /**
+     * This is the gesture type that allows for Earl to jump.
+     * @param e MotionEvent to examine.
+     * @return Boolean handled or not.
+     */
+    @Override
+    public boolean onSingleTapConfirmed(MotionEvent e){
 
+        return true;
+    }
 
 }

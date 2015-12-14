@@ -37,32 +37,52 @@ public class GLES20SurfaceView extends GLSurfaceView{
 
     }
 
-
+    /**
+     * This method takes in a touch to the screen and tests what it has collided with.
+     * Implementation is as follows. First scale coordinate systems to opengl system. Second, if the
+     * character has been touched, render and apply a jump. Third, determine if an enemy was touched.
+     * From there we would determine if it was the correct gesture.
+     * @param e MotionEvent supplied by the surface view to examine.
+     * @return Always returns true since we are handling the event actively.
+     */
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        //Log.e("ratio",ratio+"");//2560
-        float touchX = ((e.getX()/((float)this.getWidth()*0.5f))-1)*((float)this.getWidth()/this.getHeight());
-        float touchY = (e.getY()/((float)this.getHeight()*0.5f))-1; //invert this
-        touchY = -touchY;
+        if(mRenderer.getGamestuff() != null){ // Prevent early click errors.
+            float touchX = ((e.getX()/((float)this.getWidth()*0.5f))-1)*((float)this.getWidth()/this.getHeight());
+            float touchY = (e.getY()/((float)this.getHeight()*0.5f))-1;
+            touchY = -touchY; //Above is coordinate maps.
 
-        Log.e("test", touchX + "   " + touchY);
+//        Log.e("test", touchX + "   " + touchY);
 //        txtScore.setText("Touched: " + touchX + ", " + touchY);
 
-        if(detectTouch(touchX,touchY,mRenderer.getGamestuff().getCharacter())){
-            Log.e("TOUCH WORKED","YAAAAAAAAAAY");
+            if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter())){ // Jump.
+                mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
+                return true; // Early exit.
+            }
         }
 
         return true;
     }
 
-    private boolean detectTouch(float touchX, float touchY, Character c){
-        float interval = 0.0f; // Open interval around the touch to examine.
+    private boolean detectSpriteTouch(){
 
-        return (Math.abs(touchX - c.getSquare().px) * 2 < (interval + c.getSquare().getWidth())) &&
-                (Math.abs(touchY - c.getSquare().py) * 2 < (interval + c.getSquare().getHeight()));
+        return false;
     }
 
     public GameStuff passBack(){
         return mRenderer.getGamestuff();
+    }
+
+    /**
+     * This method is meant to detect if a particular pair of X,Y coordinates in opengl space collide
+     * within the bounding box of the character in game.
+     * @param touchX X coordinate in the opengl system.
+     * @param touchY Y coordinate in the opengl system.
+     * @param c Character reference.
+     * @return Boolean if you are clicking on the character or not.
+     */
+    private boolean detectCharTouch(float touchX, float touchY, Character c){
+        return (Math.abs(touchX - c.getSquare().px) * 2 < (c.getSquare().getWidth())) &&
+                (Math.abs(touchY - c.getSquare().py) * 2 < (c.getSquare().getHeight()));
     }
 }

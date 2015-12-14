@@ -112,6 +112,10 @@ public abstract class Sprite {
     // Require the making of a update method that will move the shape in space.
     abstract public void updateShape();
 
+    // Get width and height below being abstract force square to implement the ability to view height and width.
+    abstract public float getWidth();
+    abstract public float getHeight();
+
     public int getCurrentFrame() {
         return currentFrame;
     }

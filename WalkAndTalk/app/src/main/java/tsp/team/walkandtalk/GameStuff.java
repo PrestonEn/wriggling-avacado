@@ -22,6 +22,8 @@ public class GameStuff {
     private float screenRatio; // ScreenWidth / ScreenHeight.
     private TextureFactory textureFactory; // Reference to a TextureFactory for building images.
     private Background background;
+    private EnemyFactory enemyFactory; // Reference to a EnemyFactory that will build generic enemies.
+
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
      * game. This constructor builds all of the objects we need.
@@ -39,8 +41,10 @@ public class GameStuff {
         this.ScreenWidth = dm.widthPixels;
         this.screenRatio = (float)this.getScreenWidth()/(float)this.getScreenHeight(); // Build ratio.
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
-        character = new Character(contextHolder,textureFactory.getCharacter_run(),screenRatio);
         background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
+        character = new Character(contextHolder,textureFactory.getCharacter_run(),
+                textureFactory.getCharacter_jump(),screenRatio);
+        enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
     }   // See character object for line above.
 
     /**
@@ -79,21 +83,7 @@ public class GameStuff {
      * Debugging method for enemies.
      */
     public void makeTestDummies(){
-        //Eventually there needs to be some sort of scene drawing going on in here.
-        float squareCoords[] = {
-                0.375f,  0.6f, 0.0f,   // top left
-                0.375f, -0.6f, 0.0f,   // bottom left
-                -0.375f, -0.6f, 0.0f,   // bottom right
-                -0.375f,  0.6f, 0.0f }; // top right
-
-        Square aSquare = new Square(squareCoords, 0.5f, 0.4f, 0.01f, 0.01f, this.getContextHolder(),
-                true, 0.0f, 0.5f, screenRatio, textureFactory.getTestTexture());
-
-        Square bSquare = new Square(squareCoords, -0.3f, 0.4f, -0.01f, -0.01f, this.getContextHolder(),
-                true, 0.0f, 0.5f, screenRatio, textureFactory.getTestTexture());
-
-        this.getEnemies().add(aSquare);
-        this.getEnemies().add(bSquare);
+        enemies.add(enemyFactory.makeStillEnemy(DifficultySetting.DIFFICULTY_EASY));
     }
 
     public void updateScore(){

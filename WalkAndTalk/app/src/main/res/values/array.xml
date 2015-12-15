@@ -99,7 +99,7 @@
     </array>
 
     <string-array name="enemies_fly_classroom">
-        <item>@raw/scene_classroom_desk</item>
+        <item>@raw/scene_classroom_clock</item>
     </string-array>
 
     <string-array name="enemies_fly_library">

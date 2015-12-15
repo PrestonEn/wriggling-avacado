@@ -57,6 +57,7 @@
 
     <string-array name="enemies_still_classroom">
         <item>@raw/scene_classroom_desk</item>
+        <item>@raw/scene_classroom_paperwork</item>
     </string-array>
 
     <string-array name="enemies_still_library">

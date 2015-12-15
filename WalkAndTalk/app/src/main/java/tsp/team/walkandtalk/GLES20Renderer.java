@@ -56,7 +56,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
      */
     @Override
     public void onDrawFrame(GL10 unused) {
-        // Comments here please.
+        // Updates to the text on the screen.
         mActivityContext.runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -106,7 +106,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
         gamestuff.getCharacter().getSquare().draw(scratch);
         gamestuff.getCharacter().update(); // Implement this later to get it actually animating.
-
+        gamestuff.spawnPoller();
         // Java threadsafe crystal-healing.
         for (Iterator<Sprite> iterator = gamestuff.getEnemies().iterator(); iterator.hasNext();) {
             Sprite s = iterator.next();

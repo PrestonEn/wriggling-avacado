@@ -24,6 +24,7 @@ public class Character {
     private boolean jumping = false;
     private static int jumpDrawMax = 32; // Maximum amount of times the jump frame is to be drawn.
     private int jumpDrawCount = 0;
+    private boolean doneDying = false; // Signal for when the dying anim is done.
     private static float[] standardUVMap = new float[]{ // Standard UV params.
             1.0f, 0.0f,
             1.0f, 1.0f,
@@ -117,7 +118,19 @@ public class Character {
                 squareImage.animUVs = computeUVs[deathFrame]; // Increment and draw frames.
                 deathFrame++;
             }
+            else{
+                deathFrame++;
+                if(deathFrame > 100)this.doneDying = true;
+            }
         }
+    }
+
+    /**
+     * Examine if the dying animation has completed.
+     * @return Boolean done dying.
+     */
+    public boolean isDoneDying() {
+        return doneDying;
     }
 
     /**

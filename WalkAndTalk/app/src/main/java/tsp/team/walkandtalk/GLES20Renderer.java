@@ -134,6 +134,10 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
             gamestuff.getCharacter().getSquare().live = false; // Character is kill.
             stopAllMovingObjects();
         }
+
+        if(gamestuff.getCharacter().isDoneDying()){
+            Log.e("done","trigger the done loop");
+        }
     }
 
     /**

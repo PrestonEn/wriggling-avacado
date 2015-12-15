@@ -1,11 +1,15 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
+import android.view.SurfaceView;
 import android.widget.TextView;
 
 import java.util.Iterator;
@@ -25,13 +29,17 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     private final float[] mTranslationMatrix = new float[16];
     private TextView score;
     private long prevHighScore;
+    private AlertDialog.Builder endGameDialog;
+    private GLES20SurfaceView surfaceView;
 
     //Default constructor meant to pass the gamestuff object from the surface view to here.
-    public GLES20Renderer(SceneWrapper scene, TextView score, long prevHighScore){
+    public GLES20Renderer(GLES20SurfaceView surfaceView, SceneWrapper scene, TextView score, long prevHighScore, AlertDialog.Builder builder){
         // Nothing happens outside of gamestuff
+        this.surfaceView = surfaceView;
         sceneWrapper = scene;
         this.score = score;
         this.prevHighScore = prevHighScore;
+        endGameDialog = builder;
     }
 
     /**
@@ -54,89 +62,99 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
      */
     @Override
     public void onDrawFrame(GL10 unused) {
-        // Updates to the text on the screen.
-        mActivityContext.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                score.setText("Score: " + gamestuff.getScore() + "");
-            }
-        });
-        if(gamestuff.getCharacter().getSquare().live)gamestuff.updateScore();
 
-        // Draw background color
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-
-        // Set the camera position (View matrix)
-        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
-
-        // Draw each sprite relative proper matrix
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
-
-        float[] scratchb1 = new float[16];
-        Matrix.setIdentityM(mTranslationMatrix, 0);
-        Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage.px,
-                gamestuff.getBackground().visibleImage.py, 0);
-        Matrix.multiplyMM(scratchb1, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
-
-
-        float[] scratchb2 = new float[16];
-        Matrix.setIdentityM(mTranslationMatrix, 0);
-        Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage2.px,
-                gamestuff.getBackground().visibleImage2.py, 0);
-        Matrix.multiplyMM(scratchb2, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
-
-        float[] scratchb3 = new float[16];
-        Matrix.setIdentityM(mTranslationMatrix, 0);
-        Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage3.px,
-                gamestuff.getBackground().visibleImage3.py, 0);
-        Matrix.multiplyMM(scratchb3, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
-
-        gamestuff.getBackground().testWrap(scratchb1, scratchb2, scratchb3);
-
-
-        // Draw the character and go from there.
-        // See comments below inside for loop for explanation of below code.
-
-        float[] scratch = new float[16];
-        Matrix.setIdentityM(mTranslationMatrix, 0);
-        Matrix.translateM(mTranslationMatrix, 0, gamestuff.getCharacter().getSquare().px,
-                gamestuff.getCharacter().getSquare().py, 0);
-        Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
-        gamestuff.getCharacter().getSquare().draw(scratch);
-        gamestuff.getCharacter().update(); // Implement this later to get it actually animating.
-        gamestuff.spawnPoller();
-        // Java threadsafe crystal-healing.
-        for (Iterator<Sprite> iterator = gamestuff.getEnemies().iterator(); iterator.hasNext();) {
-            Sprite s = iterator.next();
-            if (!s.needRotate()) { // If the sprite does not have an animated rotation...
-                float[] aScratch = new float[16]; // Build a matrix to apply transformations to.
-                Matrix.setIdentityM(mTranslationMatrix, 0); // Load the identity in, aka reset it.
-                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0); // Apply the translation.
-                Matrix.multiplyMM(aScratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0); // Multiply by MVP.
-                s.draw(aScratch); // Draw.
-            }
-            else { // Slightly more complicated rotation of shapes.
-                float[] aScratch = new float[16]; // Scratches.
-                float[] bScratch = new float[16];
-
-                Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f); // Load rotate based on angle.
-                Matrix.setIdentityM(mTranslationMatrix, 0); // Reset the translation.
-                Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0); // Apply translation to recent reset.
-                Matrix.multiplyMM(aScratch, 0, mTranslationMatrix, 0, mRotationMatrix, 0); // Multiply the rotation and translation.
-                Matrix.multiplyMM(bScratch, 0, mMVPMatrix, 0, aScratch, 0); // Scale to MVP.
-                s.draw(bScratch); // Draw.
-            }
-            s.updateShape(); // Make sure that the position and other things are updated.
-            if(!s.live)iterator.remove(); // Shape is kill.
+        if(gamestuff.getCharacter().isDoneDying()) {
+            Log.e("done", "trigger the done loop");
+            surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+            mActivityContext.runOnUiThread(new Runnable() {
+                public void run() {
+                    endGameDialog.show();
+                }
+            });
         }
-        // Test for any collisions in the system.
-        if(examineCollisions()){
-            gamestuff.getCharacter().getSquare().live = false; // Character is kill.
-            stopAllMovingObjects();
-        }
+        else {
 
-        if(gamestuff.getCharacter().isDoneDying()){
-            Log.e("done","trigger the done loop");
+            // Updates to the text on the screen.
+            mActivityContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    score.setText("Score: " + gamestuff.getScore() + "");
+                }
+            });
+            if(gamestuff.getCharacter().getSquare().live)gamestuff.updateScore();
+
+            // Draw background color
+            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+
+            // Set the camera position (View matrix)
+            Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
+
+            // Draw each sprite relative proper matrix
+            Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+
+            float[] scratchb1 = new float[16];
+            Matrix.setIdentityM(mTranslationMatrix, 0);
+            Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage.px,
+                    gamestuff.getBackground().visibleImage.py, 0);
+            Matrix.multiplyMM(scratchb1, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+
+
+            float[] scratchb2 = new float[16];
+            Matrix.setIdentityM(mTranslationMatrix, 0);
+            Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage2.px,
+                    gamestuff.getBackground().visibleImage2.py, 0);
+            Matrix.multiplyMM(scratchb2, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+
+            float[] scratchb3 = new float[16];
+            Matrix.setIdentityM(mTranslationMatrix, 0);
+            Matrix.translateM(mTranslationMatrix, 0, gamestuff.getBackground().visibleImage3.px,
+                    gamestuff.getBackground().visibleImage3.py, 0);
+            Matrix.multiplyMM(scratchb3, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+
+            gamestuff.getBackground().testWrap(scratchb1, scratchb2, scratchb3);
+
+
+            // Draw the character and go from there.
+            // See comments below inside for loop for explanation of below code.
+
+            float[] scratch = new float[16];
+            Matrix.setIdentityM(mTranslationMatrix, 0);
+            Matrix.translateM(mTranslationMatrix, 0, gamestuff.getCharacter().getSquare().px,
+                    gamestuff.getCharacter().getSquare().py, 0);
+            Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
+            gamestuff.getCharacter().getSquare().draw(scratch);
+            gamestuff.getCharacter().update(); // Implement this later to get it actually animating.
+            gamestuff.spawnPoller();
+            // Java threadsafe crystal-healing.
+            for (Iterator<Sprite> iterator = gamestuff.getEnemies().iterator(); iterator.hasNext();) {
+                Sprite s = iterator.next();
+                if (!s.needRotate()) { // If the sprite does not have an animated rotation...
+                    float[] aScratch = new float[16]; // Build a matrix to apply transformations to.
+                    Matrix.setIdentityM(mTranslationMatrix, 0); // Load the identity in, aka reset it.
+                    Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0); // Apply the translation.
+                    Matrix.multiplyMM(aScratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0); // Multiply by MVP.
+                    s.draw(aScratch); // Draw.
+                }
+                else { // Slightly more complicated rotation of shapes.
+                    float[] aScratch = new float[16]; // Scratches.
+                    float[] bScratch = new float[16];
+
+                    Matrix.setRotateM(mRotationMatrix, 0, s.getAngle(), 0, 0, 1.0f); // Load rotate based on angle.
+                    Matrix.setIdentityM(mTranslationMatrix, 0); // Reset the translation.
+                    Matrix.translateM(mTranslationMatrix, 0, s.px, s.py, 0); // Apply translation to recent reset.
+                    Matrix.multiplyMM(aScratch, 0, mTranslationMatrix, 0, mRotationMatrix, 0); // Multiply the rotation and translation.
+                    Matrix.multiplyMM(bScratch, 0, mMVPMatrix, 0, aScratch, 0); // Scale to MVP.
+                    s.draw(bScratch); // Draw.
+                }
+                s.updateShape(); // Make sure that the position and other things are updated.
+                if(!s.live)iterator.remove(); // Shape is kill.
+            }
+            // Test for any collisions in the system.
+            if(examineCollisions()){
+                gamestuff.getCharacter().getSquare().live = false; // Character is kill.
+                stopAllMovingObjects();
+            }
+
         }
     }
 

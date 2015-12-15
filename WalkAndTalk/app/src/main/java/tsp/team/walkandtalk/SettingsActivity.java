@@ -182,4 +182,8 @@ public class SettingsActivity extends Activity {
 
     } // fromSettingsToMain
 
+    @Override
+    public void onBackPressed(){
+    }
+
 } // SettingsActivity

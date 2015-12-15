@@ -1,6 +1,7 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -9,7 +10,6 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -20,7 +20,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
     private GestureDetectorCompat mDetector;
     public TextView txtScore;
 
-    public GLES20SurfaceView(Activity context, SceneWrapper scene, TextView score, long prevHighScore) {
+    public GLES20SurfaceView(Activity context, SceneWrapper scene, TextView score, long prevHighScore, AlertDialog.Builder builder) {
         super(context);
         txtScore = score;
 
@@ -28,7 +28,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new GLES20Renderer(scene, txtScore, prevHighScore);
+        mRenderer = new GLES20Renderer(this, scene, txtScore, prevHighScore, builder);
         mRenderer.mActivityContext = context;
         setRenderer(mRenderer);
 

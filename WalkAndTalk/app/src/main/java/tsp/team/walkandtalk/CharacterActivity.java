@@ -84,4 +84,8 @@ public class CharacterActivity extends Activity {
         startActivity(intent);
 
     } // fromCharacterToMain
+
+    @Override
+    public void onBackPressed(){
+    }
 }

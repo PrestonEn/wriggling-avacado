@@ -191,7 +191,7 @@ public class HighScoresActivity extends Activity {
             TextView txtCharScene = (TextView) convertView.findViewById(R.id.txtCharScene);
 
             // Set display fields
-            txtScore.setText(Long.toString(hs.score) + " m");
+            txtScore.setText(Long.toString(hs.score));
             if (font != null) txtScore.setTypeface(font);
             txtDate.setText("On " + hs.getDate() + " at " + hs.getTime());
             txtCharScene.setText("With " + hs.character + " in the " + hs.scene);

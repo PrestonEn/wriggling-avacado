@@ -100,13 +100,6 @@ public class GameStuff {
     }
 
     /**
-     * Debugging method for enemies.
-     */
-    public void makeTestDummies() {
-        enemies.add(enemyFactory.makeStillEnemy(DifficultySetting.DIFFICULTY_EASY));
-    }
-
-    /**
      * incrememnts score by 1 and tests for milestone of 500 points via mod
      */
     public void updateScore(){
@@ -139,8 +132,7 @@ public class GameStuff {
     }
 
     /**
-     * Generate new enemies after a randomly generated interval, and recalculate the counter
-     *
+     * Generate new enemies after a randomly generated interval, and recalculate the counter.
      */
     public void spawnPoller(){
         if(stillCounter == 0){

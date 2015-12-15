@@ -113,14 +113,11 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
 
         if(s != null){
             if(s.getKillGesture() == EnemyKillGesture.GESTURE_FLING || s.getKillGesture() == EnemyKillGesture.GESTURE_FLING_DOWN){
+                //Log.e("VelY",""+velocityY);
+                //Log.e("VelX",""+velocityX);
                 s.vy = -s.vy; // Send off screen.
                 s.vx = -s.vx;
             }
-
-            Log.e("hit","hit");
-        }
-        else{
-            Log.e("miss","miss");
         }
 
         return true;

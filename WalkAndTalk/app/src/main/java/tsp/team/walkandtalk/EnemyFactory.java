@@ -51,7 +51,7 @@ public class EnemyFactory {
         }
 
         Square enemy =  new Square(stillShape, 2.49f, -0.75f, rate, 0.0f, contextHolder,
-            false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_still());
+                false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_still());
         enemy.setKillGesture(null); // No kill gesture for this.
         return enemy;
     }
@@ -65,13 +65,13 @@ public class EnemyFactory {
         float rate = 0.0f;
         switch(difficulty){
             case DIFFICULTY_EASY:
-                rate = -0.02f;
+                rate = -0.02f * 1.5f;
                 break;
             case DIFFICULTY_MEDIUM:
-                rate = -0.033f;
+                rate = -0.033f * 1.5f;
                 break;
             case DIFFICULTY_HARD:
-                rate = -0.041f;
+                rate = -0.041f * 1.5f;
                 break;
         }
 

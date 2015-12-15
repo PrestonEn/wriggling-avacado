@@ -104,5 +104,4 @@ public class EnemyFactory {
         enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING_DOWN);
         return enemy;
     }
-
 }

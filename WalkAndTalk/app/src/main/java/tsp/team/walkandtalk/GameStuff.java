@@ -1,6 +1,8 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
@@ -26,6 +28,8 @@ public class GameStuff {
     private EnemyFactory enemyFactory; // Reference to a EnemyFactory that will build generic enemies.
     private int stillCounter, runCounter, flyCounter;
     private long prevHighScore;
+    private int[] soundIDs;
+    private SoundPool pool;
 
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
@@ -53,6 +57,13 @@ public class GameStuff {
         stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+
+
+        soundIDs = new int[3];
+        pool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundIDs[0] = pool.load(contextHolder, R.raw.dealie, 1);
+        soundIDs[1] = pool.load(contextHolder, R.raw.face, 1);
+
 
     }   // See character object for line above.
 
@@ -102,6 +113,8 @@ public class GameStuff {
         score++;
         if(score % 500 == 0){
             //todo play ding sound
+            pool.play(soundIDs[0], 1, 1, 1, 0, 1);
+
         }
     }
 
@@ -139,7 +152,7 @@ public class GameStuff {
 
         if(flyCounter == 0){
             //TODO: add logic and sound effect
-            enemies.add(enemyFactory.makeFlyEnemy(DifficultySetting.DIFFICULTY_EASY));
+            enemies.add(enemyFactory.makeFlyEnemy(DifficultySetting.DIFFICULTY_EASY, character));
             flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         }else{
             --flyCounter;

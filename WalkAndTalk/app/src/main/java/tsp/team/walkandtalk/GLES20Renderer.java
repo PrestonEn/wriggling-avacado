@@ -146,6 +146,7 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
         for(Sprite s : gamestuff.getEnemies()){ // This stop all of the enemies.
             s.vx = 0;
             s.vy = 0;
+            s.angleRate = 0.0f;
         }
         gamestuff.getBackground().visibleImage.vx = 0; // Stop the background from scrolling on death.
         gamestuff.getBackground().visibleImage2.vx = 0;

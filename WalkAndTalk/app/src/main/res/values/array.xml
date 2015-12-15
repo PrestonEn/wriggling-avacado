@@ -75,15 +75,21 @@
     </array>
 
     <string-array name="enemies_run_classroom">
-        <item>@raw/scene_classroom_desk</item>
+        <item>@raw/scene_classroom_calculator</item>
+        <item>@raw/scene_classroom_beaker</item>
+        <item>@raw/scene_classroom_chair</item>
     </string-array>
 
     <string-array name="enemies_run_library">
-        <item>@raw/scene_library_books</item>
+        <item>@raw/scene_library_running_book</item>
+        <item>@raw/scene_library_apple</item>
+        <item>@raw/scene_library_book_cart</item>
     </string-array>
 
     <string-array name="enemies_run_hallway">
-        <item>@raw/scene_hallway_backpack</item>
+        <item>@raw/scene_hallway_garbage</item>
+        <item>@raw/scene_hallway_lock</item>
+        <item>@raw/scene_hallway_cart</item>
     </string-array>
 
     <array name="enemies_run">
@@ -97,11 +103,11 @@
     </string-array>
 
     <string-array name="enemies_fly_library">
-        <item>@raw/scene_library_books</item>
+        <item>@raw/scene_library_owl</item>
     </string-array>
 
     <string-array name="enemies_fly_hallway">
-        <item>@raw/scene_hallway_backpack</item>
+        <item>@raw/scene_hallway_ball</item>
     </string-array>
 
     <array name="enemies_fly">

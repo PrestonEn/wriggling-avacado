@@ -116,11 +116,6 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
                 s.vy = -s.vy; // Send off screen.
                 s.vx = -s.vx;
             }
-
-            Log.e("hit","hit");
-        }
-        else{
-            Log.e("miss","miss");
         }
 
         return true;

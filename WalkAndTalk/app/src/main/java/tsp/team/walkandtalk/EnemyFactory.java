@@ -49,8 +49,10 @@ public class EnemyFactory {
                 break;
         }
 
-        return new Square(stillShape, 2.49f, -0.75f, rate, 0.0f, contextHolder,
+        Square enemy =  new Square(stillShape, 2.49f, -0.75f, rate, 0.0f, contextHolder,
             false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_still());
+        enemy.setKillGesture(null); // No kill gesture for this.
+        return enemy;
     }
 
     /**
@@ -72,8 +74,10 @@ public class EnemyFactory {
                 break;
         }
 
-        return new Square(stillShape, 2.49f, new Random().nextFloat() * -1f, rate, 0.0f, contextHolder,
+        Square enemy = new Square(stillShape, 2.49f, new Random().nextFloat() * -1f, rate, 0.0f, contextHolder,
                 false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_run());
+        enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING); // Fling anywhere for this.
+        return enemy;
     }
 
     /**
@@ -95,8 +99,10 @@ public class EnemyFactory {
                 break;
         }
 
-        return new Square(stillShape, 2.49f, new Random().nextFloat() , rate, 0.0f, contextHolder,
+        Square enemy = new Square(stillShape, 2.49f, new Random().nextFloat() , rate, 0.0f, contextHolder,
                 false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_fly());
+        enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING_DOWN);
+        return enemy;
     }
 
 }

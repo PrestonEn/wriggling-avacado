@@ -62,6 +62,10 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
 
     private GLES20Renderer mRenderer;
 
+    /**
+     * Default constructor which takes a reference to the renderer so that we can pass information.
+     * @param renderer Reference to the renderer.
+     */
     public EnemyGestureListener(GLES20Renderer renderer){
         this.mRenderer = renderer;
     }
@@ -80,17 +84,73 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
         float touchY = (e.getY()/((float)height*0.5f))-1;
         touchY = -touchY; //Above is coordinate maps.
 
-        if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter().getSquare())){ // Jump if on Earl..
+        if(detectCharTouch(touchX, touchY, mRenderer.getGamestuff().getCharacter())){ // Jump if on Earl..
             mRenderer.getGamestuff().getCharacter().applyJump(); // Signal the jump.
         }
 
         return true;
     }
 
+    /**
+     * Standard onFling gesture method.
+     * Our implementation will kill an enemy only if it is flung in the correct direction.
+     * @param e1 MotionEvent e1.
+     * @param e2 MotionEvent e2.
+     * @param velocityX Velocity in terms of X.
+     * @param velocityY Velocity in terms of Y.
+     * @return Boolean if the event is handled.
+     */
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
-        // Enemy kill information.
+        int height = this.mRenderer.getGamestuff().getScreenHeight();
+        int width = this.mRenderer.getGamestuff().getScreenWidth();
+
+        float touchX = ((e1.getX()/((float)width*0.5f))-1)*((float)width/(float)height);
+        float touchY = (e1.getY()/((float)height*0.5f))-1;
+        touchY = -touchY; //Above is coordinate maps.
+
+        Sprite s = findSpriteAt(touchX,touchY); // Try and find a sprite at the touch location.
+
+        if(s != null){
+            if(s.getKillGesture() == EnemyKillGesture.GESTURE_FLING || s.getKillGesture() == EnemyKillGesture.GESTURE_FLING_DOWN){
+                s.vy = -s.vy; // Send off screen.
+                s.vx = -s.vx;
+            }
+
+            Log.e("hit","hit");
+        }
+        else{
+            Log.e("miss","miss");
+        }
+
         return true;
+    }
+
+    /**
+     * Samples all the sprites to see if a touch falls within one or not.
+     * @param touchX X coordinate of touch.
+     * @param touchY Y coordinate of touch.
+     * @return Sprite reference if you actually touched one. Null otherwise.
+     */
+    private Sprite findSpriteAt(float touchX, float touchY){
+        for(Sprite s : mRenderer.getGamestuff().getEnemies()){
+            if(detectSpriteAt(touchX,touchY,s))return s;
+        }
+
+        return null;
+    }
+
+    /**
+     * This method is meant to detect if a particular pair of X,Y coordinates in opengl space collide
+     * within the bounding box of the enemy.
+     * @param touchX X coordinate in the opengl system.
+     * @param touchY Y coordinate in the opengl system.
+     * @param s Sprite reference.
+     * @return Boolean if you are clicking on the sprite or not.
+     */
+    private boolean detectSpriteAt(float touchX, float touchY, Sprite s){
+        return (Math.abs(touchX - s.px) * 2 < (0.01f + s.getWidth())) &&
+                (Math.abs(touchY - s.py) * 2 < (0.01f + s.getHeight()));
     }
 
     /**
@@ -98,11 +158,11 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
      * within the bounding box of the character in game.
      * @param touchX X coordinate in the opengl system.
      * @param touchY Y coordinate in the opengl system.
-     * @param c Character reference or sprite reference of the square..
+     * @param c Character reference.
      * @return Boolean if you are clicking on the character or not.
      */
-    private boolean detectCharTouch(float touchX, float touchY, Sprite c){
-        return (Math.abs(touchX - c.px) * 2 < (c.getWidth())) &&
-                (Math.abs(touchY - c.py) * 2 < (c.getHeight()));
+    private boolean detectCharTouch(float touchX, float touchY, Character c){
+        return (Math.abs(touchX - c.getSquare().px) * 2 < (c.getSquare().getWidth())) &&
+                (Math.abs(touchY - c.getSquare().py) * 2 < (c.getSquare().getHeight()));
     }
 }

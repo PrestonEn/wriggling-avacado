@@ -116,6 +116,10 @@ public abstract class Sprite {
     abstract public float getWidth();
     abstract public float getHeight();
 
+    // Abstract methods for making an enemy responds to a particular gesture that will kill it.
+    abstract public EnemyKillGesture getKillGesture();
+    abstract public void setKillGesture(EnemyKillGesture killGesture);
+
     public int getCurrentFrame() {
         return currentFrame;
     }

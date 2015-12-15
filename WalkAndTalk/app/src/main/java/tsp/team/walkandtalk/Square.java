@@ -25,6 +25,7 @@ public class Square extends Sprite{
     private int mPositionHandle;
     private int mMVPMatrixHandle;
     private int mTexCoordHandle;
+    private EnemyKillGesture killGesture = null;
     private TextureInfo tInfo;
 
     // number of coordinates per vertex in this array
@@ -34,7 +35,7 @@ public class Square extends Sprite{
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     /**
-     *
+     * Square constructor.
      * @param sc    coordinates of verticies on window
      * @param posX  center x position
      * @param posY  center y position
@@ -186,6 +187,25 @@ public class Square extends Sprite{
 
         // Disable vertex array
         GLES20.glDisableVertexAttribArray(mPositionHandle);
+    }
+
+    /**
+     * Method for returning what type of gesture will kill this object.
+     * @return EnemyKillGesture enumeration type.
+     */
+    @Override
+    public EnemyKillGesture getKillGesture(){
+        return this.killGesture;
+    }
+
+    /**
+     * Sets the kill gesture of a square. This is really only to be set if the square that is built is
+     * an enemy of fly or run type.
+     * @param killGesture EnemyKillGesture to set as.
+     */
+    @Override
+    public void setKillGesture(EnemyKillGesture killGesture){
+        this.killGesture = killGesture;
     }
 
     /**

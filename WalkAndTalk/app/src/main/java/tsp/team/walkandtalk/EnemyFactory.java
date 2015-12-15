@@ -2,6 +2,8 @@ package tsp.team.walkandtalk;
 
 import android.content.Context;
 
+import java.util.Random;
+
 /**
  * This class is responsible for building enemies for the game loop to throw at the Character.
  * Basic Factory design patter at work.
@@ -16,6 +18,7 @@ public class EnemyFactory {
          0.2f, -0.2f, 0.0f,   // bottom left
          -0.2f, -0.2f, 0.0f,   // bottom right
          -0.2f,  0.2f, 0.0f }; // top right
+
 
     /**
      * Main constructor for the object which will just build the necessary instance variables.
@@ -46,8 +49,60 @@ public class EnemyFactory {
                 break;
         }
 
-        return new Square(stillShape, 2.49f, -0.75f, rate, 0.0f, contextHolder,
+        Square enemy =  new Square(stillShape, 2.49f, -0.75f, rate, 0.0f, contextHolder,
             false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_still());
+        enemy.setKillGesture(null); // No kill gesture for this.
+        return enemy;
+    }
+
+    /**
+     * Method for building a running enemy of a particular difficulty.
+     * @param difficulty DifficultySetting enumeration of EASY, MEDIUM, and HARD.
+     * @return Sprite form of the particular enemy type.
+     */
+    public Square makeRunEnemy(DifficultySetting difficulty){
+        float rate = 0.0f;
+        switch(difficulty){
+            case DIFFICULTY_EASY:
+                rate = -0.02f;
+                break;
+            case DIFFICULTY_MEDIUM:
+                rate = -0.033f;
+                break;
+            case DIFFICULTY_HARD:
+                rate = -0.041f;
+                break;
+        }
+
+        Square enemy = new Square(stillShape, 2.49f, new Random().nextFloat() * -1f, rate, 0.0f, contextHolder,
+                false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_run());
+        enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING); // Fling anywhere for this.
+        return enemy;
+    }
+
+    /**
+     * Method for building a flying enemy of a particular difficulty.
+     * @param difficulty DifficultySetting enumeration of EASY, MEDIUM, and HARD.
+     * @return Sprite form of the particular enemy type.
+     */
+    public Square makeFlyEnemy(DifficultySetting difficulty){
+        float rate = 0.0f;
+        switch(difficulty){
+            case DIFFICULTY_EASY:
+                rate = -0.02f;
+                break;
+            case DIFFICULTY_MEDIUM:
+                rate = -0.033f;
+                break;
+            case DIFFICULTY_HARD:
+                rate = -0.041f;
+                break;
+        }
+
+        Square enemy = new Square(stillShape, 2.49f, new Random().nextFloat() , rate, 0.0f, contextHolder,
+                false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_fly());
+        enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING_DOWN);
+        return enemy;
     }
 
 }

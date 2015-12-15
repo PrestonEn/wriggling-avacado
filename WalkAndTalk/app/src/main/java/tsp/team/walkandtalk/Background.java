@@ -25,7 +25,6 @@ public class Background {
     public Background(TextureInfo backTex, Context c, float ratio){
         this.ratio = ratio;
         DisplayMetrics dm = new DisplayMetrics();
-        Log.e("RATIO", ratio+"");
         windowCoords = new float[]{
                 -ratio*1.5f, -1f, 0.0f,   // bottom left
                 -ratio*1.5f,  1f, 0.0f,   // top left

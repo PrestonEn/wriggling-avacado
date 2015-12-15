@@ -149,8 +149,8 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
      * @return Boolean if you are clicking on the sprite or not.
      */
     private boolean detectSpriteAt(float touchX, float touchY, Sprite s){
-        return (Math.abs(touchX - s.px) * 2 < (0.05f + s.getWidth())) &&
-                (Math.abs(touchY - s.py) * 2 < (0.05f + s.getHeight()));
+        return (Math.abs(touchX - s.px) * 2 < (0.065f + s.getWidth())) &&
+                (Math.abs(touchY - s.py) * 2 < (0.065f + s.getHeight()));
     }
 
     /**

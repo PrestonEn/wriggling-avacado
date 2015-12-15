@@ -1,6 +1,7 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -85,11 +86,12 @@ public class EnemyFactory {
      * @param difficulty DifficultySetting enumeration of EASY, MEDIUM, and HARD.
      * @return Sprite form of the particular enemy type.
      */
-    public Square makeFlyEnemy(DifficultySetting difficulty){
+    public Square makeFlyEnemy(DifficultySetting difficulty, Character character){
         float rate = 0.0f;
+        float x, y, dy;
         switch(difficulty){
             case DIFFICULTY_EASY:
-                rate = -0.02f;
+                rate = -0.02f * 1.5f;
                 break;
             case DIFFICULTY_MEDIUM:
                 rate = -0.033f;
@@ -98,9 +100,27 @@ public class EnemyFactory {
                 rate = -0.041f;
                 break;
         }
+        Random r = new Random();
+        //gen x between 0.0f and 2.4f
+        x = 2.4f;
+        //if x < screen ratio,
+        if(x < screenRatio){
+            y = r.nextFloat() + 1.f;
+        }else{
+            y = r.nextFloat() * 1.3f;
+        }
 
-        Square enemy = new Square(stillShape, 2.49f, new Random().nextFloat() , rate, 0.0f, contextHolder,
-                false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_fly());
+        float xDif = x - character.getSquare().px;
+        float yDif = y - character.getSquare().py;
+
+        float roc = xDif/rate;
+
+        dy = -1 * Math.abs(yDif) / Math.abs(roc);
+        Log.e("dy", dy+"");
+       // dy = -1 *
+
+        Square enemy = new Square(stillShape, x, y , rate, dy, contextHolder,
+                true, 0.0f, 0.9f, screenRatio, textureFactory.getScene_enemies_fly());
         enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING_DOWN);
         return enemy;
     }

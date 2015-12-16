@@ -2,23 +2,20 @@ package tsp.team.walkandtalk;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
-import android.view.SurfaceView;
 import android.widget.TextView;
-
 import java.util.Date;
 import java.util.Iterator;
 import java.util.UUID;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * OpenGL renderer class. Collision detection and all drawing is done inside of this class.
+ */
 public class GLES20Renderer implements GLSurfaceView.Renderer{
 
     public Activity  mActivityContext;

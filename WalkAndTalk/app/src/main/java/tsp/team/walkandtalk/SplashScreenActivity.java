@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 
-import java.util.Date;
-
 /**  SplashScreenActivity.java
  * This class corresponds with the splashscreen activity.  This is the activity that
  * is started when the app is run.  The app will stay on the splash screen until the

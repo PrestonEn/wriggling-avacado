@@ -60,6 +60,7 @@ public class GameActivity extends Activity {
         builder = new AlertDialog.Builder(this);  // For warning
         builder.setTitle("GAME OVER")
                 .setMessage("Retry level?")
+                .setCancelable(false)
                 .setIcon(R.mipmap.ic_launcher)
                 .setPositiveButton("Return To Main Menu", new DialogInterface.OnClickListener() {
                     /** onClick

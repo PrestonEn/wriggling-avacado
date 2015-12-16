@@ -202,4 +202,8 @@ public class HighScoresActivity extends Activity {
 
     } // HighScoresAdapter
 
+    @Override
+    public void onBackPressed(){
+    }
+
 } // HighScoresActivity

@@ -194,4 +194,8 @@ public class MainMenuActivity extends Activity {
 
     } // goToSettings
 
+    @Override
+    public void onBackPressed(){
+    }
+
 } // MainMenuActivity

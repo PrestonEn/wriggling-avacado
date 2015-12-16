@@ -110,6 +110,7 @@
     <string-array name="enemies_fly_library">
         <item>@raw/scene_library_owl</item>
         <item>@raw/scene_library_coffee</item>
+        <item>@raw/scene_library_drama</item>
     </string-array>
 
     <string-array name="enemies_fly_hallway">

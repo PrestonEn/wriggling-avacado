@@ -36,7 +36,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:layout_weight="1" />
+            android:layout_weight="2" />
 
         <Button
             android:layout_width="0dp"
@@ -44,14 +44,19 @@
             android:text="@string/back"
             android:id="@+id/btnBack"
             android:layout_gravity="center"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:textSize="@dimen/button_size"
             android:padding="@dimen/padding"
             android:background="@color/transparent"
             android:textColor="@color/white"
             android:shadowColor="@color/transparent"
             android:nestedScrollingEnabled="false"
-            android:onClick="fromSceneToMain" />
+            android:onClick="fromSceneToMain"
+            android:gravity="right" />
+
+        <Space
+            android:layout_width="@dimen/button_size"
+            android:layout_height="fill_parent" />
 
     </LinearLayout>
 

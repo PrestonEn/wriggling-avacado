@@ -51,7 +51,7 @@ public class GameStuff {
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
         background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
         character = new Character(contextHolder,textureFactory.getCharacter_run(),
-                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(),screenRatio);
+                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(), textureFactory.getTestTexture() ,screenRatio);
         enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
 
         stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
@@ -111,6 +111,10 @@ public class GameStuff {
         }
     }
 
+    /**
+     * get the current scoring
+     * @return gamestate score
+     */
     public int getScore(){
         return score;
     }

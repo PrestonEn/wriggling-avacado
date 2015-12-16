@@ -65,7 +65,6 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
 
         if(gamestuff.getCharacter().isDoneDying()) {
             surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-
             ScoresDBManager scoresDB = new ScoresDBManager(mActivityContext);
             scoresDB.addHighScoreRow(UUID.randomUUID().toString(), gamestuff.getScore(),
                     new Date().getTime(), sceneWrapper.getCharacterName(), sceneWrapper.getSceneName());

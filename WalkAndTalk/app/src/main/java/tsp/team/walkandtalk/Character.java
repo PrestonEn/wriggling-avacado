@@ -25,6 +25,7 @@ public class Character {
     private static int jumpDrawMax = 32; // Maximum amount of times the jump frame is to be drawn.
     private int jumpDrawCount = 0;
     private boolean doneDying = false; // Signal for when the dying anim is done.
+    private SoundWrapper sPlayer;
     private static float[] standardUVMap = new float[]{ // Standard UV params.
             1.0f, 0.0f,
             1.0f, 1.0f,
@@ -50,11 +51,11 @@ public class Character {
      * @param tJump TextureInfo for the jump animation.
      * @param screenRatio Size of the screen ratio to be passed into square.
      */
-    public Character(Context c,TextureInfo tRun,TextureInfo tJump, TextureInfo tFall, TextureInfo transpar,float screenRatio){
+    public Character(Context c,TextureInfo tRun,TextureInfo tJump, TextureInfo tFall, TextureInfo transpar,float screenRatio, SoundWrapper sPlayer){
         this.texturesRun = tRun;
         this.textureJump = tJump;
         this.texturesFall = tFall;
-
+        this.sPlayer = sPlayer;
         for (int i = 0; i < frame_division; i++) { // Following loops build all of the frame data from the
             for (int j = 0; j < frame_division; j++) { // sprite sheet and save it in an array.
                 animUVs = new float[]{ // Building...
@@ -121,7 +122,10 @@ public class Character {
             squareImage.updateShape(); // Make sure the square also gets updated so it can move if needed.
         }
         else{ // Character is dead here.
-            if(deathFrame == 0)squareImage.settInfo(this.texturesFall); // Update the reference.
+            if(deathFrame == 0){
+                sPlayer.deadSound();
+                squareImage.settInfo(this.texturesFall); // Update the reference.
+            }
             if(deathFrame < frame_count){ // Hold on the last frame.
                 squareImage.animUVs = computeUVs[deathFrame]; // Increment and draw frames.
                 deathFrame++;

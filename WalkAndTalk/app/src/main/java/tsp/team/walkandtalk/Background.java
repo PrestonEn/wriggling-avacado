@@ -8,13 +8,15 @@ import android.util.DisplayMetrics;
  * Takes advantage of sprite classes ability to update easily.
  */
 public class Background {
+
+    TextureInfo image;
     private float[]  windowCoords; // Coordinate location.
     public Square visibleImage, visibleImage2, visibleImage3; // All three images needed to produce smooth scrolling.
     private float backUVs[] = new float[]{ // UV mappings.
-            1f,1f,
-            1f,0f,
+            0f,1f,
             0f,0f,
-            0f,1f
+            1f,0f,
+            1f,1f
     };
     private float ratio; // Screen size ratio.
 

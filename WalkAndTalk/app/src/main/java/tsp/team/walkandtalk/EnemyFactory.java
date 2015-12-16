@@ -1,8 +1,6 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
-import android.util.Log;
-
 import java.util.Random;
 
 /**
@@ -123,6 +121,8 @@ public class EnemyFactory {
         float roc = xDif/rate;
 
         dy = -1 * Math.abs(yDif) / Math.abs(roc);
+
+        // All above fancy calculations are used to determine open interval of flying enemy entry vectors.
 
         Square enemy = new Square(stillShape, x, y , rate, dy, contextHolder,
                 true, 0.0f, 0.9f, screenRatio, textureFactory.getScene_enemies_fly());

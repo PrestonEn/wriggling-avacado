@@ -1,7 +1,6 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * This class is used for holding the information that a Character needs for drawing and computing
@@ -111,10 +110,11 @@ public class Character {
                 squareImage.animUVs = computeUVs[currentFrame++%frame_count]; // Increment and draw frames.
             }
             // Below control structure is outside of jumping loop because the anim can stop playing before we are done landing.
-            if(squareImage.py > -2*initPY){ // Detect peak of the jump.
-                squareImage.vy = -0.015f;
+            if(squareImage.py != initPY){
+                squareImage.vy -= 0.0001f;
             }
-            else if(squareImage.py < initPY){ // Land back on the ground safely.
+
+            if(squareImage.py < initPY){ // Land back on the ground safely.
                 squareImage.vy = 0;
                 squareImage.py = initPY;
             }
@@ -126,7 +126,7 @@ public class Character {
                 squareImage.animUVs = computeUVs[deathFrame]; // Increment and draw frames.
                 deathFrame++;
             }
-            else{
+            else{ // This allows us to control when the dialog for new game will get called.
                 deathFrame++;
                 if(deathFrame > 100)this.doneDying = true;
             }
@@ -150,8 +150,11 @@ public class Character {
         return this.squareImage;
     }
 
+    /**
+     * Overlayed hitbox getter.
+     * @return Square of the actual hitbox instead of the texture sprite hitbox.
+     */
     public Square getHitBox(){
         return this.hitBox;
     }
-
 }

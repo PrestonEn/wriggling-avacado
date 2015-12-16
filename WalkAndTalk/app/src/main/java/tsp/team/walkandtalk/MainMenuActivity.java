@@ -16,8 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import tsp.team.walkandtalk.R;
-
 /** This class corresponds with the main menu activity. It displays
  * options for the user to navigate to different sections of the
  * application.

@@ -127,3 +127,10 @@ Scissors:
 http://cleanclipart.com/wp-content/uploads/2015/11/Safety-scissors-clip-art-download.png
 http://cleanclipart.com/scissors-clip-art/
 
+C Book:
+https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/The_C_Programming_Language_cover.svg/792px-The_C_Programming_Language_cover.svg.png
+https://en.wikipedia.org/wiki/The_C_Programming_Language
+
+Pi Character:
+http://www.livescience.com/29197-what-is-pi.html
+http://i.livescience.com/images/i/000/039/627/original/Pi-symbol1.jpg?1367360374

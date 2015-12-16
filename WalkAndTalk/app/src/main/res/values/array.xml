@@ -105,6 +105,8 @@
 
     <string-array name="enemies_fly_classroom">
         <item>@raw/scene_classroom_clock</item>
+        <item>@raw/scene_classroom_c_book</item>
+        <item>@raw/scene_classroom_pi</item>
     </string-array>
 
     <string-array name="enemies_fly_library">

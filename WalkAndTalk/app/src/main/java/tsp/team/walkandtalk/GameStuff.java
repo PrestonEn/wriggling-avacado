@@ -140,22 +140,27 @@ public class GameStuff {
      * Generate new enemies after a randomly generated interval, and recalculate the counter.
      */
     public void spawnPoller(){
+        DifficultySetting difficulty;
+        if(this.score > 3000)difficulty = DifficultySetting.DIFFICULTY_HARD;
+        else if(this.score > 1500)difficulty = DifficultySetting.DIFFICULTY_MEDIUM;
+        else difficulty = DifficultySetting.DIFFICULTY_EASY;
+
         if(stillCounter == 0){
-            enemies.add(enemyFactory.makeStillEnemy(DifficultySetting.DIFFICULTY_EASY));
+            enemies.add(enemyFactory.makeStillEnemy(difficulty));
             stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         }else{
             --stillCounter;
         }
 
         if(flyCounter == 0){
-            enemies.add(enemyFactory.makeFlyEnemy(DifficultySetting.DIFFICULTY_EASY, character));
+            enemies.add(enemyFactory.makeFlyEnemy(difficulty, character));
             flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         }else{
             --flyCounter;
         }
 
         if(runCounter == 0){
-            enemies.add(enemyFactory.makeRunEnemy(DifficultySetting.DIFFICULTY_EASY));
+            enemies.add(enemyFactory.makeRunEnemy(difficulty));
             runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         }else{
             --runCounter;

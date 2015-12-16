@@ -28,17 +28,19 @@ public class GameStuff {
     private EnemyFactory enemyFactory; // Reference to a EnemyFactory that will build generic enemies.
     private int stillCounter, runCounter, flyCounter;
     private long prevHighScore;
-    private int[] soundIDs;
-    private SoundPool pool;
-
+    private boolean newHigh;
+    private SoundWrapper soundPlayer;
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
      * game. This constructor builds all of the objects we need.
      * @param c Context of the application that this object belongs to.
      * @param scene SceneWrapper that will be used to specify backgrounds and enemy types.
+     * @param prevHighScore top result from local score database
      */
     public GameStuff(Context c, SceneWrapper scene, long prevHighScore){
+        soundPlayer = new SoundWrapper(c);
         score = 0;
+        newHigh = false;
         this.textureFactory = new TextureFactory(c, scene); // See TextureFactory class...
         this.contextHolder = c;
         this.prevHighScore = prevHighScore;
@@ -51,19 +53,12 @@ public class GameStuff {
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
         background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
         character = new Character(contextHolder,textureFactory.getCharacter_run(),
-                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(), textureFactory.getTestTexture() ,screenRatio);
+                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(), textureFactory.getTestTexture(),screenRatio, soundPlayer);
         enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
 
         stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
-
-
-        soundIDs = new int[3];
-        pool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-        soundIDs[0] = pool.load(contextHolder, R.raw.dealie, 1);
-        soundIDs[1] = pool.load(contextHolder, R.raw.face, 1);
-
 
     }   // See character object for line above.
 
@@ -104,11 +99,16 @@ public class GameStuff {
      */
     public void updateScore(){
         score++;
+        if(score > prevHighScore && !newHigh){
+            newHigh = true;
+        }
+
         if(score % 500 == 0){
             //todo play ding sound
-            pool.play(soundIDs[0], 1, 1, 1, 0, 1);
+            soundPlayer.dealieSound();
 
         }
+
     }
 
     /**
@@ -147,7 +147,6 @@ public class GameStuff {
         }
 
         if(flyCounter == 0){
-            //TODO: add logic and sound effect
             enemies.add(enemyFactory.makeFlyEnemy(DifficultySetting.DIFFICULTY_EASY, character));
             flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         }else{
@@ -155,7 +154,6 @@ public class GameStuff {
         }
 
         if(runCounter == 0){
-            //TODO: add logic and sound effect
             enemies.add(enemyFactory.makeRunEnemy(DifficultySetting.DIFFICULTY_EASY));
             runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         }else{

@@ -104,14 +104,20 @@ public class ScoresDBManager {
      * @return Max high score row
      */
     public HighScore getMaxScore(){
+        HighScore hs;
         db = helper.getReadableDatabase();
         Cursor scoreCursor = db.query(SQLHelper.DB_TABLE_SCORES, SCORES_COLUMNS, null, null, null, null, SQLHelper.KEY_SCORE + " DESC", null);
         scoreCursor.moveToFirst();
-        HighScore hs = new HighScore(scoreCursor.getString(0), scoreCursor.getLong(1),
-                scoreCursor.getLong(2), scoreCursor.getString(3), scoreCursor.getString(4));
-        scoreCursor.moveToNext();
-        if (scoreCursor != null && !scoreCursor.isClosed()) { // Close cursor
-            scoreCursor.close();
+        if(scoreCursor.getCount() == 0){
+            hs = null;
+        }
+        else{
+            hs = new HighScore(scoreCursor.getString(0), scoreCursor.getLong(1),
+                    scoreCursor.getLong(2), scoreCursor.getString(3), scoreCursor.getString(4));
+            scoreCursor.moveToNext();
+            if (scoreCursor != null && !scoreCursor.isClosed()) { // Close cursor
+                scoreCursor.close();
+            }
         }
         db.close();
         return hs; // Return max high score

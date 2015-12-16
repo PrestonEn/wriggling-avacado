@@ -16,9 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.Date;
 
 /** This class corresponds with the high scores activity. It displays
  * the high scores of the user in descending order using a listview,
@@ -201,5 +199,12 @@ public class HighScoresActivity extends Activity {
         } // getView
 
     } // HighScoresAdapter
+
+    /**
+     * Left alone on purpose.
+     */
+    @Override
+    public void onBackPressed(){
+    }
 
 } // HighScoresActivity

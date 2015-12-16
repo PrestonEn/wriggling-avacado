@@ -82,4 +82,8 @@ public class SceneActivity extends Activity {
         startActivity(intent);
 
     } // fromSceneToMain
+
+    @Override
+    public void onBackPressed(){
+    }
 }

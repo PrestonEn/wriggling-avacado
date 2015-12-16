@@ -1,6 +1,7 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
@@ -9,7 +10,6 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -20,7 +20,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
     private GestureDetectorCompat mDetector;
     public TextView txtScore;
 
-    public GLES20SurfaceView(Activity context, SceneWrapper scene, TextView score, long prevHighScore) {
+    public GLES20SurfaceView(Activity context, SceneWrapper scene, TextView score, long prevHighScore, AlertDialog.Builder builder) {
         super(context);
         txtScore = score;
 
@@ -28,7 +28,7 @@ public class GLES20SurfaceView extends GLSurfaceView{
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the GLSurfaceView
-        mRenderer = new GLES20Renderer(scene, txtScore, prevHighScore);
+        mRenderer = new GLES20Renderer(this, scene, txtScore, prevHighScore, builder);
         mRenderer.mActivityContext = context;
         setRenderer(mRenderer);
 
@@ -113,14 +113,11 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
 
         if(s != null){
             if(s.getKillGesture() == EnemyKillGesture.GESTURE_FLING || s.getKillGesture() == EnemyKillGesture.GESTURE_FLING_DOWN){
+                //Log.e("VelY",""+velocityY);
+                //Log.e("VelX",""+velocityX);
                 s.vy = -s.vy; // Send off screen.
                 s.vx = -s.vx;
             }
-
-            Log.e("hit","hit");
-        }
-        else{
-            Log.e("miss","miss");
         }
 
         return true;
@@ -149,8 +146,8 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
      * @return Boolean if you are clicking on the sprite or not.
      */
     private boolean detectSpriteAt(float touchX, float touchY, Sprite s){
-        return (Math.abs(touchX - s.px) * 2 < (0.05f + s.getWidth())) &&
-                (Math.abs(touchY - s.py) * 2 < (0.05f + s.getHeight()));
+        return (Math.abs(touchX - s.px) * 2 < (0.065f + s.getWidth())) &&
+                (Math.abs(touchY - s.py) * 2 < (0.065f + s.getHeight()));
     }
 
     /**

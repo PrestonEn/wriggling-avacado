@@ -1,13 +1,12 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
-
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Class to handle the state of game elements (score, difficulty, characters, background),
@@ -26,6 +25,8 @@ public class GameStuff {
     private EnemyFactory enemyFactory; // Reference to a EnemyFactory that will build generic enemies.
     private int stillCounter, runCounter, flyCounter;
     private long prevHighScore;
+    private int[] soundIDs;
+    private SoundPool pool;
 
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
@@ -47,12 +48,19 @@ public class GameStuff {
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
         background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
         character = new Character(contextHolder,textureFactory.getCharacter_run(),
-                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(),screenRatio);
+                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(), textureFactory.getCharacter_jump() ,screenRatio);
         enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
 
         stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+
+
+        soundIDs = new int[3];
+        pool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundIDs[0] = pool.load(contextHolder, R.raw.dealie, 1);
+        soundIDs[1] = pool.load(contextHolder, R.raw.face, 1);
+
 
     }   // See character object for line above.
 
@@ -89,22 +97,21 @@ public class GameStuff {
     }
 
     /**
-     * Debugging method for enemies.
-     */
-    public void makeTestDummies() {
-        enemies.add(enemyFactory.makeStillEnemy(DifficultySetting.DIFFICULTY_EASY));
-    }
-
-    /**
      * incrememnts score by 1 and tests for milestone of 500 points via mod
      */
     public void updateScore(){
         score++;
         if(score % 500 == 0){
             //todo play ding sound
+            pool.play(soundIDs[0], 1, 1, 1, 0, 1);
+
         }
     }
 
+    /**
+     * get the current scoring
+     * @return gamestate score
+     */
     public int getScore(){
         return score;
     }
@@ -126,8 +133,7 @@ public class GameStuff {
     }
 
     /**
-     * Generate new enemies after a randomly generated interval, and recalculate the counter
-     *
+     * Generate new enemies after a randomly generated interval, and recalculate the counter.
      */
     public void spawnPoller(){
         if(stillCounter == 0){
@@ -139,7 +145,7 @@ public class GameStuff {
 
         if(flyCounter == 0){
             //TODO: add logic and sound effect
-            enemies.add(enemyFactory.makeFlyEnemy(DifficultySetting.DIFFICULTY_EASY));
+            enemies.add(enemyFactory.makeFlyEnemy(DifficultySetting.DIFFICULTY_EASY, character));
             flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
         }else{
             --flyCounter;

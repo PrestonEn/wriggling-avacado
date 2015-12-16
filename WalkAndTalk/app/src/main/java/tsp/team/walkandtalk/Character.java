@@ -1,7 +1,6 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * This class is used for holding the information that a Character needs for drawing and computing
@@ -17,6 +16,7 @@ public class Character {
     private float animUVs[]; // Storage for an individual frame.
     private float computeUVs[][] = new float[frame_count][]; // Array holding all of the UVs across all frames.
     private Square squareImage; // Reference to the sprite that this character uses.
+    private Square hitBox; // Reference to the sprite that this character uses.
     private TextureInfo texturesRun; // Reference to the sprite sheet from opengl bindings.
     private TextureInfo textureJump; // Reference to the texture for jumping.
     private TextureInfo texturesFall; // Reference to fall sprite sheet.
@@ -24,6 +24,7 @@ public class Character {
     private boolean jumping = false;
     private static int jumpDrawMax = 32; // Maximum amount of times the jump frame is to be drawn.
     private int jumpDrawCount = 0;
+    private boolean doneDying = false; // Signal for when the dying anim is done.
     private static float[] standardUVMap = new float[]{ // Standard UV params.
             1.0f, 0.0f,
             1.0f, 1.0f,
@@ -35,6 +36,11 @@ public class Character {
             0.375f, -0.6f, 0.0f,   // bottom left
             -0.375f, -0.6f, 0.0f,   // bottom right
             -0.375f,  0.6f, 0.0f }; // top right
+    private float hitboxCoords[] = { // Vertexes for drawing the sprite.
+            0.21f,  0.5f, 0.0f,   // top left
+            0.21f, -0.5f, 0.0f,   // bottom left
+            -0.21f, -0.5f, 0.0f,   // bottom right
+            -0.21f,  0.5f, 0.0f }; // top right
 
     /**
      * Public constructor for making the Character object.
@@ -44,7 +50,7 @@ public class Character {
      * @param tJump TextureInfo for the jump animation.
      * @param screenRatio Size of the screen ratio to be passed into square.
      */
-    public Character(Context c,TextureInfo tRun,TextureInfo tJump, TextureInfo tFall,float screenRatio){
+    public Character(Context c,TextureInfo tRun,TextureInfo tJump, TextureInfo tFall, TextureInfo transpar,float screenRatio){
         this.texturesRun = tRun;
         this.textureJump = tJump;
         this.texturesFall = tFall;
@@ -63,6 +69,8 @@ public class Character {
         }
         //Build the sprite image at designated points and give it proper initial values that allow it to not move.
         squareImage = new Square(squareCoords,initPX,initPY,0.0f,0.0f,c,false,0.0f,0.0f,screenRatio,texturesRun);
+        hitBox = new Square(hitboxCoords, initPX, initPY,0.0f,0.0f,c,false,0.0f,0.0f,screenRatio, transpar);
+
     }
 
     /**
@@ -102,10 +110,11 @@ public class Character {
                 squareImage.animUVs = computeUVs[currentFrame++%frame_count]; // Increment and draw frames.
             }
             // Below control structure is outside of jumping loop because the anim can stop playing before we are done landing.
-            if(squareImage.py > -2*initPY){ // Detect peak of the jump.
-                squareImage.vy = -0.015f;
+            if(squareImage.py != initPY){
+                squareImage.vy -= 0.0001f;
             }
-            else if(squareImage.py < initPY){ // Land back on the ground safely.
+
+            if(squareImage.py < initPY){ // Land back on the ground safely.
                 squareImage.vy = 0;
                 squareImage.py = initPY;
             }
@@ -117,7 +126,19 @@ public class Character {
                 squareImage.animUVs = computeUVs[deathFrame]; // Increment and draw frames.
                 deathFrame++;
             }
+            else{ // This allows us to control when the dialog for new game will get called.
+                deathFrame++;
+                if(deathFrame > 100)this.doneDying = true;
+            }
         }
+    }
+
+    /**
+     * Examine if the dying animation has completed.
+     * @return Boolean done dying.
+     */
+    public boolean isDoneDying() {
+        return doneDying;
     }
 
     /**
@@ -127,5 +148,13 @@ public class Character {
      */
     public Square getSquare(){
         return this.squareImage;
+    }
+
+    /**
+     * Overlayed hitbox getter.
+     * @return Square of the actual hitbox instead of the texture sprite hitbox.
+     */
+    public Square getHitBox(){
+        return this.hitBox;
     }
 }

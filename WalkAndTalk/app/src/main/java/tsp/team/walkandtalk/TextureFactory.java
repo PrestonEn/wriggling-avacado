@@ -6,14 +6,14 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 
-import tsp.team.walkandtalk.R;
-
 /**
- * Created by preston on 15-12-09.
+ * This class is a factory based design pattern which builds and binds textures in opengles for
+ * drawing to our sprite class. The scenewrapper is what allows us to customize what textures to bind.
+ * Any other information is passed out via a TextureInfo object.
  */
 public class TextureFactory {
 
-    SceneWrapper sceneWrapper;
+    SceneWrapper sceneWrapper; // References below are all here for constant time getters.
     TextureInfo character_run;
     TextureInfo character_jump;
     TextureInfo character_fall;
@@ -22,6 +22,11 @@ public class TextureFactory {
     TextureInfo[] scene_enemies_run;
     TextureInfo[] scene_enemies_fly;
 
+    /**
+     * Initialize the TextureFactory. Binds all textures based on the scene object passed in.
+     * @param c Context of this texture factory.
+     * @param scene SceneWrapper for custom scene and character textures to bind.
+     */
     public TextureFactory(Context c, SceneWrapper scene){
         sceneWrapper = scene;
 
@@ -44,34 +49,69 @@ public class TextureFactory {
         }
     }
 
+    /**
+     * Get the character run sprite sheet.
+     * @return TextureInfo of sprite sheet.
+     */
     public TextureInfo getCharacter_run() {
         return character_run;
     }
 
+    /**
+     * Get the texture of the characters jump image.
+     * @return TextureInfo of the texture.
+     */
     public TextureInfo getCharacter_jump() {
         return character_jump;
     }
 
+    /**
+     * Get the sprite sheet of the falling animation.
+     * @return TextureInfo of the sprite sheet.
+     */
     public TextureInfo getCharacter_fall() {
         return character_fall;
     }
 
+    /**
+     * This method returns the binding of the background texture.
+     * @return TextureInfo of the background.
+     */
     public TextureInfo getScene_back() {
         return scene_back;
     }
 
+    /**
+     * Return a still enemy texture from the pool of still enemies from the location.
+     * @return TextureInfo of a random still enemy.
+     */
     public TextureInfo getScene_enemies_still() {
         return scene_enemies_still[(int)(Math.random()*scene_enemies_still.length)];
     }
 
+    /**
+     * Return a running enemy texture from the pool of running enemies from the location.
+     * @return TextureInfo of a random running enemy.
+     */
     public TextureInfo getScene_enemies_run() {
         return scene_enemies_run[(int)(Math.random()*scene_enemies_run.length)];
     }
 
+    /**
+     * Return a flying enemy texture from the pool of flying enemies from the location.
+     * @return TextureInfo of a random flying enemy.
+     */
     public TextureInfo getScene_enemies_fly() {
         return scene_enemies_fly[(int)(Math.random()*scene_enemies_fly.length)];
     }
 
+    /**
+     * Heavily abstracted method which allows you to custom make textures via inputted scenewrapper from
+     * the constructor.
+     * @param mContext This factories context.
+     * @param resourceID resource ID of the texture to load and bind.
+     * @return TextureInfo of bound texture in it's saved state.
+     */
     private TextureInfo makeTexture(Context mContext, int resourceID){
 
         // Generate Textures, if more needed, alter these numbers.
@@ -101,9 +141,5 @@ public class TextureFactory {
         bmp.recycle();
 
         return new TextureInfo(bindings[0]);
-    }
-
-    public TextureInfo getTestTexture() {
-        return character_run;
     }
 }

@@ -1,30 +1,27 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.SurfaceView;
+import android.view.KeyEvent;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.Date;
-
 /**
- *
+ * This class controls the structure of the game activity.
  */
 public class GameActivity extends Activity {
 
     private GLSurfaceView mGLView;
+    private AlertDialog.Builder builder;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent i = getIntent();
         SceneWrapper scene = (SceneWrapper)i.getSerializableExtra("scene");
@@ -51,14 +48,63 @@ public class GameActivity extends Activity {
         }
 
         details.setText(scene.getCharacterName() + " in the " + scene.getSceneName());
+
+        builder = new AlertDialog.Builder(this);  // For warning
+        builder.setTitle("GAME OVER")
+                .setMessage("Retry level?")
+                .setCancelable(false)
+                .setIcon(R.mipmap.ic_launcher)
+                .setPositiveButton("Return To Main Menu", new DialogInterface.OnClickListener() {
+                    /** onClick
+                     * This method runs when the user clicks yes to returning to the main menu.
+                     *
+                     * @param dialog Dialog
+                     * @param which  Holds int representing which selection was made
+                     */
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(GameActivity.this, MainMenuActivity.class);
+                        startActivity(intent);
+                    } // onClick
+                })
+                .setNegativeButton("Play Again", new DialogInterface.OnClickListener() {
+                    /** onClick
+                     * This method runs when the user clicks yes to returning to the main menu.
+                     *
+                     * @param dialog Dialog
+                     * @param which  Holds int representing which selection was made
+                     */
+                    public void onClick(DialogInterface dialog, int which) {
+                        onCreate(savedInstanceState);
+                    } // onClick
+                });
+
+        builder.setOnKeyListener(new AlertDialog.OnKeyListener() {
+
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    // do nothing
+                }
+                return true;
+            }
+        });
+
         ScoresDBManager scoresDB = new ScoresDBManager(this);
         HighScore hs = scoresDB.getMaxScore(); // Get max high score in scores table
         scoresDB.close();  // Close database manager
-        highScore.setText("High Score: " + hs.score);
+        if(hs == null){
+            highScore.setText("High Score: 0");
+            // Create a GLSurfaceView instance and set it
+            // as the ContentView for this Activity
+            mGLView = new GLES20SurfaceView(GameActivity.this , scene, txtScore, 0, builder);
+        } else {
+            highScore.setText("High Score: " + hs.score);
+            // Create a GLSurfaceView instance and set it
+            // as the ContentView for this Activity
+            mGLView = new GLES20SurfaceView(GameActivity.this , scene, txtScore, hs.score, builder);
+        }
 
-        // Create a GLSurfaceView instance and set it
-        // as the ContentView for this Activity
-        mGLView = new GLES20SurfaceView(GameActivity.this , scene, txtScore, hs.score);
         LinearLayout surface = (LinearLayout)findViewById(R.id.test);
         surface.addView(mGLView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
@@ -73,6 +119,9 @@ public class GameActivity extends Activity {
         mGLView.onPause();
     }
 
+    /**
+     * Standard method when the activity is resumed.
+     */
     @Override
     protected void onResume() {
         super.onResume();
@@ -80,5 +129,12 @@ public class GameActivity extends Activity {
         // If you de-allocated graphic objects for onPause()
         // this is a good place to re-allocate them.
         mGLView.onResume();
+    }
+
+    /**
+     * Left blank intentionally.
+     */
+    @Override
+    public void onBackPressed(){
     }
 }

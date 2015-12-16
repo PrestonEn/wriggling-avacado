@@ -13,7 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * Created by Stacey on 11/12/2015.
+ * The RecyclerViewAdapter is the view that we use to choose characters and stages and do so by
+ * scrolling left or right to view more options.
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
     private TypedArray images;

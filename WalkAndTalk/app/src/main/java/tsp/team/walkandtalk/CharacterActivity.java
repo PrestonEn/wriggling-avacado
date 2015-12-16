@@ -6,11 +6,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 /** This class corresponds with the character selection activity.
@@ -84,4 +81,11 @@ public class CharacterActivity extends Activity {
         startActivity(intent);
 
     } // fromCharacterToMain
+
+    /**
+     * To be implemented, but left blank on purpose.
+     */
+    @Override
+    public void onBackPressed(){
+    }
 }

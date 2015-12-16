@@ -62,6 +62,7 @@
 
     <string-array name="enemies_still_library">
         <item>@raw/scene_library_books</item>
+        <item>@raw/scene_library_girl_reading</item>
     </string-array>
 
     <string-array name="enemies_still_hallway">

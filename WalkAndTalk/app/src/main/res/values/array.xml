@@ -116,6 +116,7 @@
     <string-array name="enemies_fly_hallway">
         <item>@raw/scene_hallway_ball</item>
         <item>@raw/scene_hallway_airplane</item>
+        <item>@raw/scene_hallway_scissors</item>
     </string-array>
 
     <array name="enemies_fly">

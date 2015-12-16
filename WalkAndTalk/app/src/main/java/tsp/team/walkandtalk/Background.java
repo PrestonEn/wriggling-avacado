@@ -12,10 +12,10 @@ public class Background {
     private float[]  windowCoords;
     public Square visibleImage, visibleImage2, visibleImage3;
     private float backUVs[] = new float[]{
-            1f,1f,
-            1f,0f,
             0f,0f,
-            0f,1f
+            0f,1f,
+            1f,1f,
+            1f,0f
     };
     private float ratio;
     /**

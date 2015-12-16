@@ -1,5 +1,6 @@
 package tsp.team.walkandtalk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
@@ -20,6 +21,7 @@ public class GameStuff {
     private List<Sprite> enemies; // List of enemies to render.
     private Character character; // Reference to the Character on the screen.
     private Context contextHolder; // Context for building other objects.
+    private Activity act;
     private int ScreenWidth;
     private int ScreenHeight;
     private float screenRatio; // ScreenWidth / ScreenHeight.
@@ -29,6 +31,7 @@ public class GameStuff {
     private int stillCounter, runCounter, flyCounter;
     private long prevHighScore;
     private boolean newHigh;
+    private boolean soundOn;
     private SoundWrapper soundPlayer;
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
@@ -37,8 +40,9 @@ public class GameStuff {
      * @param scene SceneWrapper that will be used to specify backgrounds and enemy types.
      * @param prevHighScore top result from local score database
      */
-    public GameStuff(Context c, SceneWrapper scene, long prevHighScore){
+    public GameStuff(Activity c, SceneWrapper scene, long prevHighScore){
         soundPlayer = new SoundWrapper(c);
+        act = c;
         score = 0;
         newHigh = false;
         this.textureFactory = new TextureFactory(c, scene); // See TextureFactory class...

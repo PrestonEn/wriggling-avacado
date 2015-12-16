@@ -27,7 +27,8 @@ public class Square extends Sprite{
     private int mTexCoordHandle;
     private EnemyKillGesture killGesture = null;
     private TextureInfo tInfo;
-
+    private boolean wiggle;
+    private boolean wiggleDir = true;
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
     private float squareCoords[];
@@ -190,6 +191,13 @@ public class Square extends Sprite{
     }
 
     /**
+     * set the flag to
+     */
+    public void setWiggle(boolean wigglewiggleyeah){
+        this.wiggle = wigglewiggleyeah;
+    }
+
+    /**
      * Method for returning what type of gesture will kill this object.
      * @return EnemyKillGesture enumeration type.
      */
@@ -225,6 +233,11 @@ public class Square extends Sprite{
         this.px += this.vx;
         this.py += this.vy;
         this.angle += this.angleRate;
+
+        if(this.wiggle){
+            this.angleRate = this.angleRate*-1f;
+        }
+
 
         if(Math.abs(this.py) > 2.5)this.live = false;
         if(Math.abs(this.px) > this.ScreenWidth*2)this.live = false;

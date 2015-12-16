@@ -69,6 +69,7 @@
     <string-array name="enemies_still_hallway">
         <item>@raw/scene_hallway_backpack</item>
         <item>@raw/scene_hallway_sign</item>
+        <item>@raw/scene_hallway_puddle</item>
     </string-array>
 
     <array name="enemies_still">

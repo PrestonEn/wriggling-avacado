@@ -167,7 +167,8 @@ public class SceneWrapper implements Serializable {
     }
 
     /**
-     * Setter method to set the array of ResourceIDs of flying enemy images.
+     * Getter method to retrieve the array of sound resource ID's
+     * @return int array holding sound resource ID's
      */
     public int[] getGameSounds() {
         return gameSounds;

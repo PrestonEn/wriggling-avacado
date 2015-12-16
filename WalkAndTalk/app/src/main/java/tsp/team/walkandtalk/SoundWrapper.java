@@ -17,7 +17,8 @@ public class SoundWrapper {
 
     /**
      *
-     * @param c The parent activity, used to access preferences
+     * @param c the
+     * @param scene
      */
     public SoundWrapper(Activity c, SceneWrapper scene){
         soundIDs = new int[3];
@@ -30,17 +31,25 @@ public class SoundWrapper {
         soundIDs[2] = pool.load(c, scene.getGameSounds()[2],1);
     }
 
-
+    /**
+     * play death sound
+     */
     public void deadSound(){
         if(soundOn)
         pool.play(soundIDs[0], 1, 1, 1, 0, 1);
     }
 
+    /**
+     * play milestone now
+     */
     public void mileStoneSound(){
         if(soundOn)
         pool.play(soundIDs[1], 1, 1, 1, 0, 1);
     }
 
+    /**
+     * play highscore now
+     */
     public void highScore(){
         if(soundOn)
             pool.play(soundIDs[2], 1, 1, 1, 0, 1);

@@ -1,15 +1,10 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLUtils;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-
 import android.opengl.GLES20;
 import android.util.Log;
 
@@ -36,7 +31,7 @@ public class Square extends Sprite{
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     /**
-     * Square constructor.
+     * Square constructor. A little ugly, but that's life.
      * @param sc    coordinates of verticies on window
      * @param posX  center x position
      * @param posY  center y position
@@ -116,14 +111,26 @@ public class Square extends Sprite{
         }
     }
 
+    /**
+     * This method will allow us to change a sprite/square's texture on the fly between draw methods.
+     * @param tInfo TextureInfo object to set this objects texture drawing abilities to.
+     */
     public void settInfo(TextureInfo tInfo) {
         this.tInfo = tInfo;
     }
 
+    /**
+     * Standard getter for width.
+     * @return Float width.
+     */
     public float getWidth() {
         return this.width;
     }
 
+    /**
+     * Standard getter for height.
+     * @return Float height.
+     */
     public float getHeight() {
         return this.height;
     }
@@ -191,7 +198,7 @@ public class Square extends Sprite{
     }
 
     /**
-     * set the flag to
+     * set the flag to wiggle mode.
      */
     public void setWiggle(boolean wigglewiggleyeah){
         this.wiggle = wigglewiggleyeah;
@@ -243,6 +250,10 @@ public class Square extends Sprite{
         if(Math.abs(this.px) > this.ScreenWidth*2)this.live = false;
     }
 
+    /**
+     * Customize the verticies in the vertex buffer.
+     * @param newVerts Float array representation to pass in.
+     */
     public void setShapeVertexs(float[] newVerts){
         this.vertexBuffer.clear();
         this.vertexBuffer.put(newVerts);

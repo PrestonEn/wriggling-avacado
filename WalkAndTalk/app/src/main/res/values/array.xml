@@ -57,15 +57,20 @@
 
     <string-array name="enemies_still_classroom">
         <item>@raw/scene_classroom_desk</item>
+        <item>@raw/scene_classroom_paperwork</item>
+        <item>@raw/scene_classroom_laptop</item>
     </string-array>
 
     <string-array name="enemies_still_library">
         <item>@raw/scene_library_books</item>
+        <item>@raw/scene_library_girl_reading</item>
+        <item>@raw/scene_library_printer</item>
     </string-array>
 
     <string-array name="enemies_still_hallway">
         <item>@raw/scene_hallway_backpack</item>
         <item>@raw/scene_hallway_sign</item>
+        <item>@raw/scene_hallway_puddle</item>
     </string-array>
 
     <array name="enemies_still">
@@ -99,15 +104,21 @@
     </array>
 
     <string-array name="enemies_fly_classroom">
-        <item>@raw/scene_classroom_desk</item>
+        <item>@raw/scene_classroom_clock</item>
+        <item>@raw/scene_classroom_c_book</item>
+        <item>@raw/scene_classroom_pi</item>
     </string-array>
 
     <string-array name="enemies_fly_library">
         <item>@raw/scene_library_owl</item>
+        <item>@raw/scene_library_coffee</item>
+        <item>@raw/scene_library_drama</item>
     </string-array>
 
     <string-array name="enemies_fly_hallway">
         <item>@raw/scene_hallway_ball</item>
+        <item>@raw/scene_hallway_airplane</item>
+        <item>@raw/scene_hallway_scissors</item>
     </string-array>
 
     <array name="enemies_fly">

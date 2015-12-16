@@ -1,23 +1,9 @@
 package tsp.team.walkandtalk;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.opengl.GLES20;
-import android.opengl.GLUtils;
-import android.util.Log;
-
-import java.io.InputStream;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import javax.microedition.khronos.opengles.GL10;
-
 /**
- * Superclass for sprites drawn via openGL for active objects on screen (earl, math, etc.)
- * Created by preston
- *
+ * Superclass for sprites drawn via openGL for active objects on screen (earl, math, etc.).
  */
 public abstract class Sprite {
 
@@ -103,36 +89,44 @@ public abstract class Sprite {
     // Texture Pointer
     private int[] texPointer;
 
-    // Abstract method to be overridden by anything that extends the sprite class.
+    /**
+     * Abstract method to be overridden by anything that extends the sprite class.
+     * @param mvpMatrix Model view projection matrix
+     */
     abstract public void draw(float[] mvpMatrix);
 
-    // Require a get rotate method so that we can know how to draw particular enemies.
+    /**
+     * Require a get rotate method so that we can know how to draw particular enemies.
+     * @return Boolean if we need to rotate the sprite when drawing.
+     */
     abstract public boolean needRotate();
 
-    // Require the making of a update method that will move the shape in space.
+    /**
+     * Require the making of a update method that will move the shape in space.
+     */
     abstract public void updateShape();
 
-    // Get width and height below being abstract force square to implement the ability to view height and width.
+    /**
+     * Get width and thus being abstract, force square to implement the ability to view height and width.
+     * @return Float the width.
+     */
     abstract public float getWidth();
+
+    /**
+     * Get height and thus being abstract, force square to implement the ability to view height and width.
+     * @return Float the height.
+     */
     abstract public float getHeight();
 
-    // Abstract methods for making an enemy responds to a particular gesture that will kill it.
+    /**
+     * Abstract method which will allow you to view which gesture you need to kill a sprite if its an enemy.
+     * @return EnemyKillGesture enumeration parameter.
+     */
     abstract public EnemyKillGesture getKillGesture();
+
+    /**
+     * Set the kill gesture of a particular sprite.
+     * @param killGesture EnemyKillGesture enumeration parameter.
+     */
     abstract public void setKillGesture(EnemyKillGesture killGesture);
-
-    public int getCurrentFrame() {
-        return currentFrame;
-    }
-
-    public void setCurrentFrame(int currentFrame) {
-        this.currentFrame = currentFrame;
-    }
-
-    public int getAniFrames() {
-        return aniFrames;
-    }
-
-    public void setAniFrames(int aniFrames) {
-        this.aniFrames = aniFrames;
-    }
 }

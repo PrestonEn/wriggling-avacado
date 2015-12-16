@@ -1,11 +1,7 @@
 package tsp.team.walkandtalk;
 
-import android.util.Log;
-
-import java.nio.FloatBuffer;
-
 /** Wrapper class for passing info from texture factory to
- *  draw methods
+ *  draw methods.
  */
 public class TextureInfo {
     int binding;

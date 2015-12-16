@@ -2,23 +2,26 @@ package tsp.team.walkandtalk;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 /**
- * Created by preston on 15-12-13.
+ * This is the class that controls the background scrolling objects.
+ * Takes advantage of sprite classes ability to update easily.
  */
 public class Background {
+
     TextureInfo image;
-    private float[]  windowCoords;
-    public Square visibleImage, visibleImage2, visibleImage3;
-    private float backUVs[] = new float[]{
+    private float[]  windowCoords; // Coordinate location.
+    public Square visibleImage, visibleImage2, visibleImage3; // All three images needed to produce smooth scrolling.
+    private float backUVs[] = new float[]{ // UV mappings.
             0f,1f,
             0f,0f,
             1f,0f,
             1f,1f
     };
-    private float ratio;
+    private float ratio; // Screen size ratio.
+
     /**
+     * Constructor which takes in the proper objects to build all of the sprites we need.s
      * @param backTex textureInfo for background
      * @param c Context
      */
@@ -47,6 +50,13 @@ public class Background {
         visibleImage3.setShapeVertexs(windowCoords);
     }
 
+    /**
+     * This function is what is called by the outside classes to scroll the background.
+     * Passed in values are UVs.
+     * @param one Mapping for the first image.
+     * @param two Mapping for the second image.
+     * @param three Mapping for the third image.
+     */
     public void testWrap(float[] one, float[] two, float[] three){
         if(this.visibleImage.px < -2.0f*1.5f*ratio){
             this.visibleImage.px = 2.0f*1.5f*ratio;

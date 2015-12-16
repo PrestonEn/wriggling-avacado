@@ -5,12 +5,9 @@ import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
-
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 /**
  * Class to handle the state of game elements (score, difficulty, characters, background),
@@ -57,7 +54,7 @@ public class GameStuff {
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
         background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
         character = new Character(contextHolder,textureFactory.getCharacter_run(),
-                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(), textureFactory.getTestTexture(),screenRatio, soundPlayer);
+        		textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(), textureFactory.getCharacter_jump(),screenRatio, soundPlayer);
         enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
 
         stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));

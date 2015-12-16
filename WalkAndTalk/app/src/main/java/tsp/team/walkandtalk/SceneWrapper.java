@@ -18,7 +18,8 @@ public class SceneWrapper implements Serializable {
 
 
     /**
-     *
+     * Constructor which builds up the scene for passing into the renderer and surface views for different
+     * scenes.
      * @param c character name
      * @param run integer to hold resourceID for running sprite sheet
      * @param jump  integer to hold ResourceID for jump sprite sheet

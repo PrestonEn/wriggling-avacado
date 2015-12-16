@@ -38,7 +38,7 @@ public class GameStuff {
      * @param prevHighScore top result from local score database
      */
     public GameStuff(Activity c, SceneWrapper scene, long prevHighScore){
-        soundPlayer = new SoundWrapper(c);
+        soundPlayer = new SoundWrapper(c, scene);
         act = c;
         score = 0;
         newHigh = false;
@@ -101,12 +101,13 @@ public class GameStuff {
     public void updateScore(){
         score++;
         if(score > prevHighScore && !newHigh){
+            soundPlayer.highScore();
             newHigh = true;
         }
 
         if(score % 500 == 0){
             //todo play ding sound
-            soundPlayer.dealieSound();
+            soundPlayer.highScore();
 
         }
 

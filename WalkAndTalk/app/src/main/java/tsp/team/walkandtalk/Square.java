@@ -63,10 +63,10 @@ public class Square extends Sprite{
         this.vx = velX;
         this.vy = velY;
 
-        animUVs = new float[]{
-                1.0f, 0.0f,
-                1.0f, 1.0f,
-                0.0f, 1.0f,
+        animUVs = new float[]{ // Invisible texture.
+                0.0f, 0.0f,
+                0.0f, 0.0f,
+                0.0f, 0.0f,
                 0.0f, 0.0f,
         };
 

@@ -18,7 +18,6 @@ public class Character {
     private float computeUVs[][] = new float[frame_count][]; // Array holding all of the UVs across all frames.
     private Square squareImage; // Reference to the sprite that this character uses.
     private Square hitBox; // Reference to the sprite that this character uses.
-
     private TextureInfo texturesRun; // Reference to the sprite sheet from opengl bindings.
     private TextureInfo textureJump; // Reference to the texture for jumping.
     private TextureInfo texturesFall; // Reference to fall sprite sheet.
@@ -34,19 +33,16 @@ public class Character {
             0.0f, 1.0f,
             0.0f, 0.0f,
     };
-
     private float squareCoords[] = { // Vertexes for drawing the sprite.
             0.375f,  0.6f, 0.0f,   // top left
             0.375f, -0.6f, 0.0f,   // bottom left
             -0.375f, -0.6f, 0.0f,   // bottom right
             -0.375f,  0.6f, 0.0f }; // top right
-
     private float hitboxCoords[] = { // Vertexes for drawing the sprite.
             0.21f,  0.5f, 0.0f,   // top left
             0.21f, -0.5f, 0.0f,   // bottom left
             -0.21f, -0.5f, 0.0f,   // bottom right
             -0.21f,  0.5f, 0.0f }; // top right
-
 
     /**
      * Public constructor for making the Character object.

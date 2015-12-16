@@ -56,12 +56,15 @@ public class SettingsActivity extends Activity {
 
         if (font != null) { // Set all text fields to use the chalkboard font
             TextView title = (TextView) findViewById(R.id.txtTitle);
+            TextView sound_title = (TextView) findViewById(R.id.txtSound);
             Button resetScores = (Button) findViewById(R.id.btnResetScores);
+            Button about = (Button) findViewById(R.id.btnAbout);
             Button back = (Button) findViewById(R.id.btnBack);
 
             title.setTypeface(font);
-            sound.setTypeface(font);
+            sound_title.setTypeface(font);
             resetScores.setTypeface(font);
+            about.setTypeface(font);
             back.setTypeface(font);
         }
 

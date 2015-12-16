@@ -1,7 +1,6 @@
 package tsp.team.walkandtalk;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;

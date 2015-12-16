@@ -12,7 +12,10 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.Iterator;
+import java.util.UUID;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
@@ -64,8 +67,17 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
     public void onDrawFrame(GL10 unused) {
 
         if(gamestuff.getCharacter().isDoneDying()) {
-            Log.e("done", "trigger the done loop");
             surfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
+            ScoresDBManager scoresDB = new ScoresDBManager(mActivityContext);
+            scoresDB.addHighScoreRow(UUID.randomUUID().toString(), gamestuff.getScore(),
+                    new Date().getTime(), sceneWrapper.getCharacterName(), sceneWrapper.getSceneName());
+            if(gamestuff.getScore() > prevHighScore){
+                endGameDialog.setMessage("NEW HIGH SCORE: " + gamestuff.getScore() + "\nDo you want to retry this level?");
+            } else{
+                endGameDialog.setMessage("Your Score: " + gamestuff.getScore() + "\nDo you want to retry this level?");
+            }
+
             mActivityContext.runOnUiThread(new Runnable() {
                 public void run() {
                     endGameDialog.show();

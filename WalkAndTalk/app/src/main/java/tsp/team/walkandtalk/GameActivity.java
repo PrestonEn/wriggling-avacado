@@ -56,10 +56,6 @@ public class GameActivity extends Activity {
         }
 
         details.setText(scene.getCharacterName() + " in the " + scene.getSceneName());
-        ScoresDBManager scoresDB = new ScoresDBManager(this);
-        HighScore hs = scoresDB.getMaxScore(); // Get max high score in scores table
-        scoresDB.close();  // Close database manager
-        highScore.setText("High Score: " + hs.score);
 
         builder = new AlertDialog.Builder(this);  // For warning
         builder.setTitle("GAME OVER")
@@ -101,9 +97,21 @@ public class GameActivity extends Activity {
             }
         });
 
-        // Create a GLSurfaceView instance and set it
-        // as the ContentView for this Activity
-        mGLView = new GLES20SurfaceView(GameActivity.this , scene, txtScore, hs.score, builder);
+        ScoresDBManager scoresDB = new ScoresDBManager(this);
+        HighScore hs = scoresDB.getMaxScore(); // Get max high score in scores table
+        scoresDB.close();  // Close database manager
+        if(hs == null){
+            highScore.setText("High Score: 0");
+            // Create a GLSurfaceView instance and set it
+            // as the ContentView for this Activity
+            mGLView = new GLES20SurfaceView(GameActivity.this , scene, txtScore, 0, builder);
+        } else {
+            highScore.setText("High Score: " + hs.score);
+            // Create a GLSurfaceView instance and set it
+            // as the ContentView for this Activity
+            mGLView = new GLES20SurfaceView(GameActivity.this , scene, txtScore, hs.score, builder);
+        }
+
         LinearLayout surface = (LinearLayout)findViewById(R.id.test);
         surface.addView(mGLView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }

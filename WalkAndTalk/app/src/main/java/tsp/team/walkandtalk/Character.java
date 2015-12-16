@@ -1,6 +1,7 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * This class is used for holding the information that a Character needs for drawing and computing
@@ -91,8 +92,8 @@ public class Character {
         if(squareImage.live){
             if(jumping){
                 if(jumpDrawCount == 0){ // Only overwrite the image UVs if we need to.
+                    if(squareImage.py < 0.5f)squareImage.vy = 0.025f; // Cap ceiling and give jump vy.
                     squareImage.animUVs = standardUVMap;
-                    squareImage.vy = 0.015f;
                     squareImage.settInfo(this.textureJump); // Safe to update reference.
                 }
 
@@ -112,7 +113,7 @@ public class Character {
             }
             // Below control structure is outside of jumping loop because the anim can stop playing before we are done landing.
             if(squareImage.py != initPY){
-                squareImage.vy -= 0.0001f;
+                squareImage.vy -= 0.0005f;
             }
 
             if(squareImage.py < initPY){ // Land back on the ground safely.

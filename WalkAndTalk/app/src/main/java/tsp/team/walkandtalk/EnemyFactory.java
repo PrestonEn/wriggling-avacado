@@ -76,8 +76,9 @@ public class EnemyFactory {
         }
 
         Square enemy = new Square(stillShape, 2.49f, new Random().nextFloat() * -1f, rate, 0.0f, contextHolder,
-                false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_run());
+                true, 0.0f, 10.0f, screenRatio, textureFactory.getScene_enemies_run());
         enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING); // Fling anywhere for this.
+        enemy.setWiggle(true);
         return enemy;
     }
 

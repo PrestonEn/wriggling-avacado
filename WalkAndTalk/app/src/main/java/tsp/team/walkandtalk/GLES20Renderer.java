@@ -103,6 +103,8 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
                 gamestuff.getCharacter().getSquare().py, 0);
         Matrix.multiplyMM(scratch, 0, mMVPMatrix, 0, mTranslationMatrix, 0);
         gamestuff.getCharacter().getSquare().draw(scratch);
+        gamestuff.getCharacter().getHitBox().draw(scratch);
+
         gamestuff.getCharacter().update(); // Implement this later to get it actually animating.
         gamestuff.spawnPoller();
         // Java threadsafe crystal-healing.
@@ -177,8 +179,8 @@ public class GLES20Renderer implements GLSurfaceView.Renderer{
      * @return Boolean if there is a collision.
      */
     private boolean detectCharTouch(Sprite s, Character c){
-        return (Math.abs(s.px - c.getSquare().px) * 2 < (s.getWidth() + c.getSquare().getWidth())) &&
-                (Math.abs(s.py - c.getSquare().py) * 2 < (s.getHeight() + c.getSquare().getHeight()));
+        return (Math.abs(s.px - c.getSquare().px) * 2 < (s.getWidth() + c.getHitBox().getWidth())) &&
+                (Math.abs(s.py - c.getSquare().py) * 2 < (s.getHeight() + c.getHitBox().getHeight()));
     }
 
     /**

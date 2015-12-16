@@ -1,7 +1,6 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * This class is used for holding the information that a Character needs for drawing and computing

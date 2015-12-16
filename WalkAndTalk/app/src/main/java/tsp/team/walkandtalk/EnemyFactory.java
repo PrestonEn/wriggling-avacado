@@ -14,12 +14,16 @@ public class EnemyFactory {
     private Context contextHolder; // Reference to context needed for building sprites.
     private static float screenRatio; // Stored value of width over height of the phone.
     private TextureFactory textureFactory; // Texture factory which will get our opengl textures.
+    private float animUVs[] = new float[]{ // Animation UVs for reading from a whole bitmap.
+                1.0f, 0.0f,
+                1.0f, 1.0f,
+                0.0f, 1.0f,
+                0.0f, 0.0f};
     private static float stillShape[] = { // Vertices for a still enemy.
          0.2f,  0.2f, 0.0f,   // top left
          0.2f, -0.2f, 0.0f,   // bottom left
          -0.2f, -0.2f, 0.0f,   // bottom right
-         -0.2f,  0.2f, 0.0f }; // top right
-
+         -0.2f,  0.2f, 0.0f}; // top right
 
     /**
      * Main constructor for the object which will just build the necessary instance variables.
@@ -53,6 +57,7 @@ public class EnemyFactory {
         Square enemy =  new Square(stillShape, 2.49f, -0.75f, rate, 0.0f, contextHolder,
                 false, 0.0f, 0.0f, screenRatio, textureFactory.getScene_enemies_still());
         enemy.setKillGesture(null); // No kill gesture for this.
+        enemy.animUVs = animUVs;
         return enemy;
     }
 
@@ -79,6 +84,7 @@ public class EnemyFactory {
                 true, 0.0f, 10.0f, screenRatio, textureFactory.getScene_enemies_run());
         enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING); // Fling anywhere for this.
         enemy.setWiggle(true);
+        enemy.animUVs = animUVs;
         return enemy;
     }
 
@@ -117,12 +123,11 @@ public class EnemyFactory {
         float roc = xDif/rate;
 
         dy = -1 * Math.abs(yDif) / Math.abs(roc);
-        Log.e("dy", dy+"");
-       // dy = -1 *
 
         Square enemy = new Square(stillShape, x, y , rate, dy, contextHolder,
                 true, 0.0f, 0.9f, screenRatio, textureFactory.getScene_enemies_fly());
         enemy.setKillGesture(EnemyKillGesture.GESTURE_FLING_DOWN);
+        enemy.animUVs = animUVs;
         return enemy;
     }
 }

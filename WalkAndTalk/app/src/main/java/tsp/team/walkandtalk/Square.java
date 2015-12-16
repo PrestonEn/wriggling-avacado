@@ -234,8 +234,8 @@ public class Square extends Sprite{
         this.py += this.vy;
         this.angle += this.angleRate;
 
-        if(this.wiggle){
-            this.angleRate = this.angleRate*-1f;
+        if(this.wiggle && Math.abs(0.0f - angle) > 50.0f){
+            this.angleRate = this.angleRate * -1f;
         }
 
 

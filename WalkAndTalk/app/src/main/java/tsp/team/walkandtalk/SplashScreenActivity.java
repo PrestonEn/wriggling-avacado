@@ -47,15 +47,6 @@ public class SplashScreenActivity extends Activity {
             title.setTypeface(font);
         }
 
-        // todo *********** FOR TESTING ONLY - REMOVE LATER **********************
-        ScoresDBManager scoresDB = new ScoresDBManager(this);
-        scoresDB.addHighScoreRow("1", 555, new Date().getTime(), "Earl", "Library");
-        scoresDB.addHighScoreRow("2", 666, new Date().getTime() - 20000, "Tyler", "Hallway");
-        scoresDB.addHighScoreRow("3", 333, new Date().getTime() - 200000, "Preston", "Library");
-        scoresDB.addHighScoreRow("4", 888, new Date().getTime() - 7000000, "Stacey", "Classroom");
-        scoresDB.addHighScoreRow("5", 111, new Date().getTime(), "Earl", "Hallway");
-        //*******************************************************************
-
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 startActivity(new Intent(SplashScreenActivity.this,

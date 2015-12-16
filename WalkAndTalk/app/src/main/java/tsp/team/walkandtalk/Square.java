@@ -25,8 +25,10 @@ public class Square extends Sprite{
     private int mPositionHandle;
     private int mMVPMatrixHandle;
     private int mTexCoordHandle;
+    private EnemyKillGesture killGesture = null;
     private TextureInfo tInfo;
-
+    private boolean wiggle;
+    private boolean wiggleDir = true;
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
     private float squareCoords[];
@@ -34,7 +36,18 @@ public class Square extends Sprite{
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
     /**
-     * Sets up the drawing object data for use in an OpenGL ES context.
+     * Square constructor.
+     * @param sc    coordinates of verticies on window
+     * @param posX  center x position
+     * @param posY  center y position
+     * @param velX  velocity x component
+     * @param velY  velocity y component
+     * @param ctx   Context
+     * @param rot   does it rotate?
+     * @param a     angle of rotation
+     * @param aR    delta Angle
+     * @param sw    screen width
+     * @param tInfo Texture info
      */
     public Square(float sc[], float posX,float posY,float velX,float velY,Context ctx,
                   boolean rot, float a, float aR, float sw, TextureInfo tInfo) {
@@ -50,18 +63,14 @@ public class Square extends Sprite{
         this.vx = velX;
         this.vy = velY;
 
-        animUVs = new float[]{
-                1.0f, 0.0f,
-                1.0f, 1.0f,
-                0.0f, 1.0f,
+        animUVs = new float[]{ // Invisible texture.
+                0.0f, 0.0f,
+                0.0f, 0.0f,
+                0.0f, 0.0f,
                 0.0f, 0.0f,
         };
 
-        float squareCoords[] = {
-                0.375f,  0.6f, 0.0f,   // top left
-                0.375f, -0.6f, 0.0f,   // bottom left
-                -0.375f, -0.6f, 0.0f,   // bottom right
-                -0.375f,  0.6f, 0.0f }; // top right
+        squareCoords = sc;
 
         this.width = squareCoords[0] - squareCoords[6];
         this.height = squareCoords[1] - squareCoords[4];
@@ -105,6 +114,10 @@ public class Square extends Sprite{
             GLES20.glDeleteProgram(mProgram);
 
         }
+    }
+
+    public void settInfo(TextureInfo tInfo) {
+        this.tInfo = tInfo;
     }
 
     public float getWidth() {
@@ -178,6 +191,32 @@ public class Square extends Sprite{
     }
 
     /**
+     * set the flag to
+     */
+    public void setWiggle(boolean wigglewiggleyeah){
+        this.wiggle = wigglewiggleyeah;
+    }
+
+    /**
+     * Method for returning what type of gesture will kill this object.
+     * @return EnemyKillGesture enumeration type.
+     */
+    @Override
+    public EnemyKillGesture getKillGesture(){
+        return this.killGesture;
+    }
+
+    /**
+     * Sets the kill gesture of a square. This is really only to be set if the square that is built is
+     * an enemy of fly or run type.
+     * @param killGesture EnemyKillGesture to set as.
+     */
+    @Override
+    public void setKillGesture(EnemyKillGesture killGesture){
+        this.killGesture = killGesture;
+    }
+
+    /**
      * Boolean if you need to deal with rotating or not.
      * @return Boolean need to rotate.
      */
@@ -195,7 +234,18 @@ public class Square extends Sprite{
         this.py += this.vy;
         this.angle += this.angleRate;
 
+        if(this.wiggle && Math.abs(0.0f - angle) > 50.0f){
+            this.angleRate = this.angleRate * -1f;
+        }
+
+
         if(Math.abs(this.py) > 2.5)this.live = false;
         if(Math.abs(this.px) > this.ScreenWidth*2)this.live = false;
+    }
+
+    public void setShapeVertexs(float[] newVerts){
+        this.vertexBuffer.clear();
+        this.vertexBuffer.put(newVerts);
+        this.vertexBuffer.position(0);
     }
 }

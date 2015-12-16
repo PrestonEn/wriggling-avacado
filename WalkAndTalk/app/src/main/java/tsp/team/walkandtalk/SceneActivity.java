@@ -63,7 +63,10 @@ public class SceneActivity extends Activity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new RecyclerViewAdapter(getResources().obtainTypedArray(R.array.background_imgs), SceneActivity.this);
+        mAdapter = new RecyclerViewAdapter(getResources().obtainTypedArray(R.array.background_imgs),
+                getResources().obtainTypedArray(R.array.scene_names),
+                SceneActivity.this,
+                font);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -79,4 +82,8 @@ public class SceneActivity extends Activity {
         startActivity(intent);
 
     } // fromSceneToMain
+
+    @Override
+    public void onBackPressed(){
+    }
 }

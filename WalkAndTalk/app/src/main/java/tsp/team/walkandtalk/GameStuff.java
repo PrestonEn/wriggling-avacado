@@ -1,19 +1,22 @@
 package tsp.team.walkandtalk;
 
 import android.content.Context;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Class to handle the state of game elements (score, difficulty, characters, background),
  * loading textures,drawing, spawning and despawning enemies, and playing sound events.
  */
 public class GameStuff {
-
+    private int score;
     private List<Sprite> enemies; // List of enemies to render.
     private Character character; // Reference to the Character on the screen.
     private Context contextHolder; // Context for building other objects.
@@ -21,6 +24,12 @@ public class GameStuff {
     private int ScreenHeight;
     private float screenRatio; // ScreenWidth / ScreenHeight.
     private TextureFactory textureFactory; // Reference to a TextureFactory for building images.
+    private Background background;
+    private EnemyFactory enemyFactory; // Reference to a EnemyFactory that will build generic enemies.
+    private int stillCounter, runCounter, flyCounter;
+    private long prevHighScore;
+    private int[] soundIDs;
+    private SoundPool pool;
 
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
@@ -28,9 +37,11 @@ public class GameStuff {
      * @param c Context of the application that this object belongs to.
      * @param scene SceneWrapper that will be used to specify backgrounds and enemy types.
      */
-    public GameStuff(Context c, SceneWrapper scene){
+    public GameStuff(Context c, SceneWrapper scene, long prevHighScore){
+        score = 0;
         this.textureFactory = new TextureFactory(c, scene); // See TextureFactory class...
         this.contextHolder = c;
+        this.prevHighScore = prevHighScore;
         WindowManager wm = (WindowManager)c.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm); // Above lines including this one find the width and height.
@@ -38,7 +49,22 @@ public class GameStuff {
         this.ScreenWidth = dm.widthPixels;
         this.screenRatio = (float)this.getScreenWidth()/(float)this.getScreenHeight(); // Build ratio.
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
-        character = new Character(contextHolder,textureFactory.getCharacter_run(),screenRatio);
+        background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
+        character = new Character(contextHolder,textureFactory.getCharacter_run(),
+                textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(), textureFactory.getTestTexture() ,screenRatio);
+        enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
+
+        stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+
+
+        soundIDs = new int[3];
+        pool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+        soundIDs[0] = pool.load(contextHolder, R.raw.dealie, 1);
+        soundIDs[1] = pool.load(contextHolder, R.raw.face, 1);
+
+
     }   // See character object for line above.
 
     /**
@@ -74,24 +100,23 @@ public class GameStuff {
     }
 
     /**
-     * Debugging method for enemies.
+     * incrememnts score by 1 and tests for milestone of 500 points via mod
      */
-    public void makeTestDummies(){
-        //Eventually there needs to be some sort of scene drawing going on in here.
-        float squareCoords[] = {
-                0.375f,  0.6f, 0.0f,   // top left
-                0.375f, -0.6f, 0.0f,   // bottom left
-                -0.375f, -0.6f, 0.0f,   // bottom right
-                -0.375f,  0.6f, 0.0f }; // top right
+    public void updateScore(){
+        score++;
+        if(score % 500 == 0){
+            //todo play ding sound
+            pool.play(soundIDs[0], 1, 1, 1, 0, 1);
 
-        Square aSquare = new Square(squareCoords, 0.5f, 0.4f, 0.01f, 0.01f, this.getContextHolder(),
-                true, 0.0f, 0.5f, screenRatio, textureFactory.getTestTexture());
+        }
+    }
 
-        Square bSquare = new Square(squareCoords, -0.3f, 0.4f, -0.01f, -0.01f, this.getContextHolder(),
-                true, 0.0f, 0.5f, screenRatio, textureFactory.getTestTexture());
-
-        this.getEnemies().add(aSquare);
-        this.getEnemies().add(bSquare);
+    /**
+     * get the current scoring
+     * @return gamestate score
+     */
+    public int getScore(){
+        return score;
     }
 
     /**
@@ -100,5 +125,41 @@ public class GameStuff {
      */
     public List<Sprite> getEnemies() {
         return enemies;
+    }
+
+    /**
+     * Returns the background object
+     * @return Background wrapper class
+     */
+    public Background getBackground(){
+        return background;
+    }
+
+    /**
+     * Generate new enemies after a randomly generated interval, and recalculate the counter.
+     */
+    public void spawnPoller(){
+        if(stillCounter == 0){
+            enemies.add(enemyFactory.makeStillEnemy(DifficultySetting.DIFFICULTY_EASY));
+            stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        }else{
+            --stillCounter;
+        }
+
+        if(flyCounter == 0){
+            //TODO: add logic and sound effect
+            enemies.add(enemyFactory.makeFlyEnemy(DifficultySetting.DIFFICULTY_EASY, character));
+            flyCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        }else{
+            --flyCounter;
+        }
+
+        if(runCounter == 0){
+            //TODO: add logic and sound effect
+            enemies.add(enemyFactory.makeRunEnemy(DifficultySetting.DIFFICULTY_EASY));
+            runCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));
+        }else{
+            --runCounter;
+        }
     }
 }

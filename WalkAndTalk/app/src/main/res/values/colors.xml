@@ -4,5 +4,6 @@
     <color name="white">#ffffff</color>
     <color name="logo">#000000</color>
     <color name="transparent">#0000</color>
+    <color name="score_bar">#13a097</color>
 
 </resources>

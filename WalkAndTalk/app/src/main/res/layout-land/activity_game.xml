@@ -1,6 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/test">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/score_bar">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtDetails"
+            android:layout_weight="5"
+            android:textSize="@dimen/bar_size"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtHighScore"
+            android:layout_weight="4"
+            android:textSize="@dimen/bar_size"
+            android:text="High Score:"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/txtScore"
+            android:layout_weight="4"
+            android:textSize="@dimen/bar_size"
+            android:text="Score: 0"
+            android:textColor="@color/white"
+            android:gravity="center_vertical|center_horizontal" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -17,26 +17,41 @@ public class SoundWrapper {
 
     /**
      *
-     * @param c The parent activity, used to access preferences
+     * @param c the
+     * @param scene
      */
-    public SoundWrapper(Activity c){
+    public SoundWrapper(Activity c, SceneWrapper scene){
         soundIDs = new int[3];
         pool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(c);
         soundOn = preferences.getBoolean(c.getString(R.string.saved_sound_preference), false);
         // TODO generalize sound loading
-        soundIDs[0] = pool.load(c, R.raw.dealie, 1);
-        soundIDs[1] = pool.load(c, R.raw.face, 1);
+        soundIDs[0] = pool.load(c, scene.getGameSounds()[0],1);
+        soundIDs[1] = pool.load(c, scene.getGameSounds()[1],1);
+        soundIDs[2] = pool.load(c, scene.getGameSounds()[2],1);
     }
 
-
+    /**
+     * play death sound
+     */
     public void deadSound(){
+        if(soundOn)
+        pool.play(soundIDs[0], 1, 1, 1, 0, 1);
+    }
+
+    /**
+     * play milestone now
+     */
+    public void mileStoneSound(){
         if(soundOn)
         pool.play(soundIDs[1], 1, 1, 1, 0, 1);
     }
 
-    public void dealieSound(){
+    /**
+     * play highscore now
+     */
+    public void highScore(){
         if(soundOn)
-        pool.play(soundIDs[0], 1, 1, 1, 0, 1);
+            pool.play(soundIDs[2], 1, 1, 1, 0, 1);
     }
 }

@@ -15,6 +15,7 @@ public class SceneWrapper implements Serializable {
     private int[] enemies_still;
     private int[] enemies_run;
     private int[] enemies_fly;
+    private int[] gameSounds;
 
 
     /**
@@ -24,12 +25,14 @@ public class SceneWrapper implements Serializable {
      * @param run   integer to hold resourceID for running sprite sheet
      * @param jump  integer to hold ResourceID for jump sprite sheet
      * @param fall  integer to hold ResourceID for fall sprite sheet
+     * @param soundIds ResourceID's for sound assets
      */
-    public SceneWrapper(String c, int run, int jump, int fall){
+    public SceneWrapper(String c, int run, int jump, int fall, int[] soundIds){
         character = c;
         char_run = run;
         char_jump = jump;
         char_fall = fall;
+        gameSounds = soundIds;
     } // Constructor
 
     /**
@@ -163,4 +166,11 @@ public class SceneWrapper implements Serializable {
         this.enemies_fly = enemies_fly;
     }
 
+    /**
+     * Getter method to retrieve the array of sound resource ID's
+     * @return int array holding sound resource ID's
+     */
+    public int[] getGameSounds() {
+        return gameSounds;
+    }
 } // SceneWrapper

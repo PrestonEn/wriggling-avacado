@@ -36,6 +36,37 @@
         <item>@raw/fall_stacey</item>
     </string-array>
 
+    <string-array name="sounds_earl">
+        <item>@raw/earl_death</item>
+        <item>@raw/earl_milestone</item>
+        <item>@raw/earl_high</item>
+    </string-array>
+
+    <string-array name="sounds_tyler">
+        <item>@raw/tyler_death</item>
+        <item>@raw/tyler_milestone</item>
+        <item>@raw/tyler_high</item>
+    </string-array>
+
+    <string-array name="sounds_preston">
+        <item>@raw/preston_death</item>
+        <item>@raw/preston_milestone</item>
+        <item>@raw/preston_high</item>
+    </string-array>
+
+    <string-array name="sounds_stacey">
+        <item>@raw/stacey_death</item>
+        <item>@raw/stacey_milestone</item>
+        <item>@raw/stacey_high</item>
+    </string-array>
+
+    <array name="character_sounds">
+        <item>@array/sounds_earl</item>
+        <item>@array/sounds_tyler</item>
+        <item>@array/sounds_preston</item>
+        <item>@array/sounds_stacey</item>
+    </array>
+
 
     <string-array name="background_imgs">
         <item>@drawable/scene_classroom</item>

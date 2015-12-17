@@ -88,6 +88,37 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:text="@string/about_blurb"
+            android:id="@+id/textView2"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:gravity="center" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/webButton"
+            android:layout_weight="1"
+            android:textSize="@dimen/button_size"
+            android:padding="@dimen/padding"
+            android:background="@color/transparent"
+            android:textColor="@color/white"
+            android:shadowColor="@color/transparent"
+            android:onClick="fromAboutToWeb"
+            android:text="@string/about_web"
+            android:gravity="center_vertical|right" />
+
+    </LinearLayout>
+
     <Button
         android:layout_width="fill_parent"
         android:layout_height="0dp"

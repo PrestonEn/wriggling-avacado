@@ -45,12 +45,14 @@ public class AboutActivity extends Activity {
             TextView preston = (TextView) findViewById(R.id.prestonBox);
             TextView stacey = (TextView) findViewById(R.id.staceyBox);
             TextView tyler = (TextView) findViewById(R.id.tylerBox);
+            Button web = (Button) findViewById(R.id.webButton);
 
             title.setTypeface(font);
             back.setTypeface(font);
             preston.setTypeface(font);
             stacey.setTypeface(font);
             tyler.setTypeface(font);
+            web.setTypeface(font);
         }
 
     } // onCreate
@@ -87,6 +89,17 @@ public class AboutActivity extends Activity {
         startActivity(intent);
 
     } // fromAboutToMain
+
+    /** fromAboutToWeb
+     * Method for allowing the user to externally view the website for extra "about" information.
+     * @param v View containing information about the nature of the event
+     */
+    public void fromAboutToWeb(View v){
+
+        Intent intent = new Intent(AboutActivity.this, MainMenuActivity.class);
+        startActivity(intent);
+
+    } // fromAboutToWeb
 
     @Override
     public void onBackPressed(){

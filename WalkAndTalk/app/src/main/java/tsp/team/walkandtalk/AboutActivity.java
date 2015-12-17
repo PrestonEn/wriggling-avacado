@@ -42,9 +42,15 @@ public class AboutActivity extends Activity {
         if (font != null) { // Set all text fields to use the chalkboard font
             TextView title = (TextView) findViewById(R.id.txtTitle);
             Button back = (Button) findViewById(R.id.btnBack);
+            TextView preston = (TextView) findViewById(R.id.prestonBox);
+            TextView stacey = (TextView) findViewById(R.id.staceyBox);
+            TextView tyler = (TextView) findViewById(R.id.tylerBox);
 
             title.setTypeface(font);
             back.setTypeface(font);
+            preston.setTypeface(font);
+            stacey.setTypeface(font);
+            tyler.setTypeface(font);
         }
 
     } // onCreate

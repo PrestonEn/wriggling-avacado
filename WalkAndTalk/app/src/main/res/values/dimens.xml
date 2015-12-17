@@ -1,5 +1,6 @@
 <resources>
     <dimen name="title_size">70sp</dimen>
+    <dimen name="tutorial_size">35sp</dimen>
     <dimen name="select_size">40sp</dimen>
     <dimen name="button_size">25sp</dimen>
     <dimen name="switch_size">15sp</dimen>

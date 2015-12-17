@@ -180,17 +180,31 @@ public class MainMenuActivity extends Activity {
     } // goToHighScores
 
     /** goToSettings
-     * When the user presses the "Settings" button, this method will run
-     * and they will be taken to the settings activity.
-     *
-     * @param v View containing information about the nature of the event
-     */
+    * When the user presses the "Settings" button, this method will run
+    * and they will be taken to the settings activity.
+    *
+            * @param v View containing information about the nature of the event
+    */
     public void goToSettings(View v) {
 
         Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
         startActivity(intent);
 
     } // goToSettings
+
+
+    /** goToTutorial
+     * When the user presses the "Tutorial" button, this method will run
+     * and they will be taken to the tutorial activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void goToTutorial(View v) {
+
+        Intent intent = new Intent(MainMenuActivity.this, TutorialActivity.class);
+        startActivity(intent);
+
+    } // goToTutorial
 
     @Override
     public void onBackPressed(){

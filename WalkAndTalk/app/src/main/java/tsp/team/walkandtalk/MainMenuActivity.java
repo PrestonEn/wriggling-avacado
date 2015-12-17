@@ -126,15 +126,17 @@ public class MainMenuActivity extends Activity {
         SceneWrapper scene = new SceneWrapper(r.obtainTypedArray(R.array.character_names).getString(position),
                 r.obtainTypedArray(R.array.character_run).getResourceId(position, -1),
                 r.obtainTypedArray(R.array.character_jump).getResourceId(position, -1),
-                r.obtainTypedArray(R.array.character_fall).getResourceId(position, -1)
+                r.obtainTypedArray(R.array.character_fall).getResourceId(position, -1),
+                getMultipleIds(r, R.array.character_sounds, position)
+
         );
 
         int back = (int)(Math.random()*r.obtainTypedArray(R.array.background_imgs).length());
         scene.setSceneName(r.obtainTypedArray(R.array.scene_names).getString(back));
         scene.setSceneBackground(r.obtainTypedArray(R.array.scene_imgs).getResourceId(back, -1));
-        scene.setEnemiesStill(getEnemyIds(r, R.array.enemies_still, back));
-        scene.setEnemiesRun(getEnemyIds(r, R.array.enemies_run, back));
-        scene.setEnemiesFly(getEnemyIds(r, R.array.enemies_fly, back));
+        scene.setEnemiesStill(getMultipleIds(r, R.array.enemies_still, back));
+        scene.setEnemiesRun(getMultipleIds(r, R.array.enemies_run, back));
+        scene.setEnemiesFly(getMultipleIds(r, R.array.enemies_fly, back));
 
         Intent intent = new Intent(MainMenuActivity.this, GameActivity.class);
         intent.putExtra("scene", scene);
@@ -142,16 +144,24 @@ public class MainMenuActivity extends Activity {
 
     } // startGame
 
-    public int[] getEnemyIds(Resources r, int array, int position){
+    /**
+     * Create an integer array of the multiple ResourceIDs based on the
+     * passed id of the TypedArray and the passed scene/character position.
+     * @param r         Resources
+     * @param array     ID of the TypedArray
+     * @param position  Position of the corresponding multiple ID array
+     * @return          Int array of enemy/sound ResourceIDs for proper scene/character
+     */
+    private int[] getMultipleIds(Resources r, int array, int position){
         int id = r.obtainTypedArray(array).getResourceId(position, -1);
-        TypedArray enemies = r.obtainTypedArray(id);
-        int[] enemy_ids = new int[enemies.length()];
-        for (int i = 0; i < enemies.length(); i++) {
-            enemy_ids[i] = enemies.getResourceId(i, -1);
+        TypedArray ids = r.obtainTypedArray(id);
+        int[] resource_ids = new int[ids.length()];
+        for (int i = 0; i < ids.length(); i++) {
+            resource_ids[i] = ids.getResourceId(i, -1);
         }
-        enemies.recycle();
-        return enemy_ids;
-    }
+        ids.recycle();
+        return resource_ids;
+    } // getMultipleIds
 
     /** goToCharacter
      * When the user presses the "Play" button, this method will run
@@ -180,17 +190,31 @@ public class MainMenuActivity extends Activity {
     } // goToHighScores
 
     /** goToSettings
-     * When the user presses the "Settings" button, this method will run
-     * and they will be taken to the settings activity.
-     *
-     * @param v View containing information about the nature of the event
-     */
+    * When the user presses the "Settings" button, this method will run
+    * and they will be taken to the settings activity.
+    *
+            * @param v View containing information about the nature of the event
+    */
     public void goToSettings(View v) {
 
         Intent intent = new Intent(MainMenuActivity.this, SettingsActivity.class);
         startActivity(intent);
 
     } // goToSettings
+
+
+    /** goToTutorial
+     * When the user presses the "Tutorial" button, this method will run
+     * and they will be taken to the tutorial activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void goToTutorial(View v) {
+
+        Intent intent = new Intent(MainMenuActivity.this, TutorialActivity.class);
+        startActivity(intent);
+
+    } // goToTutorial
 
     @Override
     public void onBackPressed(){

@@ -91,7 +91,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     SceneWrapper scene = new SceneWrapper(r.obtainTypedArray(R.array.character_names).getString(position),
                             r.obtainTypedArray(R.array.character_run).getResourceId(position, -1),
                             r.obtainTypedArray(R.array.character_jump).getResourceId(position, -1),
-                            r.obtainTypedArray(R.array.character_fall).getResourceId(position, -1)
+                            r.obtainTypedArray(R.array.character_fall).getResourceId(position, -1),
+                            getMultipleIds(r, R.array.character_sounds, position)
                     );
                     Intent intent = new Intent(activity, SceneActivity.class);
                     intent.putExtra("scene", scene);
@@ -102,9 +103,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     int position = (int)callerImage.getTag();
                     scene.setSceneName(r.obtainTypedArray(R.array.scene_names).getString(position));
                     scene.setSceneBackground(r.obtainTypedArray(R.array.scene_imgs).getResourceId(position, -1));
-                    scene.setEnemiesStill(getEnemyIds(r, R.array.enemies_still, position));
-                    scene.setEnemiesRun(getEnemyIds(r, R.array.enemies_run, position));
-                    scene.setEnemiesFly(getEnemyIds(r, R.array.enemies_fly, position));
+                    scene.setEnemiesStill(getMultipleIds(r, R.array.enemies_still, position));
+                    scene.setEnemiesRun(getMultipleIds(r, R.array.enemies_run, position));
+                    scene.setEnemiesFly(getMultipleIds(r, R.array.enemies_fly, position));
 
                     Intent intent = new Intent(activity, GameActivity.class);
                     intent.putExtra("scene", scene);
@@ -117,23 +118,23 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     } // onCreateViewHolder
 
     /**
-     * Create an integer array of the enemy image ResourceIDs based on the
-     * passed id of the TypedArray and the passed scene position.
+     * Create an integer array of the multiple ResourceIDs based on the
+     * passed id of the TypedArray and the passed scene/character position.
      * @param r         Resources
      * @param array     ID of the TypedArray
-     * @param position  Position of the corresponding scene enemy array
-     * @return          Int array of enemy image ResourceIDs for proper scene
+     * @param position  Position of the corresponding multiple ID array
+     * @return          Int array of enemy/sound ResourceIDs for proper scene/character
      */
-    private int[] getEnemyIds(Resources r, int array, int position){
+    private int[] getMultipleIds(Resources r, int array, int position){
         int id = r.obtainTypedArray(array).getResourceId(position, -1);
-        TypedArray enemies = r.obtainTypedArray(id);
-        int[] enemy_ids = new int[enemies.length()];
-        for (int i = 0; i < enemies.length(); i++) {
-            enemy_ids[i] = enemies.getResourceId(i, -1);
+        TypedArray ids = r.obtainTypedArray(id);
+        int[] resource_ids = new int[ids.length()];
+        for (int i = 0; i < ids.length(); i++) {
+            resource_ids[i] = ids.getResourceId(i, -1);
         }
-        enemies.recycle();
-        return enemy_ids;
-    } // getEnemyIds
+        ids.recycle();
+        return resource_ids;
+    } // getMultipleIds
 
     /**
      * Replaces contents of the view with the proper image/name for this position

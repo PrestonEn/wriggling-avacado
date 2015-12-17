@@ -8,12 +8,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+
+/**
+ * The CustomPagerAdapter is the custom adapter for the pager view.
+ * It is used to render a horizontally scrolling list of images
+ */
 class CustomPagerAdapter extends PagerAdapter {
 
     Context mContext;
     LayoutInflater mLayoutInflater;
     int[] mResources;
 
+    /**
+     * Constructor for the custom pager adapter
+     * @param context the context of the activity
+     */
     public CustomPagerAdapter(Context context) {
         mContext = context;
         mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

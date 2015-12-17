@@ -49,7 +49,7 @@
                 android:background="@color/transparent"
                 android:textColor="@color/white"
                 android:shadowColor="@color/transparent"
-                android:onClick="fromSettingsToMain"
+                android:onClick="fromTutorialToMain"
             android:layout_weight="1.5" />
 
     </LinearLayout>

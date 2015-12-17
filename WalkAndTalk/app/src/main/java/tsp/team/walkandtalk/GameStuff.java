@@ -28,7 +28,6 @@ public class GameStuff {
     private int stillCounter, runCounter, flyCounter;
     private long prevHighScore;
     private boolean newHigh;
-    private boolean soundOn;
     private SoundWrapper soundPlayer;
     /**
      * Constructor for the GameStuff object. GameStuff is meant to control the entire engine of our
@@ -47,14 +46,17 @@ public class GameStuff {
         this.prevHighScore = prevHighScore;
         WindowManager wm = (WindowManager)c.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm); // Above lines including this one find the width and height.
+        wm.getDefaultDisplay().getMetrics(dm);
         this.ScreenHeight = dm.heightPixels;
         this.ScreenWidth = dm.widthPixels;
-        this.screenRatio = (float)this.getScreenWidth()/(float)this.getScreenHeight(); // Build ratio.
+        this.screenRatio = (float)this.getScreenWidth()/(float)this.getScreenHeight();
         enemies = new LinkedList<Sprite>(); // Initialize the list of enemies.
         background = new Background(textureFactory.getScene_back(), contextHolder, screenRatio);
+
         character = new Character(contextHolder,textureFactory.getCharacter_run(),
-        		textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(), textureFactory.getCharacter_jump(),screenRatio, soundPlayer);
+        		textureFactory.getCharacter_jump(),textureFactory.getCharacter_fall(),
+                textureFactory.getCharacter_jump(),screenRatio, soundPlayer);
+
         enemyFactory = new EnemyFactory(contextHolder,textureFactory,screenRatio);
 
         stillCounter = 125 + (int)(Math.random() * ((250 - 125) + 1));

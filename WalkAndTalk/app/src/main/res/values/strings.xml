@@ -19,6 +19,9 @@
     <string name="preston">Preston</string>
     <string name="stacey">Stacey</string>
 
+    <string name="about_blurb">Brock University - COSC 3P97 - 2015</string>
+    <string name="about_web">Go to Website</string>
+
     <string name="select_scene">Choose Your Location</string>
     <string name="classroom">Classroom</string>
     <string name="library">Library</string>

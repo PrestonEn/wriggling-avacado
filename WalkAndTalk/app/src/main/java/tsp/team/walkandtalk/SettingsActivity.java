@@ -14,9 +14,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +31,7 @@ public class SettingsActivity extends Activity {
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
      * parent's method and then sets what layout to use.  It also overrides
-     * the default font with a special chalkboard font, and sets the switch
+     * the default font with a special chalkboard font, and sets the checkbox
      * widgets accordingly based on the loaded user preferences.  The onChange
      * listeners are set up to save any user preference setting changes.
      *
@@ -45,7 +45,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.activity_settings);
 
         final Context c = this;
-        final Switch sound = (Switch) findViewById(R.id.swSound);
+        CheckBox sound = (CheckBox) findViewById(R.id.checkSound);
 
         try {
             //font = Typeface.createFromAsset(getAssets(), "DK Cool Crayon.ttf");
@@ -56,13 +56,14 @@ public class SettingsActivity extends Activity {
 
         if (font != null) { // Set all text fields to use the chalkboard font
             TextView title = (TextView) findViewById(R.id.txtTitle);
-            TextView sound_title = (TextView) findViewById(R.id.txtSound);
+            TextView title_sound = (TextView) findViewById(R.id.txtSound);
             Button resetScores = (Button) findViewById(R.id.btnResetScores);
             Button about = (Button) findViewById(R.id.btnAbout);
             Button back = (Button) findViewById(R.id.btnBack);
 
             title.setTypeface(font);
-            sound_title.setTypeface(font);
+            title_sound.setTypeface(font);
+            sound.setTypeface(font);
             resetScores.setTypeface(font);
             about.setTypeface(font);
             back.setTypeface(font);
@@ -72,14 +73,14 @@ public class SettingsActivity extends Activity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean soundOn = preferences.getBoolean(getString(R.string.saved_sound_preference), false);
 
-        // Set switch objects to reflect current user preferences
+        // Set checkbox object to reflect current user preference
         if(soundOn){
             sound.setChecked(true);
         } else{
             sound.setChecked(false);
         }
 
-        // Attach a listener to the sound switch to check for changes in state
+        // Attach a listener to the sound checkbox to check for changes in state
         sound.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
@@ -184,6 +185,19 @@ public class SettingsActivity extends Activity {
         startActivity(intent);
 
     } // fromSettingsToMain
+
+    /** fromSettingsToAbout
+     * When the user presses the about button, this method will run
+     * and they will be taken back to the about activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void fromSettingsToAbout(View v){
+
+        Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
+        startActivity(intent);
+
+    } // fromSettingsToAbout
 
     @Override
     public void onBackPressed(){

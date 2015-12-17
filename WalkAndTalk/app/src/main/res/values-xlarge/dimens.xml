@@ -4,6 +4,6 @@
     <dimen name="select_size">80sp</dimen>
     <dimen name="button_size">45sp</dimen>
     <dimen name="switch_size">25sp</dimen>
-    <dimen name="bar_size">22sp</dimen>
+    <dimen name="bar_size">20sp</dimen>
     <dimen name="padding">15dp</dimen>
 </resources>

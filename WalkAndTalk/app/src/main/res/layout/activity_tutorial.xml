@@ -24,7 +24,7 @@
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5">
+        android:layout_weight="8">
     </android.support.v4.view.ViewPager>
 
     <LinearLayout
@@ -49,8 +49,8 @@
                 android:background="@color/transparent"
                 android:textColor="@color/white"
                 android:shadowColor="@color/transparent"
-                android:onClick="fromSettingsToMain"
-            android:layout_weight="1" />
+                android:onClick="fromTutorialToMain"
+            android:layout_weight="1.5" />
 
     </LinearLayout>
 

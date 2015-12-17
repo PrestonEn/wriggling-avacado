@@ -80,6 +80,8 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
         int height = this.mRenderer.getGamestuff().getScreenHeight();
         int width = this.mRenderer.getGamestuff().getScreenWidth();
 
+        if(e == null)return false;
+
         float touchX = ((e.getX()/((float)width*0.5f))-1)*((float)width/(float)height);
         float touchY = (e.getY()/((float)height*0.5f))-1;
         touchY = -touchY; //Above is coordinate maps.
@@ -104,6 +106,9 @@ class EnemyGestureListener extends GestureDetector.SimpleOnGestureListener{
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
         int height = this.mRenderer.getGamestuff().getScreenHeight();
         int width = this.mRenderer.getGamestuff().getScreenWidth();
+
+        if(e1 == null)return false;
+        if(e2 == null)return false;
 
         float touchX = ((e1.getX()/((float)width*0.5f))-1)*((float)width/(float)height);
         float touchY = (e1.getY()/((float)height*0.5f))-1;

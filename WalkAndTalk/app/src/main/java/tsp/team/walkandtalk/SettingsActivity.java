@@ -185,6 +185,19 @@ public class SettingsActivity extends Activity {
 
     } // fromSettingsToMain
 
+    /** fromSettingsToAbout
+     * When the user presses the about button, this method will run
+     * and they will be taken back to the about activity.
+     *
+     * @param v View containing information about the nature of the event
+     */
+    public void fromSettingsToAbout(View v){
+
+        Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
+        startActivity(intent);
+
+    } // fromSettingsToAbout
+
     @Override
     public void onBackPressed(){
     }

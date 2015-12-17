@@ -19,6 +19,7 @@ public class GameActivity extends Activity {
 
     private GLSurfaceView mGLView;
     private AlertDialog.Builder builder;
+    private boolean first_load = true;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -125,10 +126,12 @@ public class GameActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        // The following call resumes a paused rendering thread.
-        // If you de-allocated graphic objects for onPause()
-        // this is a good place to re-allocate them.
-        mGLView.onResume();
+
+        if (first_load){
+            first_load = false;
+        } else {
+            builder.show();
+        }
     }
 
     /**

@@ -16,9 +16,10 @@ public class SoundWrapper {
     private boolean soundOn;
 
     /**
-     *
-     * @param c the
-     * @param scene
+     * SoundWrapper wrapper class used to abstract the calling of sound resources based on
+     * selected characters
+     * @param c the activity
+     * @param scene SceneWrapper providing resource ID's
      */
     public SoundWrapper(Activity c, SceneWrapper scene){
         soundIDs = new int[3];
@@ -40,7 +41,7 @@ public class SoundWrapper {
     }
 
     /**
-     * play milestone now
+     * play milestone sound
      */
     public void mileStoneSound(){
         if(soundOn)
@@ -48,7 +49,7 @@ public class SoundWrapper {
     }
 
     /**
-     * play highscore now
+     * play highscore sound
      */
     public void highScore(){
         if(soundOn)

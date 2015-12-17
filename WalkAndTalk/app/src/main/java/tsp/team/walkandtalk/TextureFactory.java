@@ -8,7 +8,7 @@ import android.opengl.GLUtils;
 
 /**
  * This class is a factory based design pattern which builds and binds textures in opengles for
- * drawing to our sprite class. The scenewrapper is what allows us to customize what textures to bind.
+ * drawing to our sprite class. The scenewrapper is what allows us to customize what textures bind.
  * Any other information is passed out via a TextureInfo object.
  */
 public class TextureFactory {
@@ -106,8 +106,8 @@ public class TextureFactory {
     }
 
     /**
-     * Heavily abstracted method which allows you to custom make textures via inputted scenewrapper from
-     * the constructor.
+     * Heavily abstracted method which allows you to custom make textures via inputted scenewrapper
+     * from the constructor.
      * @param mContext This factories context.
      * @param resourceID resource ID of the texture to load and bind.
      * @return TextureInfo of bound texture in it's saved state.

@@ -180,7 +180,8 @@ public class HighScoresActivity extends Activity {
             HighScore hs = getItem(position);
 
             if(convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_high_score, parent, false);
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_high_score,
+                        parent, false);
             }
 
             // Get display fields

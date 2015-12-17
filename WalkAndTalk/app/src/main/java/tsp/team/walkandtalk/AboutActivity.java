@@ -18,9 +18,7 @@ public class AboutActivity extends Activity {
     /** onCreate
      * This method overrides Activity's OnCreate method.  It calls the
      * parent's method and then sets what layout to use.  It also overrides
-     * the default font with a special chalkboard font, and sets the switch
-     * widgets accordingly based on the loaded user preferences.  The onChange
-     * listeners are set up to save any user preference setting changes.
+     * the default font with a special chalkboard font.
      *
      * @param savedInstanceState
      */
@@ -30,8 +28,6 @@ public class AboutActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-
-        final Context c = this;
 
         try {
             //font = Typeface.createFromAsset(getAssets(), "DK Cool Crayon.ttf");
@@ -57,26 +53,6 @@ public class AboutActivity extends Activity {
         }
 
     } // onCreate
-
-    /** onResume
-     * Run the Earl gesturing animation.
-     */
-    @Override
-    protected void onResume() {
-
-        super.onResume();
-
-    } // onResume
-
-    /** onPause
-     * Stop the animation upon leaving the activity.
-     */
-    @Override
-    protected void onPause() {
-
-        super.onPause();
-
-    } // onPause
 
     /** fromAboutToMain
      * When the user presses the "Back To Main Menu" button, this method will run
@@ -108,4 +84,4 @@ public class AboutActivity extends Activity {
     public void onBackPressed(){
     }
 
-} // SettingsActivity
+} // AboutActivity
